@@ -2,7 +2,7 @@
 LHL mobile App
 
 
-Prerequisites:
+# Prerequisites:
 
 Node 12~
 
@@ -15,7 +15,7 @@ Android sdk and gradle required for android build
 Xcode and cocoapods required for ios build
 
 
-Build Steps:
+# Build Steps:
 
 
 cd to lhl-mobile/ble
