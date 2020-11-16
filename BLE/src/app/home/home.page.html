@@ -1,0 +1,61 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Blank
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Blank</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div>BLE
+    <ion-button (click)="scanBle()">Scan this bitch</ion-button>
+    <ion-spinner *ngIf="spinner"></ion-spinner>
+    <div *ngIf="!spinner">
+      <div>
+        <ul *ngFor="let device of foundDevices">
+          <div *ngIf="device.name && device.name.toString().includes('LHL')">
+            <hr>
+            Useful:
+            <li>{{device.name}}</li>
+            <li>{{device.id}}</li>
+            <li>{{device.advertising}}</li>
+            <li>{{device.rssi}}</li>
+            <ion-button (click)="connect()">
+              Connect to this motherfucker
+            </ion-button>
+            <ion-button (click)="reconnect()">
+              Reconnect to this motherfucker
+            </ion-button>
+            <hr>
+          </div>
+          <div *ngIf="device.name && !device.name.toString().includes('LHL')">
+            <li>{{device.name}}</li>
+            <li>{{device.id}}</li>
+            <li>{{device.advertising}}</li>
+            <li>{{device.rssi}}</li>
+          </div>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <ion-item>
+    <ion-label>Send this</ion-label>
+    <ion-input [(ngModel)]="sentValue"></ion-input>
+  </ion-item><ion-button  (click)="hit()">Hit this bitch</ion-button>
+
+<div><p>
+  this is the notify status:
+  {{notify}}
+</p></div>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <p>{{ statusMessage }}</p>
+  </ion-toolbar>
+</ion-footer>
