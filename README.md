@@ -4,7 +4,11 @@ LHL mobile App
 
 Prerequisites:
 Node 12~
+
+
 Ionic 4.12~
+
+
 Angular 10~
 Android sdk and gradle required for android build
 Xcode and cocoapods required for ios build
