@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-import { BLE } from '@ionic-native/ble/ngx';
 import { BluetoothLE } from '@ionic-native/bluetooth-le/ngx';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
@@ -18,7 +17,6 @@ import { AppRoutingModule } from './app-routing.module';
   providers: [
     StatusBar,
     SplashScreen,
-    BLE,
     BluetoothLE,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
