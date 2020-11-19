@@ -1,60 +1,63 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" mode="ios">
   <ion-toolbar>
     <ion-title>
-      Blank
+      LHL
     </ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content [fullscreen]="true">
-
-  <div>
-      <div>
-        <ul *ngFor="let device of foundDevices">
-           
-            <li>{{device.name}}</li>
-            <li>{{device.address}}</li>
-            <li>{{device.rssi}}</li>
-            <li>{{status | emptyValue:'Connecting'}}</li>
-
-        </ul>
+    <div>
+      <ion-item lines="none" >
+        <ion-chip color="primary" (click)="scanBlte()" *ngIf="!bluetoothEnabled">
+          <ion-label>Retry</ion-label>
+        </ion-chip>
+        <p *ngIf="bluetoothEnabled" class="status" >{{connectedStatus | emptyValue:'Connecting'}}</p> <ion-spinner  slot="end"name="dots" *ngIf="!bluetoothEnabled"></ion-spinner>
+      </ion-item>
+    </div>
+  <div class="picker-container">
+    <ion-icon (click)="pickFavourite('color')" size="large" class="favourite-color" name="add-circle-outline"></ion-icon>
+    <input #ignoredInput [cpIgnoredElements]="[ignoredButton, ignoredInput]" [(cpToggle)]="toggle"
+      (colorPickerChange)="pickColor()" [cpUseRootViewContainer]="true" #inputPick class="ng-color-picker"
+      cpDialogDisplay="inline" [(ngModel)]="color" [value]="color" [style.background]="color"
+      [cpAlphaChannel]="'always'" [cpOutputFormat]="'rgba'" [(colorPicker)]="color" />
+      <div class="favourite-container">
+        <app-favourites (click)="hitFavourite(0, 'color')" [variable]="favouriteColors[0]?.color"></app-favourites>
+        <app-favourites (click)="hitFavourite(1, 'color')" [variable]="favouriteColors[1]?.color"></app-favourites>
+        <app-favourites (click)="hitFavourite(2, 'color')" [variable]="favouriteColors[2]?.color"></app-favourites>
+        <app-favourites (click)="hitFavourite(3, 'color')" [variable]="favouriteColors[3]?.color"></app-favourites>
       </div>
   </div>
-  <ion-item lines="none">
-    <ion-label>Send this</ion-label>
-    <ion-input [(ngModel)]="sentValue"></ion-input>
-  </ion-item><ion-button  (click)="hit()">Hit this bitch</ion-button>
   <div>
-    <input [value]="color"
-    [style.background]="color"
-    [cpAlphaChannel]="'always'"
-    [cpOutputFormat]="'rgba'"
-    [(colorPicker)]="color"/>  </div>
-    <ion-item lines="none">
-      <ion-range (ionChange)="brightnessHit()" [(ngModel)]="value" mode = "ios" min="0" max="255" step="1">
-        <ion-icon size="small" slot="start" name="sunny"></ion-icon>
-        <ion-icon slot="end" name="sunny"></ion-icon>
-      </ion-range>
-    </ion-item>
-    <ion-slides  #slides (ionSlideWillChange) = "patternHit()" mode= "ios" pager="true" [options]="slideOpts">
+    <ion-icon (click)="pickFavourite('pattern')" size="large" class="favourite-pattern" name="add-circle-outline"></ion-icon>
+
+    <ion-slides #slides (ionSlideWillChange)="patternHit()" mode="ios" pager="true" [options]="slideOpts">
       <ion-slide *ngFor="let card of patternArray">
-        <ion-card >
+        <ion-card mode="ios">
           <ion-card-header>
             <ion-card-subtitle>Patterns</ion-card-subtitle>
             <ion-card-title>{{card.title}}</ion-card-title>
           </ion-card-header>
-        
           <ion-card-content>
-           Choose your pattern with code {{card.code}}
+            Choose your pattern with code {{card.code}}
           </ion-card-content>
         </ion-card>
       </ion-slide>
-      
     </ion-slides>
-</ion-content>
+    <div class="favourite-container">
+      <app-favourites (click)="hitFavourite(0, 'pattern')" [pattern]="favouritePatterns[0]?.id"></app-favourites>
+      <app-favourites (click)="hitFavourite(1, 'pattern')" [pattern]="favouritePatterns[1]?.id"></app-favourites>
+      <app-favourites (click)="hitFavourite(2, 'pattern')" [pattern]="favouritePatterns[2]?.id"></app-favourites>
+      <app-favourites (click)="hitFavourite(3, 'pattern')" [pattern]="favouritePatterns[3]?.id"></app-favourites>
+    </div>
 
-<ion-footer>
-  <ion-toolbar>
-    <p>{{ statusMessage }}</p>
-  </ion-toolbar>
+  </div>
+
+</ion-content>
+<ion-footer mode="ios">
+<ion-item lines="none">
+  <ion-range (ionChange)="brightnessHit()" [(ngModel)]="value" mode="ios" min="0" max="255" step="1">
+    <ion-icon size="small" slot="start" name="sunny"></ion-icon>
+    <ion-icon slot="end" name="sunny"></ion-icon>
+  </ion-range>
+</ion-item>
 </ion-footer>

@@ -1,0 +1,38 @@
+.ng-color-picker {
+    text-align: center;
+}
+.favourite-container {
+    border: 1px solid;
+    height: 56px;
+    text-align: center;
+    margin: 2vh;
+    width: 230px;
+    border-radius: 14px;
+    margin: 2vh auto;
+}
+ion-slides {
+    margin-right: 54px !important;
+}
+.picker-container {
+    text-align: center;
+    padding: 8vw 0 0 0;
+}
+
+.favourite-color {
+    margin: 179px 0 0 -94px;
+    z-index: 99999999;
+    position: absolute;
+}
+.favourite-pattern {
+    float: left;
+    margin: 108px 0 0 22px;
+}
+input {
+    display: none;
+}
+ion-card {
+    width: 230px;
+}
+.status {
+    text-transform: capitalize;
+}
