@@ -26,3 +26,12 @@ then ionic cordova platform add android
 
 then ionic cordova build android
 
+
+
+# BLE documentation:
+https://github.com/randdusing/cordova-plugin-bluetoothle#read
+
+
+# Color picker documentation:
+https://zefoy.github.io/ngx-color-picker/
+
