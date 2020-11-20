@@ -2,6 +2,7 @@ import { Component, ElementRef, NgZone, ViewChild, } from '@angular/core';
 import { AlertController, IonSlides } from '@ionic/angular';
 import { BluetoothLE } from '@ionic-native/bluetooth-le/ngx';
 import { Pattern } from './pattern'
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -32,8 +33,14 @@ export class HomePage {
   @ViewChild('inputPick', { static: true }) inputPick: ElementRef;
 
 
-  constructor(public alertController: AlertController, public blte: BluetoothLE,
-    public ngZone: NgZone) {
+  constructor(private alertController: AlertController, private blte: BluetoothLE,
+    private ngZone: NgZone, private storage: NativeStorage) {
+    this.storage.getItem('favouritePatterns').then(data => {
+      this.favouritePatterns = data
+    }, err => console.log(err));
+    this.storage.getItem('favouriteColors').then(data => {
+      this.favouriteColors = data
+    }, err => console.log(err));
     this.scanBlte();
   }
   patternHit() {
@@ -71,11 +78,13 @@ export class HomePage {
       this.slides.getActiveIndex().then(id => {
         this.favouritePatterns.push({ 'id': id });
         this.favouritePatterns.length > 4 ? this.favouritePatterns.pop() : null;
+        this.storage.setItem('favouritePatterns', this.favouritePatterns);
         console.log(this.favouritePatterns)
       })
     } else {
       this.favColor === undefined ? null : this.favouriteColors.push({ 'color': this.favColor });
       this.favouriteColors.length > 4 ? this.favouriteColors.pop() : null;
+      this.storage.setItem('favouriteColors', this.favouriteColors);
       console.log(this.favouriteColors)
     }
   }
@@ -92,19 +101,19 @@ export class HomePage {
     if (type === 'pattern') {
       switch (val) {
         case val = 0: {
-          this.hitValue(this.favouritePatterns[0].id);
+          this.hitValue(`M/${this.favouritePatterns[0].id}`);
           break;
         }
         case val = 1: {
-          this.hitValue(this.favouritePatterns[1].id);
+          this.hitValue(`M/${this.favouritePatterns[1].id}`);
           break;
         }
         case val = 2: {
-          this.hitValue(this.favouritePatterns[2].id);
+          this.hitValue(`M/${this.favouritePatterns[2].id}`);
           break;
         }
         case val = 3: {
-          this.hitValue(this.favouritePatterns[3].id);
+          this.hitValue(`M/${this.favouritePatterns[3].id}`);
           break;
         }
       }
@@ -126,7 +135,7 @@ export class HomePage {
           this.colorModify(this.favouriteColors[val].color);
           break;
         }
-        
+
       }
     }
 
