@@ -8,6 +8,9 @@ import { Component, OnInit, Input } from '@angular/core';
 export class FavouritesComponent implements OnInit {
   @Input() variable;
   @Input() pattern;
+  @Input() label;
+  @Input() putClass;
+  
   constructor() {
 
   }

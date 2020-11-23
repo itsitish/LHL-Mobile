@@ -6,35 +6,29 @@
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true">
-    <div>
-      <ion-item lines="none" >
-        <ion-chip color="primary" (click)="scanBlte()" *ngIf="!bluetoothEnabled">
-          <ion-label>Retry</ion-label>
-        </ion-chip>
-        <p *ngIf="bluetoothEnabled" class="status" >{{connectedStatus | emptyValue:'Connecting'}}</p> <ion-spinner  slot="end"name="dots" *ngIf="!bluetoothEnabled"></ion-spinner>
-      </ion-item>
-    </div>
-  <div class="picker-container">
-    <ion-icon (click)="pickFavourite('color')" size="large" class="favourite-color" name="add-circle-outline"></ion-icon>
-    <input #ignoredInput [cpIgnoredElements]="[ignoredButton, ignoredInput]" [(cpToggle)]="toggle"
-      (colorPickerChange)="pickColor()" [cpUseRootViewContainer]="true" #inputPick class="ng-color-picker"
-      cpDialogDisplay="inline" [(ngModel)]="color" [value]="color" [style.background]="color"
-      [cpAlphaChannel]="'always'" [cpOutputFormat]="'rgba'" [(colorPicker)]="color" />
-      <div class="favourite-container">
-        <app-favourites (click)="hitFavourite(0, 'color')" [variable]="favouriteColors[0]?.color"></app-favourites>
-        <app-favourites (click)="hitFavourite(1, 'color')" [variable]="favouriteColors[1]?.color"></app-favourites>
-        <app-favourites (click)="hitFavourite(2, 'color')" [variable]="favouriteColors[2]?.color"></app-favourites>
-        <app-favourites (click)="hitFavourite(3, 'color')" [variable]="favouriteColors[3]?.color"></app-favourites>
-      </div>
+  <div>
+    <ion-item lines="none">
+      <ion-chip color="primary" (click)="scanBlte()" *ngIf="!bluetoothEnabled">
+        <ion-label>Retry</ion-label>
+      </ion-chip>
+      <p *ngIf="bluetoothEnabled" class="status">{{connectedStatus | emptyValue:'Connecting'}}</p>
+      <ion-spinner slot="end" name="dots" *ngIf="!bluetoothEnabled"></ion-spinner>
+    </ion-item>
+  </div>
+  <div class="color-picker">
+    <color-sketch
+      [presetColors]="['#D0021B', '#F5A623', '#F8E71C', '#8B572A', '#7ED321', '#417505',  '#9013FE', '#4A90E2', '#50E3C2', '#9B9B9B', '#FFFFFF']"
+      [color]="initialState" (onChangeComplete)="changeComplete($event)"></color-sketch>
   </div>
   <div>
-    <ion-icon (click)="pickFavourite('pattern')" size="large" class="favourite-pattern" name="add-circle-outline"></ion-icon>
-
     <ion-slides #slides (ionSlideWillChange)="patternHit()" mode="ios" pager="true" [options]="slideOpts">
       <ion-slide *ngFor="let card of patternArray">
         <ion-card mode="ios">
           <ion-card-header>
             <ion-card-subtitle>Patterns</ion-card-subtitle>
+            <ion-button fill="clear" (click)="pickFavourite()">
+              <ion-icon [name]="card.icon"></ion-icon>
+            </ion-button>
             <ion-card-title>{{card.title}}</ion-card-title>
           </ion-card-header>
           <ion-card-content>
@@ -43,21 +37,18 @@
         </ion-card>
       </ion-slide>
     </ion-slides>
-    <div class="favourite-container">
-      <app-favourites (click)="hitFavourite(0, 'pattern')" [pattern]="favouritePatterns[0]?.id"></app-favourites>
-      <app-favourites (click)="hitFavourite(1, 'pattern')" [pattern]="favouritePatterns[1]?.id"></app-favourites>
-      <app-favourites (click)="hitFavourite(2, 'pattern')" [pattern]="favouritePatterns[2]?.id"></app-favourites>
-      <app-favourites (click)="hitFavourite(3, 'pattern')" [pattern]="favouritePatterns[3]?.id"></app-favourites>
+    <h4 class="label">Favourite Patterns</h4>
+    <div class="container">
+      <app-favourites putClass='dot' (click)="hitFavourite(i)" *ngFor="let fav of favouritePatterns; let i = index"
+        [pattern]="favouritePatterns[i]?.id"></app-favourites>
     </div>
-
   </div>
-
 </ion-content>
 <ion-footer mode="ios">
-<ion-item lines="none">
-  <ion-range (ionChange)="brightnessHit()" [(ngModel)]="value" mode="ios" min="0" max="255" step="1">
-    <ion-icon size="small" slot="start" name="sunny"></ion-icon>
-    <ion-icon slot="end" name="sunny"></ion-icon>
-  </ion-range>
-</ion-item>
+  <ion-item lines="none">
+    <ion-range (ionChange)="brightnessHit()" [(ngModel)]="brightValue" mode="ios" min="0" max="255" step="1">
+      <ion-icon size="small" slot="start" name="sunny"></ion-icon>
+      <ion-icon slot="end" name="sunny"></ion-icon>
+    </ion-range>
+  </ion-item>
 </ion-footer>
