@@ -5,10 +5,12 @@ import { FormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
 import { SharedModule } from '../shared/shared.module';
 import { HomePageRoutingModule } from './home-routing.module';
+import { ColorSketchModule } from 'ngx-color/sketch';
 
 
 @NgModule({
   imports: [
+    ColorSketchModule,
     CommonModule,
     FormsModule,
     IonicModule,

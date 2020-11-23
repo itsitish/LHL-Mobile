@@ -38,4 +38,3 @@ https://github.com/randdusing/cordova-plugin-bluetoothle#read
 
 # Color picker documentation:
 https://www.npmjs.com/package/ngx-color
-
