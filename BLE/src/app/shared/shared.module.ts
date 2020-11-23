@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EmptyValuePipe } from './pipes/empty-value.pipe';
-import { ColorPickerModule } from 'ngx-color-picker';
 import { FavouritesComponent } from './components/favourites/favourites.component'
 
 
@@ -10,6 +9,6 @@ import { FavouritesComponent } from './components/favourites/favourites.componen
   imports: [
     CommonModule
   ],
-  exports: [EmptyValuePipe, ColorPickerModule, FavouritesComponent]
+  exports: [EmptyValuePipe, FavouritesComponent]
 })
 export class SharedModule { }
