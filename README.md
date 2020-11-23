@@ -29,6 +29,7 @@ then ionic cordova build android
 
 # Current Issues:
 Color picker returns wrong or undefined values.
+
 Compatibility with ios devices.
 
 # BLE documentation:
