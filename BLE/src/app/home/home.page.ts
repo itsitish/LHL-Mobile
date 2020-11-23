@@ -1,8 +1,9 @@
-import { Component, ElementRef, NgZone, ViewChild, } from '@angular/core';
+import { Component, NgZone, ViewChild, } from '@angular/core';
 import { AlertController, IonSlides } from '@ionic/angular';
 import { BluetoothLE } from '@ionic-native/bluetooth-le/ngx';
 import { Pattern } from './pattern'
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -12,11 +13,10 @@ export class HomePage {
   bluetoothEnabled: boolean;
   locationEnabled: boolean;
   foundDevices = [];
-  sentValue: any;
   favouritePatterns = [];
-  favouriteColors = [];
+  patternArray = Pattern.Pattern;
   connectedStatus: any;
-  value: any = 255;
+  brightValue: any = 255;
   slideOpts = {
     initialSlide: 0,
     speed: 400, pagination: {
@@ -24,81 +24,90 @@ export class HomePage {
       dynamicBullets: true,
     },
   };
-  favColor: any;
-  color: any;
-  patternArray = Pattern.Pattern;
-  favPattern: any = 0;
-  toggle: boolean = true;
+  initialState = '#fff'
+  hitColor: any = 'C/0/0/0/1';
   @ViewChild('slides', { static: true }) slides: IonSlides;
-  @ViewChild('inputPick', { static: true }) inputPick: ElementRef;
-
 
   constructor(private alertController: AlertController, private blte: BluetoothLE,
     private ngZone: NgZone, private storage: NativeStorage) {
     this.storage.getItem('favouritePatterns').then(data => {
-      this.favouritePatterns = data
+      this.favouritePatterns = data;
+      console.log(this.favouritePatterns);
     }, err => console.log(err));
-    this.storage.getItem('favouriteColors').then(data => {
-      this.favouriteColors = data
+    this.storage.getItem('patternsArray').then(data => {
+      this.patternArray = data
     }, err => console.log(err));
     this.scanBlte();
   }
+    //location permission check
+    isLocationEnabled() {
+      this.blte.hasPermission().then(data => {
+        if (data.hasPermission) {
+          this.blte.isLocationEnabled().then(data => {
+            if (data['isLocationEnabled']) {
+              this.locationEnabled = true;
+            }
+          }, err => console.log(err));
+        } else {
+          this.blte.requestPermission().then(data => {
+            if (data.requestPermission) {
+              this.blte.isLocationEnabled().then(data => {
+                if (data['isLocationEnabled']) {
+                  this.locationEnabled = true;
+                }
+              }, err => console.log(err));
+            }
+          });
+        }
+  
+      });
+  
+    }
+  
+
   patternHit() {
     this.slides.getActiveIndex().then(id => {
       this.hitValue(this.patternArray[id].code);
     })
   }
-  pickColor() {
-    this.favColor = this.color;
-    console.log(this.favColor)
-    this.colorModify(this.color);
-  }
-  colorModify(color) {
-    color = color.replace('rgba(', 'C/');
-    color = color.replace(/,/g, '/');
-    color = color.replace(')', '');
-    // console.log(color);
-    this.hitValue(color);
+  changeComplete(ev) {
+    let color = ev.color.rgb;
+    this.hitColor = `C/${color.r}/${color.g}/${color.b}/${color.a}`;
+    // console.log(this.hitColor)
+    this.hitValue(this.hitColor);
   }
   brightnessHit() {
-    let brightVal = `B/${this.value}`;
     // console.log(brightVal);
-    this.hitValue(brightVal);
+    this.hitValue(`B/${this.brightValue}`);
   }
-  isLocationEnabled() {
-    this.blte.isLocationEnabled().then(data => {
-      if (data['isLocationEnabled']) {
-        this.locationEnabled = true;
-      }
-    }, err => console.log(err));
+  pickFavourite() {
+      this.slides.getActiveIndex().then(id => {
+        if (this.favouritePatterns.some(e => e['id'] === id)) {
+          this.patternArray[id].icon = 'heart-outline';
+          this.favouritePatterns.splice(this.favouritePatterns.findIndex(e => e['id'] === id), 1)
+          console.log(this.favouritePatterns)
+        } else {
+          if (this.favouritePatterns.length != 4) {
+            if (this.patternArray[id].icon === 'heart') {
+              this.patternArray[id].icon = 'heart-outline';
+            } else {
+              this.patternArray[id].icon = 'heart';
+              this.favouritePatterns.push({ 'id': id, 'icon': 'heart' });
+            }
+
+          } else {
+            this.presentAlert('Capacity full', 'Remove some items')
+          }
+          // console.log(this.favouritePatterns)
+        }
+        this.storage.setItem('favouritePatterns', this.favouritePatterns);
+        this.storage.setItem('patternsArray', this.patternArray);
+      })
+
   }
 
-  pickFavourite(val) {
-    if (val === 'pattern') {
-      this.slides.getActiveIndex().then(id => {
-        this.favouritePatterns.push({ 'id': id });
-        this.favouritePatterns.length > 4 ? this.favouritePatterns.pop() : null;
-        this.storage.setItem('favouritePatterns', this.favouritePatterns);
-        console.log(this.favouritePatterns)
-      })
-    } else {
-      this.favColor === undefined ? null : this.favouriteColors.push({ 'color': this.favColor });
-      this.favouriteColors.length > 4 ? this.favouriteColors.pop() : null;
-      this.storage.setItem('favouriteColors', this.favouriteColors);
-      console.log(this.favouriteColors)
-    }
-  }
-  hitValue(value) {
-    console.log(value);
-    var string = value;
-    var bytes = this.blte.stringToBytes(string);
-    var encodedString = this.blte.bytesToEncodedString(bytes);
-    this.blte.write({ "value": encodedString, "service": "4FAFC201-1FB5-459E-8FCC-C5C9C331914B", "characteristic": "BEB5483E-36E1-4688-B7F5-EA07361B26A8", "type": "noResponse", "address": this.foundDevices[0].address }
-    ).then(data => { }, err => console.log(err))
-  }
-  hitFavourite(val, type) {
-    console.log(type)
-    if (type === 'pattern') {
+  hitFavourite(val) {
+    console.log(val)
       switch (val) {
         case val = 0: {
           this.hitValue(`M/${this.favouritePatterns[0].id}`);
@@ -117,29 +126,8 @@ export class HomePage {
           break;
         }
       }
-    } else {
-      switch (val) {
-        case val = 0: {
-          this.colorModify(this.favouriteColors[val].color);
-          break;
-        }
-        case val = 1: {
-          this.colorModify(this.favouriteColors[val].color);
-          break;
-        }
-        case val = 2: {
-          this.colorModify(this.favouriteColors[val].color);
-          break;
-        }
-        case val = 3: {
-          this.colorModify(this.favouriteColors[val].color);
-          break;
-        }
-
-      }
-    }
-
   }
+  //auto scan and connect
   scanBlte() {
     this.blte.initialize().subscribe(data => {
       this.isLocationEnabled();
@@ -169,18 +157,19 @@ export class HomePage {
     })
 
   }
-  async presentAlert(message) {
+  async presentAlert(message, subMessage) {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
+      mode: 'ios',
       header: message,
-      subHeader: '',
+      subHeader: subMessage,
       message: '',
       buttons: ['OK']
     });
 
     await alert.present();
   }
-
+  //reconnect on error 'already connected'
   onError(data) {
     if (data.message === "Device previously connected, reconnect or close for new device") {
       this.blte.reconnect({ "address": this.foundDevices[0].address }).subscribe(data => this.onConnected(data), err => console.log(err));;
@@ -188,7 +177,7 @@ export class HomePage {
       console.log(data);
     }
   }
-
+  //connection status check and services discovery
   onConnected(peripheralData) {
     this.ngZone.run(() => {
       this.connectedStatus = peripheralData.status;
@@ -200,5 +189,13 @@ export class HomePage {
       // console.log(this.connectedStatus)
     })
     this.blte.discover({ "address": this.foundDevices[0].address }).then(data => console.log(`this is success ${JSON.stringify(data)}`), err => console.log(`this is error ${JSON.stringify(err)}`));
+  }
+  hitValue(value) {
+    console.log(value);
+    var string = value;
+    var bytes = this.blte.stringToBytes(string);
+    var encodedString = this.blte.bytesToEncodedString(bytes);
+    this.blte.write({ "value": encodedString, "service": "4FAFC201-1FB5-459E-8FCC-C5C9C331914B", "characteristic": "BEB5483E-36E1-4688-B7F5-EA07361B26A8", "type": "noResponse", "address": this.foundDevices[0].address }
+    ).then(data => { }, err => console.log(err))
   }
 }

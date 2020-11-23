@@ -1,38 +1,28 @@
-.ng-color-picker {
-    text-align: center;
-}
-.favourite-container {
+.container {
     border: 1px solid;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15), 0 8px 16px rgba(0, 0, 0, 0.15);
     height: 56px;
     text-align: center;
-    margin: 2vh;
-    width: 230px;
+    width: 70%;
     border-radius: 14px;
-    margin: 2vh auto;
-}
-ion-slides {
-    margin-right: 54px !important;
-}
-.picker-container {
-    text-align: center;
-    padding: 8vw 0 0 0;
-}
+    margin: 1vh auto 2.5vh auto;
 
-.favourite-color {
-    margin: 179px 0 0 -94px;
-    z-index: 99999999;
-    position: absolute;
 }
-.favourite-pattern {
-    float: left;
-    margin: 108px 0 0 22px;
+.color-picker {
+    margin: 1vh auto 0 auto;
+    width: 70%;
 }
-input {
-    display: none;
+ion-content {
+    text-align: center;
 }
 ion-card {
-    width: 230px;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15), 0 8px 16px rgba(0, 0, 0, 0.15);
+    width: 70%;
+    border: 1px solid;
 }
 .status {
     text-transform: capitalize;
+}
+ion-footer {
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15), 0 8px 16px rgba(0, 0, 0, 0.15);
 }

@@ -1,5 +1,5 @@
 # LHL-Mobile
-LHL mobile App
+LHL mobile App. Application developed in ionic and angular to control the light module. Can connect to the device through BLE plugin and uses write services.
 
 
 # Prerequisites:
@@ -27,6 +27,10 @@ then ionic cordova platform add android
 then ionic cordova build android
 
 
+# Current Issues:
+Color picker returns wrong or undefined values.
+
+Compatibility with ios devices.
 
 # BLE documentation:
 https://github.com/randdusing/cordova-plugin-bluetoothle#read
@@ -34,4 +38,3 @@ https://github.com/randdusing/cordova-plugin-bluetoothle#read
 
 # Color picker documentation:
 https://zefoy.github.io/ngx-color-picker/
-
