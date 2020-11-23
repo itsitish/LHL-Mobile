@@ -37,4 +37,4 @@ https://github.com/randdusing/cordova-plugin-bluetoothle#read
 
 
 # Color picker documentation:
-https://zefoy.github.io/ngx-color-picker/
+https://www.npmjs.com/package/ngx-color
