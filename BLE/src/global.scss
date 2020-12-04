@@ -28,6 +28,10 @@
 .swiper-pagination-bullets {
     bottom: 0 !important;
 }
+.toast {
+    --color: white;
+    --background : black !important;
+}
 .sketch-picker {
     border-radius: 8px !important;
     border: 1px solid;

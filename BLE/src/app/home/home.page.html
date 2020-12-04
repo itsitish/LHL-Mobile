@@ -1,23 +1,28 @@
 <ion-header [translucent]="true" mode="ios">
   <ion-toolbar>
     <ion-title>
-      LHL
+      <div style="display:inline-block;vertical-align:top;">
+        <img src="assets/logo.png" alt="logo"/>
+      </div>
+    <div style="display:inline-block;">
+      <div style="margin: 12px;">Trypsync</div>
+    </div>
     </ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true">
   <div>
     <ion-item lines="none">
-      <ion-chip color="primary" (click)="scanBlte()" *ngIf="!bluetoothEnabled">
-        <ion-label>Retry</ion-label>
+      <ion-chip color="primary" (click)="scanBlte()" *ngIf="!blueAndLoc">
+        <ion-label>Connect</ion-label>
       </ion-chip>
-      <p *ngIf="bluetoothEnabled" class="status">{{connectedStatus | emptyValue:'Connecting'}}</p>
-      <ion-spinner slot="end" name="dots" *ngIf="!bluetoothEnabled"></ion-spinner>
+      <ion-badge *ngIf="!blueAndLoc" mode="ios" slot="end" color="danger">!</ion-badge>
+      <ion-badge *ngIf="blueAndLoc" mode="ios" slot="end" color="success">:)</ion-badge>
     </ion-item>
   </div>
   <div class="color-picker">
     <color-sketch
-      [presetColors]="['#D0021B', '#F5A623', '#F8E71C', '#8B572A', '#7ED321', '#417505',  '#9013FE', '#4A90E2', '#50E3C2', '#9B9B9B', '#FFFFFF']"
+      [presetColors]="['#D0021B', '#F5A623', '#F8E71C', '#8B572A', '#7ED321', '#417505',  '#9013FE', '#4A90E2', '#50E3C2',  '#FFFFFF']"
       [color]="initialState" (onChangeComplete)="changeComplete($event)"></color-sketch>
   </div>
   <div>
