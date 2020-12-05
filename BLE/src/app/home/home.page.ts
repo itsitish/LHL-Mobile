@@ -25,10 +25,10 @@ export class HomePage {
       dynamicBullets: true,
     },
   };
+  segment = 'color';
   initialState = '#fff'
   hitColor: any = 'C/0/0/0/1';
-  @ViewChild('slides', { static: true }) slides: IonSlides;
-
+  @ViewChild(IonSlides) slides: IonSlides;
   constructor(public toastController: ToastController,
     private alertController: AlertController,
     private blte: BluetoothLE,
@@ -42,6 +42,7 @@ export class HomePage {
       this.patternArray = data
     }, err => console.log(err));
     setTimeout(this.scanBlte.bind(this), 1000);
+    this.presentToast('hi')
   }
   //location permission check
   isLocationEnabled() {
@@ -121,18 +122,24 @@ export class HomePage {
     // console.log(val)
     switch (val) {
       case val = 0: {
+        this.slides.slideTo(this.favouritePatterns[0].id);
         this.hitValue(`M/${this.favouritePatterns[0].id}`);
+
         break;
       }
       case val = 1: {
+        this.slides.slideTo(this.favouritePatterns[1].id);
         this.hitValue(`M/${this.favouritePatterns[1].id}`);
         break;
       }
       case val = 2: {
+        this.slides.slideTo(this.favouritePatterns[2].id);
+
         this.hitValue(`M/${this.favouritePatterns[2].id}`);
         break;
       }
       case val = 3: {
+        this.slides.slideTo(this.favouritePatterns[3].id);
         this.hitValue(`M/${this.favouritePatterns[3].id}`);
         break;
       }
