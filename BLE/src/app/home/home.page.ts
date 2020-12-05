@@ -42,7 +42,6 @@ export class HomePage {
       this.patternArray = data
     }, err => console.log(err));
     setTimeout(this.scanBlte.bind(this), 1000);
-    this.presentToast('hi')
   }
   //location permission check
   isLocationEnabled() {
