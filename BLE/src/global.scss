@@ -28,9 +28,18 @@
 .swiper-pagination-bullets {
     bottom: 0 !important;
 }
+.sun {
+    color: black;
+}
+.toast {
+    --color: white;
+    --background : rgb(86,44,186) !important;
+}
 .sketch-picker {
+    margin-top: 44%;
     border-radius: 8px !important;
-    border: 1px solid;
+    box-shadow:    0 -2px 12px #2052b7, 0 4px 14px #7c22a0 !important;
+    background: #e5eaf5 !important;
 }
 .sketch-fields-container {
     display: none !important;
