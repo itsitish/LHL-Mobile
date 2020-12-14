@@ -1,0 +1,52 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "~@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import "~@ionic/angular/css/display.css";
+
+/* Optional CSS utils that can be commented out */
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+
+.swiper-pagination-bullets {
+    bottom: 0 !important;
+}
+.sun {
+    color: black;
+}
+.toast {
+    --color: black;
+    --background : #e5eaf5 !important;
+}
+.sketch-picker {
+    margin-top: 44%;
+    border-radius: 8px !important;
+    background: #e5eaf5 !important;
+}
+.sketch-fields-container {
+    display: none !important;
+}
+.sketch-swatches {
+    padding: 10px 10px 0px 10px !important;
+}
+.sketch-wrap {
+    height: 25px !important;
+    width: 25px !important; 
+}

@@ -1,9 +1,0 @@
-{
-  "name": "ble",
-  "integrations": {
-    "cordova": {}
-  },
-  "type": "angular",
-  "hooks": {
-  }
-}
