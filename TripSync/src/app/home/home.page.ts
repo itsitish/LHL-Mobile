@@ -35,15 +35,17 @@ export class HomePage {
     private ngZone: NgZone,
     private storage: NativeStorage,
     private platform: Platform) {
-    this.storage.getItem('favouritePatterns').then(data => {
-      this.favouritePatterns = data;
+    setTimeout(this.scanBlte.bind(this), 1000);
+  }
+  retrieveFavs() {
+    this.storage.getItem('favouritePatterns').then(favData => {
+      this.favouritePatterns = favData;
       console.log(this.favouritePatterns);
     }, err => console.log(err));
-    this.storage.getItem('patternsArray').then(data => {
-      this.patternArray = data
+    this.storage.getItem('patternsArray').then(favArr => {
+      this.patternArray = favArr
       console.log(this.patternArray);
     }, err => console.log(err));
-    setTimeout(this.scanBlte.bind(this), 1000);
   }
   scanCommmon(status) {
     this.blte.startScan({
@@ -100,10 +102,10 @@ export class HomePage {
   //location permission check
   isLocationEnabled() {
     return new Promise((resolve, reject) => {
-      this.blte.hasPermission().then(data => {
-        if (data.hasPermission) {
-          this.blte.isLocationEnabled().then(data => {
-            if (data['isLocationEnabled']) {
+      this.blte.hasPermission().then(permData => {
+        if (permData.hasPermission) {
+          this.blte.isLocationEnabled().then(locData => {
+            if (locData['isLocationEnabled']) {
               this.locationEnabled = true;
               resolve(this.locationEnabled);
             } else {
@@ -112,10 +114,10 @@ export class HomePage {
             }
           }, err => console.log(err));
         } else {
-          this.blte.requestPermission().then(data => {
-            if (data.requestPermission) {
-              this.blte.isLocationEnabled().then(data => {
-                if (data['isLocationEnabled']) {
+          this.blte.requestPermission().then(reqPerm => {
+            if (reqPerm.requestPermission) {
+              this.blte.isLocationEnabled().then(enbData => {
+                if (enbData['isLocationEnabled']) {
                   this.locationEnabled = true;
                   this.scanBlte();
                 }
@@ -148,19 +150,19 @@ export class HomePage {
       if (this.favouritePatterns.some(e => e['id'] === id)) {
         this.patternArray[id].icon = 'heart-outline';
         this.favouritePatterns.splice(this.favouritePatterns.findIndex(e => e['id'] === id), 1)
-        // console.log(this.favouritePatterns)
+        console.log(this.favouritePatterns)
       } else {
         if (this.favouritePatterns.length != 4) {
           if (this.patternArray[id].icon === 'heart') {
             this.patternArray[id].icon = 'heart-outline';
           } else {
             this.patternArray[id].icon = 'heart';
-            this.favouritePatterns.push({ 'id': id, 'icon': 'heart' });
+            this.favouritePatterns.push({ 'id': id, 'icon': 'heart', 'name': Pattern.Pattern[id]['title'] });
           }
         } else {
           this.presentAlert('Capacity full', 'Remove some items')
         }
-        // console.log(this.favouritePatterns)
+        console.log(this.favouritePatterns)
       }
       this.storage.setItem('favouritePatterns', this.favouritePatterns);
       this.storage.setItem('patternsArray', this.patternArray);
@@ -172,23 +174,23 @@ export class HomePage {
     // console.log(val)
     switch (val) {
       case 0: {
-        this.hitValue(`M/${this.favouritePatterns[0].id}`);
         this.slides.slideTo(this.favouritePatterns[0].id);
+        this.hitValue(`M/${this.favouritePatterns[0].id}`);
         break;
       }
       case 1: {
-        this.hitValue(`M/${this.favouritePatterns[1].id}`);
         this.slides.slideTo(this.favouritePatterns[1].id);
+        this.hitValue(`M/${this.favouritePatterns[1].id}`);
         break;
       }
       case 2: {
-        this.hitValue(`M/${this.favouritePatterns[2].id}`);
         this.slides.slideTo(this.favouritePatterns[2].id);
+        this.hitValue(`M/${this.favouritePatterns[2].id}`);
         break;
       }
       case 3: {
-        this.hitValue(`M/${this.favouritePatterns[3].id}`);
         this.slides.slideTo(this.favouritePatterns[3].id);
+        this.hitValue(`M/${this.favouritePatterns[3].id}`);
         break;
       }
     }
