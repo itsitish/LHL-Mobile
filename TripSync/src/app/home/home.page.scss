@@ -13,13 +13,11 @@
 img {
     width: 40px;
 }
+
 ion-range {
     padding: 0 7vw;
     --bar-background: #e5eaf5;
     --bar-background-active: var(--ion-color-primary);
-    .range-tick-active{
-        display: none !important;
-    }
 }
 ion-toolbar {
     color: white;

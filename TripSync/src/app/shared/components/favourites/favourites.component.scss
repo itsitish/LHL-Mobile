@@ -5,6 +5,7 @@
     width: 25%;
     margin: 8px 0 4px 0;
     display: inline;
+    overflow: scroll;
 }
 @mixin square {
     height: 40px;

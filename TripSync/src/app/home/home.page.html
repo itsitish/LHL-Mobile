@@ -20,7 +20,7 @@
       <ion-badge *ngIf="blueAndLoc" mode="ios" slot="end" color="success">:)</ion-badge>
     </ion-item>
   </div>
-  <ion-segment [(ngModel)]="segment" value="color" mode="ios">
+  <ion-segment (ionChange)="retrieveFavs()" [(ngModel)]="segment" value="color" mode="ios">
     <ion-segment-button value="color">
       Color-Picker
     </ion-segment-button>
@@ -33,7 +33,7 @@
   <div [ngSwitch]="segment">
     <div *ngSwitchCase="'color'" class="color-picker">
       <color-sketch
-        [presetColors]="['#D0021B', '#F5A623', '#F8E71C', '#8B572A', '#7ED321', '#417505',  '#9013FE', '#4A90E2', '#50E3C2',  '#FFFFFF']"
+        [presetColors]="['rgb(255, 0, 0)', 'rgb(105, 255, 0)','rgb(255, 237, 0)','rgb(32, 0, 255)', 'rgb(255, 0, 69)', 'rgb(0, 255, 255)','rgb(255, 0, 194)']"
         [color]="initialState" (onChangeComplete)="changeComplete($event)"></color-sketch>
     </div>
     <div *ngSwitchCase="'pattern'">
@@ -48,7 +48,6 @@
               <ion-card-title>{{card.title}}</ion-card-title>
             </ion-card-header>
             <ion-card-content>
-              Choose your pattern with code {{card.code}}
             </ion-card-content>
           </ion-card>
         </ion-slide>
@@ -56,7 +55,7 @@
       <h4 class="label">Favourite Patterns</h4>
       <div class="container">
         <app-favourites putClass='dot' (click)="hitFavourite(i)" *ngFor="let fav of favouritePatterns; let i = index"
-          [pattern]="favouritePatterns[i]?.id"></app-favourites>
+          [pattern]="favouritePatterns[i]?.name"></app-favourites>
       </div>
     </div>
   </div>

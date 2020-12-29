@@ -1,0 +1,12 @@
+<ion-tabs (ionTabsDidChange)="tabChanged($event)" #main_tabs>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="home">
+      <ion-icon name="person-outline" mode="ios"></ion-icon>
+      <ion-label class="labels">Single mode</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="sync">
+      <ion-icon name="people-outline" mode="ios"></ion-icon>
+      <ion-label class="labels">Sync mode</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

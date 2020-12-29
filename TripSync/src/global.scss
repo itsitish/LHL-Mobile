@@ -31,9 +31,21 @@
 .sun {
     color: black;
 }
+.color-hue-slider, .alpha-slider {
+    height: 18px !important;
+}
+.sketch-hue, .sketch-alpha {
+    height: 20px !important;
+}
 .toast {
     --color: black;
     --background : #e5eaf5 !important;
+}
+ion-range::part(tick-active) {
+    display: none !important;
+}
+ion-range::part(tick) {
+    display: none !important;
 }
 .sketch-picker {
     margin-top: 44%;
