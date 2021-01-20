@@ -1,0 +1,7 @@
+{
+  "name": "Tripsync",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
