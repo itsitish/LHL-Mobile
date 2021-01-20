@@ -2,11 +2,11 @@
   <ion-toolbar mode="ios">
     <ion-title>
       <div style="display:inline-block;vertical-align:top;">
-        <img src="assets/logo.png" alt="logo"/>
+        <img src="assets/logo.png" alt="logo" />
       </div>
-    <div style="display:inline-block; color: black;">
-      <div style="margin: 12px;">TripSync</div>
-    </div>
+      <div style="display:inline-block; color: black;">
+        <div style="margin: 12px;">TripSync</div>
+      </div>
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -19,6 +19,10 @@
       <ion-badge *ngIf="!blueAndLoc" mode="ios" slot="end" color="danger">!</ion-badge>
       <ion-badge *ngIf="blueAndLoc" mode="ios" slot="end" color="success">:)</ion-badge>
     </ion-item>
+    <ion-select (ionChange)="selectOne()" [(ngModel)]="selectedLhl" slot="start" mode="ios" [interfaceOptions]="customPopoverOptions" 
+    interface="popover" placeholder="Select device" value = '24:62:AB:FD:E1:12'>
+      <ion-select-option  *ngFor="let i of foundDevices" [value]="i.address">{{i.name}}</ion-select-option>
+    </ion-select>
   </div>
   <ion-segment (ionChange)="retrieveFavs()" [(ngModel)]="segment" value="color" mode="ios">
     <ion-segment-button value="color">
@@ -29,7 +33,7 @@
     </ion-segment-button>
   </ion-segment>
 
-  
+
   <div [ngSwitch]="segment">
     <div *ngSwitchCase="'color'" class="color-picker">
       <color-sketch
@@ -64,7 +68,15 @@
 
 <ion-footer mode="ios">
   <ion-item class="range" lines="none">
-    <ion-range step="17" snaps="true" ticks="true" (ionChange)="brightnessHit()" [(ngModel)]="brightValue" mode="ios" min="0" max="255">
+    <ion-range class="speed-range" step="5600" snaps="true" ticks="true" (ionChange)="valueLog()" [(ngModel)]="speedValue" mode="ios"
+      min="0" max="56000">
+      <ion-icon class="sun" size="small" slot="start" name="speedometer-outline"></ion-icon>
+      <ion-icon class="sun end-speed" slot="end" size="small" name="speedometer-sharp" ></ion-icon>    
+    </ion-range>
+  </ion-item>
+  <ion-item class="range" lines="none">
+    <ion-range step="17" snaps="true" ticks="true" (ionChange)="brightnessHit()" [(ngModel)]="brightValue" mode="ios"
+      min="0" max="255">
       <ion-icon class="sun" size="small" slot="start" name="sunny"></ion-icon>
       <ion-icon class="sun" slot="end" name="sunny-outline"></ion-icon>
     </ion-range>

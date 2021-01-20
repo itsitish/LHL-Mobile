@@ -60,6 +60,10 @@ export class Pattern {
     "code": "M/28",
     'icon': 'heart-outline'
   }, {
+    "title": "Strobe",
+    "code": "M/26",
+    'icon': 'heart-outline'
+  }, {
     "title": "Blink Rainbow	",
     "code": "M/29",
     'icon': 'heart-outline'

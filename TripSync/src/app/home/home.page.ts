@@ -17,6 +17,11 @@ export class HomePage {
   favouritePatterns = [];
   patternArray = Pattern.Pattern;
   connectedStatus: any;
+
+  customPopoverOptions: any = {
+    header: 'Devices available',
+    subHeader: 'Select the device you want to connect with',
+  };
   brightValue: any = 255;
   slideOpts = {
     initialSlide: 0,
@@ -29,6 +34,9 @@ export class HomePage {
   initialState = '#fff'
   hitColor: any = 'C/0/0/0/1';
   @ViewChild(IonSlides) slides: IonSlides;
+  speedValue: any = 56000;
+  selectedLhl: any;
+  currentConnected;
   constructor(public toastController: ToastController,
     private alertController: AlertController,
     private blte: BluetoothLE,
@@ -47,6 +55,29 @@ export class HomePage {
       console.log(this.patternArray);
     }, err => console.log(err));
   }
+  selectOne() {
+    console.log(this.selectedLhl);
+    this.blte.disconnect({ "address": this.currentConnected.address }).then(selectOther => {
+      console.log(selectOther);
+      setTimeout(() => {
+        this.blte.connect({ "address": this.selectedLhl }).subscribe(connectData => {
+          console.log(connectData);
+          this.blte.discover({
+            "address": connectData.address, "clearCache": true
+          }).then(connectedData => {
+            this.currentConnected = connectedData;
+            console.log(`this is success --> ${JSON.stringify(connectedData)}`)
+          }, err => {
+            this.blueAndLoc = false;
+            this.presentToast('Something went wrong');
+            console.log(`this is error --> ${JSON.stringify(err)}`)
+          });
+        }, err => {
+          this.onError(this.selectedLhl);
+        });
+      }, 1000);
+    });
+  }
   scanCommmon(status) {
     this.blte.startScan({
       "services": [
@@ -60,9 +91,9 @@ export class HomePage {
           console.log('FOUND DEVICE:');
           console.log(JSON.stringify(status));
           this.foundDevices.push(deviceData);
-          console.log(this.foundDevices)
+          console.log(this.foundDevices);
         }
-        this.blte.connect({ "address": this.foundDevices[0].address }).subscribe(connectData => this.onConnected(connectData), err => this.onError());
+        this.blte.connect({ "address": this.foundDevices[0].address }).subscribe(connectData => this.onConnected(connectData, this.foundDevices[0].address), err => this.onError(err.address));
       }
     })
     setTimeout(() => {
@@ -145,6 +176,10 @@ export class HomePage {
     console.log(this.brightValue);
     this.hitValue(`B/${this.brightValue}`);
   }
+  valueLog() {
+    // console.log(Math.abs(56000 - this.speedValue + 2));
+    this.hitValue(`S/${Math.abs(56000 - this.speedValue + 2)}`);
+  }
   pickFavourite() {
     this.slides.getActiveIndex().then(id => {
       if (this.favouritePatterns.some(e => e['id'] === id)) {
@@ -209,11 +244,11 @@ export class HomePage {
     await alert.present();
   }
   //reconnect on error 'already connected'
-  onError() {
-    this.blte.reconnect({ "address": this.foundDevices[0].address }).subscribe(reconnectData => this.onConnected(reconnectData), err => console.log(err));;
+  onError(add) {
+    this.blte.reconnect({ "address": add }).subscribe(reconnectData => this.onConnected(reconnectData, add), err => console.log(err));;
   }
   //connection status check and services discovery
-  onConnected(peripheralData) {
+  onConnected(peripheralData, address) {
     this.ngZone.run(() => {
       this.connectedStatus = peripheralData.status;
       if (this.connectedStatus === 'disconnected') {
@@ -225,9 +260,12 @@ export class HomePage {
       console.log(this.connectedStatus)
     })
     this.blte.discover({
-      "address": this.foundDevices[0].address, "clearCache": true
+      "address": address, "clearCache": true
     }).then(connectedData => {
+      this.currentConnected = connectedData;
       console.log(`this is success --> ${JSON.stringify(connectedData)}`)
+      console.log(this.currentConnected.name);
+      this.selectedLhl = this.currentConnected.address;
     }, err => {
       this.blueAndLoc = false;
       this.presentToast('Something went wrong');
@@ -235,11 +273,11 @@ export class HomePage {
     });
   }
   hitValue(value) {
-    // console.log(value);
+    console.log(value);
     var sendString = value;
     var bytes = this.blte.stringToBytes(sendString);
     var encodedString = this.blte.bytesToEncodedString(bytes);
-    this.blte.write({ "value": encodedString, "service": "4FAFC201-1FB5-459E-8FCC-C5C9C331914B", "characteristic": "BEB5483E-36E1-4688-B7F5-EA07361B26A8", "address": this.foundDevices[0].address }
+    this.blte.write({ "value": encodedString, "service": "4FAFC201-1FB5-459E-8FCC-C5C9C331914B", "characteristic": "BEB5483E-36E1-4688-B7F5-EA07361B26A8", "address": this.currentConnected.address }
     ).then(writeData => { console.log(writeData) }, err => {
       this.blueAndLoc = false;
       this.presentToast('Something went wrong');
