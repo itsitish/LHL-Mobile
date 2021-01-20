@@ -24,6 +24,14 @@
       <ion-select-option  *ngFor="let i of foundDevices" [value]="i.address">{{i.name}}</ion-select-option>
     </ion-select>
   </div>
+  <ion-segment [(ngModel)]="lhlSegment" value="S1" mode="ios">
+    <ion-segment-button value="S1">
+      Segment1
+    </ion-segment-button>
+    <ion-segment-button value="S2">
+      Segment2
+    </ion-segment-button>
+  </ion-segment>
   <ion-segment (ionChange)="retrieveFavs()" [(ngModel)]="segment" value="color" mode="ios">
     <ion-segment-button value="color">
       Color-Picker

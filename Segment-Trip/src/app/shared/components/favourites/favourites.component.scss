@@ -1,0 +1,22 @@
+.dot {
+    height: 40px;
+    float: left;
+    color: black;
+    width: 25%;
+    margin: 8px 0 4px 0;
+    display: inline;
+    overflow: scroll;
+}
+@mixin square {
+    height: 40px;
+    float: left;
+    width: 17%;
+    margin:8px 4% 4px 4%;
+    border-radius: 5%;
+    display: inline;
+    border: 1px solid;
+}
+.square{
+    @include square;
+    border: 3px solid;
+}

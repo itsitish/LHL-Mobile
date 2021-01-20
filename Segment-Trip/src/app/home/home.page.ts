@@ -17,7 +17,7 @@ export class HomePage {
   favouritePatterns = [];
   patternArray = Pattern.Pattern;
   connectedStatus: any;
-
+  lhlSegment = 'S1'
   customPopoverOptions: any = {
     header: 'Devices available',
     subHeader: 'Select the device you want to connect with',
@@ -273,9 +273,8 @@ export class HomePage {
     });
   }
   hitValue(value) {
-    console.log(value);
-    var sendString = value;
-    var bytes = this.blte.stringToBytes(sendString);
+    console.log(value + '/' + this.lhlSegment);
+    var bytes = this.blte.stringToBytes(value + '/' + this.lhlSegment);
     var encodedString = this.blte.bytesToEncodedString(bytes);
     this.blte.write({ "value": encodedString, "service": "4FAFC201-1FB5-459E-8FCC-C5C9C331914B", "characteristic": "BEB5483E-36E1-4688-B7F5-EA07361B26A8", "address": this.currentConnected.address }
     ).then(writeData => { console.log(writeData) }, err => {
