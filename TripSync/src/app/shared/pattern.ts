@@ -17,7 +17,7 @@ export class Pattern {
     'icon': 'heart-outline'
   }, {
     "title": "Color Wipe Inverse	",
-    "code": "4",
+    "code": "M/4",
     'icon': 'heart-outline'
   }, {
     "title": "Color Wipe Random	",
