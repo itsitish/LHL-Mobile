@@ -37,6 +37,7 @@ export class HomePage {
   speedValue: any = 56000;
   selectedLhl: any;
   currentConnected;
+  lastSlide: number;
   constructor(public toastController: ToastController,
     private alertController: AlertController,
     private blte: BluetoothLE,
@@ -46,14 +47,30 @@ export class HomePage {
     setTimeout(this.scanBlte.bind(this), 1000);
   }
   retrieveFavs() {
-    this.storage.getItem('favouritePatterns').then(favData => {
-      this.favouritePatterns = favData;
-      console.log(this.favouritePatterns);
-    }, err => console.log(err));
     this.storage.getItem('patternsArray').then(favArr => {
       this.patternArray = favArr
-      console.log(this.patternArray);
-    }, err => console.log(err));
+      this.storage.getItem('favouritePatterns').then(favData => {
+        this.favouritePatterns = favData;
+        // console.log(this.favouritePatterns);
+        if (this.lastSlide) {
+          // console.log(this.lastSlide);
+          this.slides.slideTo(this.lastSlide);
+        }
+      }, err => {
+        if (this.lastSlide) {
+          // console.log(this.lastSlide);
+          this.slides.slideTo(this.lastSlide);
+        }
+        console.log(err)
+      });
+      // console.log(this.patternArray);
+    }, err => {
+      if (this.lastSlide) {
+        // console.log(this.lastSlide);
+        this.slides.slideTo(this.lastSlide);
+      }
+      console.log(err)
+    });
   }
   selectOne() {
     console.log(this.selectedLhl);
@@ -73,7 +90,7 @@ export class HomePage {
             console.log(`this is error --> ${JSON.stringify(err)}`)
           });
         }, err => {
-          this.onError(this.selectedLhl);
+          this.onError(this.selectedLhl, err);
         });
       }, 1000);
     });
@@ -93,7 +110,10 @@ export class HomePage {
           this.foundDevices.push(deviceData);
           console.log(this.foundDevices);
         }
-        this.blte.connect({ "address": this.foundDevices[0].address }).subscribe(connectData => this.onConnected(connectData, this.foundDevices[0].address), err => this.onError(err.address));
+        this.blte.connect({ "address": this.foundDevices[0].address }).subscribe(connectData => this.onConnected(connectData, this.foundDevices[0].address), err => {
+          this.onError(err.address, err);
+
+        });
       }
     })
     setTimeout(() => {
@@ -163,6 +183,7 @@ export class HomePage {
 
   patternHit() {
     this.slides.getActiveIndex().then(id => {
+      this.lastSlide = id;
       this.hitValue(this.patternArray[id].code);
     })
   }
@@ -177,8 +198,7 @@ export class HomePage {
     this.hitValue(`B/${this.brightValue}`);
   }
   valueLog() {
-    // console.log(Math.abs(56000 - this.speedValue + 2));
-    this.hitValue(`S/${Math.abs(56000 - this.speedValue + 2)}`);
+    this.hitValue(`S/${Math.abs(3000 - this.speedValue + 2)}`);
   }
   pickFavourite() {
     this.slides.getActiveIndex().then(id => {
@@ -210,21 +230,25 @@ export class HomePage {
     switch (val) {
       case 0: {
         this.slides.slideTo(this.favouritePatterns[0].id);
+        this.lastSlide = this.favouritePatterns[0].id;
         this.hitValue(`M/${this.favouritePatterns[0].id}`);
         break;
       }
       case 1: {
         this.slides.slideTo(this.favouritePatterns[1].id);
+        this.lastSlide = this.favouritePatterns[1].id;
         this.hitValue(`M/${this.favouritePatterns[1].id}`);
         break;
       }
       case 2: {
         this.slides.slideTo(this.favouritePatterns[2].id);
+        this.lastSlide = this.favouritePatterns[2].id;
         this.hitValue(`M/${this.favouritePatterns[2].id}`);
         break;
       }
       case 3: {
         this.slides.slideTo(this.favouritePatterns[3].id);
+        this.lastSlide = this.favouritePatterns[3].id;
         this.hitValue(`M/${this.favouritePatterns[3].id}`);
         break;
       }
@@ -244,7 +268,28 @@ export class HomePage {
     await alert.present();
   }
   //reconnect on error 'already connected'
-  onError(add) {
+  onError(add, err) {
+    if (err.error = "isNotDisconnected") {
+      this.blte.disconnect({ "address": add }).then(() => {
+        setTimeout(() => {
+          this.blte.connect({ "address": add }).subscribe(connectData => {
+            console.log(connectData);
+            this.blte.discover({
+              "address": connectData.address, "clearCache": true
+            }).then(connectedData => {
+              this.currentConnected = connectedData;
+              console.log(`this is success --> ${JSON.stringify(connectedData)}`)
+            }, err => {
+              this.blueAndLoc = false;
+              this.presentToast('Something went wrong');
+              console.log(`this is error --> ${JSON.stringify(err)}`)
+            });
+          }, err => {
+            console.log(err)
+          });
+        }, 500);
+      });
+    }
     this.blte.reconnect({ "address": add }).subscribe(reconnectData => this.onConnected(reconnectData, add), err => console.log(err));;
   }
   //connection status check and services discovery

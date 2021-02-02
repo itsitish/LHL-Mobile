@@ -68,8 +68,8 @@
 
 <ion-footer mode="ios">
   <ion-item class="range" lines="none">
-    <ion-range class="speed-range" step="5600" snaps="true" ticks="true" (ionChange)="valueLog()" [(ngModel)]="speedValue" mode="ios"
-      min="0" max="56000">
+    <ion-range class="speed-range" step="200" snaps="true" ticks="true" (ionChange)="valueLog()" [(ngModel)]="speedValue" mode="ios"
+      min="2" max="3000">
       <ion-icon class="sun" size="small" slot="start" name="speedometer-outline"></ion-icon>
       <ion-icon class="sun end-speed" slot="end" size="small" name="speedometer-sharp" ></ion-icon>    
     </ion-range>
