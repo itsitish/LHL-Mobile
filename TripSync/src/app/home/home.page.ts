@@ -17,7 +17,6 @@ export class HomePage {
   favouritePatterns = [];
   patternArray = Pattern.Pattern;
   connectedStatus: any;
-
   customPopoverOptions: any = {
     header: 'Devices available',
     subHeader: 'Select the device you want to connect with',
@@ -52,23 +51,14 @@ export class HomePage {
       this.storage.getItem('favouritePatterns').then(favData => {
         this.favouritePatterns = favData;
         // console.log(this.favouritePatterns);
-        if (this.lastSlide) {
-          // console.log(this.lastSlide);
-          this.slides.slideTo(this.lastSlide);
-        }
+          this.lastSlide ? this.slides.slideTo(this.lastSlide) : null;
       }, err => {
-        if (this.lastSlide) {
-          // console.log(this.lastSlide);
-          this.slides.slideTo(this.lastSlide);
-        }
+        this.lastSlide ? this.slides.slideTo(this.lastSlide) : null;
         console.log(err)
       });
       // console.log(this.patternArray);
     }, err => {
-      if (this.lastSlide) {
-        // console.log(this.lastSlide);
-        this.slides.slideTo(this.lastSlide);
-      }
+      this.lastSlide ? this.slides.slideTo(this.lastSlide) : null;
       console.log(err)
     });
   }
