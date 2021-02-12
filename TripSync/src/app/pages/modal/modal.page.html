@@ -1,0 +1,71 @@
+<ion-content>
+  <div class="container">
+    <ion-icon class="close" mode="ios" name="close-circle-outline" (click)="modalController.dismiss()" slot="end">
+    </ion-icon>
+    <h4>Choose the desired speed</h4>
+    <ion-item class="range" lines="none">
+      <ion-range class="speed-range" step="200" snaps="true" ticks="true" (ionChange)="valueLog()"
+        [(ngModel)]="speedValue" mode="ios" min="2" max="3000">
+        <ion-icon class="sun" size="small" slot="start" name="speedometer-outline"></ion-icon>
+        <ion-icon class="sun end-speed" slot="end" size="small" name="speedometer-sharp"></ion-icon>
+      </ion-range>
+    </ion-item>
+    <h4>Choose the desired brightness</h4>
+    <ion-item class="range" lines="none">
+      <ion-range step="17" snaps="true" ticks="true" (ionChange)="brightnessHit()" [(ngModel)]="brightValue" mode="ios"
+        min="0" max="255">
+        <ion-icon class="sun" size="small" slot="start" name="sunny"></ion-icon>
+        <ion-icon class="sun" slot="end" name="sunny-outline"></ion-icon>
+      </ion-range>
+    </ion-item>
+    <ion-grid class="ion-no-padding">
+      <h4>Pick a color</h4>
+      <ion-row class="color-row">
+        <ion-col (click)="pickColor('C/255/0/0/0')" class="color-col" size="3"
+          style="border: 1px solid black; background-color: rgb(255, 0, 0);"></ion-col>
+        <ion-col (click)="pickColor('C/105/255/0/0')" class="color-col" size="3"
+          style="border: 1px solid black; background-color: rgb(105, 255, 0);">
+        </ion-col>
+        <ion-col (click)="pickColor('C/255/237/0/0')" class="color-col" size="3"
+          style="border: 1px solid black; background-color: rgb(255, 237, 0);">
+        </ion-col>
+        <ion-col (click)="pickColor('C/32/0/255/0')" class="color-col" size="3"
+          style="border: 1px solid black; background-color: rgb(32, 0, 255);"></ion-col>
+      </ion-row>
+      <ion-row class="color-row">
+        <ion-col (click)="pickColor('C/255/255/255/0')" class="color-col" size="3"
+          style="border: 1px solid black; background-color: rgb(255,255,255)"></ion-col>
+        <ion-col (click)="pickColor('C/0/255/255/0')" class="color-col" size="3"
+          style="border: 1px solid black; background-color: rgb(0, 255, 255);">
+        </ion-col>
+        <ion-col (click)="pickColor('C/255/0/194/0')" class="color-col" size="3"
+          style="border: 1px solid black; background-color: rgb(255, 0, 194);">
+        </ion-col>
+        <ion-col (click)="pickColor('C/255/0/69/0')" class="color-col" size="3"
+          style="border: 1px solid black; background-color: rgb(255, 0, 69);"></ion-col>
+      </ion-row>
+    </ion-grid>
+    <h4>Pick a pattern</h4>
+    <ion-item lines="full">
+      <ion-select mode="ios" [interfaceOptions]="customAlertOptions" interface="alert" (ionChange)="selectOne()"
+        okText="Select" cancelText="Dismiss" placeholder="Select Pattern" [(ngModel)]="selectedPattern">
+        <ion-select-option *ngFor="let i of patterns" [value]="i.code">{{i.title}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Name your Scene</ion-label>
+      <ion-input [(ngModel)]="name"></ion-input>
+    </ion-item>
+    <div style="text-align: center;">
+      <ion-button [disabled]="!name" class="btn" mode="ios" fill="outline" (click)="presetSet()">Add this Scene
+      </ion-button>
+    </div>
+
+  </div>
+  <div style="text-align: center;">
+
+    <ion-button mode="ios" fill="outline" (click)="psycho()">Go crazy</ion-button>
+    <ion-button mode="ios" fill="outline" (click)="stop()">Stop</ion-button>
+  </div>
+</ion-content>

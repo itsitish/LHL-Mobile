@@ -8,11 +8,22 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { environment } from '../environments/environment';
+import { ModalPage } from './pages/modal/modal.page';
+import { ModalPageModule } from './pages/modal/modal.module';
+// import {StoreModule} from '@ngrx/store';
+// import {simpleReducer} from './simple.reducer';
 
 @NgModule({
   declarations: [AppComponent],
-  entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
+  entryComponents: [ModalPage],
+  imports: [AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireAuthModule,
+    BrowserModule, IonicModule.forRoot(), AppRoutingModule, ModalPageModule
+  // ,StoreModule.forRoot({message: simpleReducer})
+],
   providers: [
     NativeStorage,
     StatusBar,
@@ -22,4 +33,4 @@ import { AppRoutingModule } from './app-routing.module';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }
