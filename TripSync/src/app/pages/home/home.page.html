@@ -11,7 +11,9 @@
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true">
+
   <div>
+
     <ion-item lines="none">
       <ion-chip color="success" (click)="scanBlte()" *ngIf="!blueAndLoc">
         <ion-label>Connect</ion-label>
@@ -20,7 +22,7 @@
       <ion-badge *ngIf="blueAndLoc" mode="ios" slot="end" color="success">:)</ion-badge>
     </ion-item>
     <ion-select (click)="scanBlte()" *ngIf = "foundDevices.length>1" (ionChange)="selectOne()" [(ngModel)]="selectedLhl" slot="start" mode="ios" [interfaceOptions]="customPopoverOptions" 
-    interface="popover" placeholder="Select device" value = '24:62:AB:FD:E1:12'>
+    interface="popover" placeholder="Select device">
       <ion-select-option  *ngFor="let i of foundDevices" [value]="i.address">{{i.name}}</ion-select-option>
     </ion-select>
   </div>

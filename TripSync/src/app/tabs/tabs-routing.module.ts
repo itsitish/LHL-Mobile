@@ -10,11 +10,15 @@ const routes: Routes = [
     children: [
       {
         path: 'home',
-        loadChildren: () => import('../home/home.module').then(m => m.HomePageModule)
+        loadChildren: () => import('../pages/home/home.module').then(m => m.HomePageModule)
       },
       {
-        path: 'sync',
-        loadChildren: () => import('../multiple-mode/multiple-mode.module').then(m => m.MultipleModePageModule)
+        path: 'profile',
+        loadChildren: () => import('../pages/profile/profile.module').then(m => m.ProfilePageModule)
+      },
+      {
+        path: 'scenes',
+        loadChildren: () => import('../pages/scenes/scenes.module').then(m => m.ScenesPageModule)
       },
       {
         path: '',

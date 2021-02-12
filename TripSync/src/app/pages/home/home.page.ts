@@ -1,7 +1,7 @@
 import { Component, NgZone, ViewChild, } from '@angular/core';
 import { AlertController, IonSlides, Platform } from '@ionic/angular';
 import { BluetoothLE } from '@ionic-native/bluetooth-le/ngx';
-import { Pattern } from '../shared/pattern'
+import { Pattern } from '../../shared/pattern'
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { ToastController } from '@ionic/angular';
 
@@ -33,25 +33,31 @@ export class HomePage {
   initialState = '#fff'
   hitColor: any = 'C/0/0/0/1';
   @ViewChild(IonSlides) slides: IonSlides;
-  speedValue: any = 56000;
+  speedValue: any = 3000;
   selectedLhl: any;
-  currentConnected;
+  currentConnected: any;
   lastSlide: number;
-  constructor(public toastController: ToastController,
+  constructor(    
+    public toastController: ToastController,
     private alertController: AlertController,
     private blte: BluetoothLE,
     private ngZone: NgZone,
     private storage: NativeStorage,
-    private platform: Platform) {
+    private platform: Platform,
+    ) {
     setTimeout(this.scanBlte.bind(this), 1000);
+  }  
+  ngOnInit() {
+
   }
+
   retrieveFavs() {
     this.storage.getItem('patternsArray').then(favArr => {
       this.patternArray = favArr
       this.storage.getItem('favouritePatterns').then(favData => {
         this.favouritePatterns = favData;
         // console.log(this.favouritePatterns);
-          this.lastSlide ? this.slides.slideTo(this.lastSlide) : null;
+        this.lastSlide ? this.slides.slideTo(this.lastSlide) : null;
       }, err => {
         this.lastSlide ? this.slides.slideTo(this.lastSlide) : null;
         console.log(err)
@@ -62,6 +68,7 @@ export class HomePage {
       console.log(err)
     });
   }
+
   selectOne() {
     console.log(this.selectedLhl);
     this.blte.disconnect({ "address": this.currentConnected.address }).then(selectOther => {
@@ -301,6 +308,7 @@ export class HomePage {
       console.log(`this is success --> ${JSON.stringify(connectedData)}`)
       console.log(this.currentConnected.name);
       this.selectedLhl = this.currentConnected.address;
+      this.storage.setItem('connectedTo', this.selectedLhl);
     }, err => {
       this.blueAndLoc = false;
       this.presentToast('Something went wrong');

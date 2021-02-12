@@ -1,0 +1,32 @@
+<ion-header mode="ios">
+  <ion-toolbar mode="ios">
+    <ion-title>
+      <div style="display:inline-block;vertical-align:top;">
+        <img src="assets/logo.png" alt="logo"/>
+      </div>
+    <div style="display:inline-block; color: black;">
+      <div style="margin: 12px;">TripSync</div>
+    </div>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item lines="full" (click)="createScene()">
+    <ion-label>
+      Create a scene
+    </ion-label>
+    <ion-icon name="add-circle-outline" mode="ios" slot="end"></ion-icon>
+  </ion-item>
+  <ion-item lines="full" (click)="clear()">
+    <ion-label>
+      Clear All Scenes    </ion-label>
+    <ion-icon name="trash-outline" mode="ios" slot="end"></ion-icon>
+  </ion-item>
+
+
+
+  <ion-list style="margin: 30px 18px 0 2px;">
+    <ion-item *ngFor="let i of scenes" (click)="playScene(i)">{{i.name}}</ion-item>
+  </ion-list>
+</ion-content>
