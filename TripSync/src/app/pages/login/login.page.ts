@@ -93,14 +93,18 @@ export class LoginPage implements OnInit {
     this.navCtrl.navigateRoot('tabs')
   }
   loginUser(value) {
-    this.authService.loginUser(value)
-      .then(res => {
-        console.log(res);
-        this.errorMessage = "";
-        this.navCtrl.navigateForward('/home');
-      }, err => {
-        this.errorMessage = err.message;
-      })
+    this.presentLoading().then(() => {
+      this.authService.loginUser(value)
+        .then(res => {
+          console.log(res);
+          this.errorMessage = "";
+          this.loader.dismiss();
+          this.navCtrl.navigateForward('/home');
+        }, err => {
+          this.loader.dismiss();
+          this.errorMessage = err.message;
+        })
+    })
   }
 
   goToRegisterPage() {

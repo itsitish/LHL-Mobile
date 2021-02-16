@@ -24,9 +24,11 @@
     <ion-icon name="trash-outline" mode="ios" slot="end"></ion-icon>
   </ion-item>
 
-
-
   <ion-list style="margin: 30px 18px 0 2px;">
-    <ion-item *ngFor="let i of scenes" (click)="playScene(i)">{{i.name}}</ion-item>
+    <ion-item *ngFor="let i of scenes; index as j" >
+      <ion-label (click)="playScene(i)">
+        {{i.name}}    </ion-label>
+      <ion-icon name="close-circle-outline" mode="ios" slot="end" (click)="delete(j)"></ion-icon>
+    </ion-item>
   </ion-list>
 </ion-content>
