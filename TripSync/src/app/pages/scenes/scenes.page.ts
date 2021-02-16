@@ -30,6 +30,14 @@ export class ScenesPage implements OnInit {
 
     return await modal.present();
   } 
+  delete(j) {
+    console.log(j)
+    this.ngZone.run(()=> {
+      if (j > -1) {
+        this.scenes.splice(j, 1);
+      }
+    })
+  }
   clear() {
     this.ngZone.run(()=>{
       this.scenes = [];
