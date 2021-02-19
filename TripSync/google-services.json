@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "638515572372",
+    "project_id": "tripsync-3dd5c",
+    "storage_bucket": "tripsync-3dd5c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:638515572372:android:40402b32bbcb418f4b8e81",
+        "android_client_info": {
+          "package_name": "com.tripsync.cream"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "638515572372-8l3sumj8g9ujt3radcc7gtc90be9eesc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCA66cTpfw8dB9PIRasJ_bZjMSiCQqQQbs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "638515572372-8l3sumj8g9ujt3radcc7gtc90be9eesc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

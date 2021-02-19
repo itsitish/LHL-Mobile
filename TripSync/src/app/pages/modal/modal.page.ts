@@ -16,6 +16,7 @@ export class ModalPage implements OnInit {
     subHeader: 'Choose one',
     translucent: true
   };
+  selectedMood :any;
   name: string = '';
   pickedColor: any = 'C/255/255/255/0';
   patterns = Pattern.Pattern;
@@ -48,7 +49,7 @@ export class ModalPage implements OnInit {
   }
   presetSet() {
     let code;
-    code = { 'pat': this.selectedPattern, 'color': this.pickedColor, 'bright': 'B/' + this.brightValue, 'speed': 'S/' + this.speedValue, 'name': this.name };
+    code = { 'pat': this.selectedPattern, 'color': this.pickedColor, 'bright': 'B/' + this.brightValue, 'speed': 'S/' + this.speedValue, 'name': this.name, 'mood': this.selectedMood };
     // console.log(code);
     this.storage.getItem('storedScenes').then(d => {
       console.log(d);
@@ -62,6 +63,9 @@ export class ModalPage implements OnInit {
       this.modalController.dismiss();
       console.log(b)
     })
+  }
+  selectMood() {
+    console.log(this.selectedMood)
   }
   brightnessHit() {
     // console.log(this.brightValue);

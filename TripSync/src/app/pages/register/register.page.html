@@ -1,16 +1,25 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>Register</ion-title>
+<ion-header mode="ios">
+  <ion-toolbar mode="ios">
+    <ion-title>
+      <div style="display:inline-block;vertical-align:top;">
+        <img style="width: 40px;" src="assets/logo.png" alt="logo" />
+      </div>
+      <div style="display:inline-block; color: black;">
+        <div style="margin: 12px;">TripSync</div>
+      </div>
+    </ion-title>
   </ion-toolbar>
 </ion-header>
-
-<ion-content class="ion-padding">
+<ion-content class="ion-padding" style="text-align: center;">
+  <div>
+    <img class="hero" src="assets/Tripsync-hero-image (1).png" alt="hero"/>
+  </div>
   <form class="form" [formGroup]="validations_form" (ngSubmit)="tryRegister(validations_form.value)">
 
-    <ion-item>
-      <ion-label position="floating" color="primary">Email</ion-label>
-      <ion-input type="text" formControlName="email"></ion-input>
-    </ion-item>
+
+    <ion-item lines="none" class="email">
+
+      <ion-input  placeholder="Email" type="text" formControlName="email"></ion-input>    </ion-item>
     <div class="validation-errors">
       <ng-container *ngFor="let validation of validation_messages.email">
         <div class="error-message"
@@ -20,9 +29,10 @@
       </ng-container>
     </div>
 
-    <ion-item>
-      <ion-label position="floating" color="primary">Password</ion-label>
-      <ion-input type="password" formControlName="password" class="form-controll" required></ion-input>
+
+    <ion-item lines="none" class="email">
+      <ion-input  placeholder="Password"  type="password" [type]="passwordType" formControlName="password" class="form-controll" required></ion-input>
+      <ion-icon slot="end" [name]="passwordIcon" class="passwordIcon" (click)='hideShowPassword()'></ion-icon>
     </ion-item>
     <div class="validation-errors">
       <ng-container *ngFor="let validation of validation_messages.password">
@@ -33,10 +43,8 @@
       </ng-container>
     </div>
 
+    <ion-button mode="ios" fill="outline" class="submit-btn" type="submit" [disabled]="!validations_form.valid">Register</ion-button>
 
-    <ion-button mode="ios"  class="submit-btn" type="submit" [disabled]="!validations_form.valid">Register</ion-button>
-    <label class="error-message">{{errorMessage}}</label>
-    <label class="success-message">{{successMessage}}</label>
   </form>
-  <p class="go-to-login">Already have an account? <a (click)="goLoginPage()">Try to Log In.</a></p>
+  <p class="go-to-login">Already have an account? <a style="color:#5e00a5"  (click)="goLoginPage()">Log in!</a></p>
 </ion-content>

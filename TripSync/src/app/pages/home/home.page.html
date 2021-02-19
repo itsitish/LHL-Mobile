@@ -21,7 +21,7 @@
       <ion-badge *ngIf="!blueAndLoc" mode="ios" slot="end" color="danger">!</ion-badge>
       <ion-badge *ngIf="blueAndLoc" mode="ios" slot="end" color="success">:)</ion-badge>
     </ion-item>
-    <ion-select (click)="scanBlte()" *ngIf = "foundDevices.length>1" (ionChange)="selectOne()" [(ngModel)]="selectedLhl" slot="start" mode="ios" [interfaceOptions]="customPopoverOptions" 
+    <ion-select  *ngIf = "foundDevices.length>1" (ionChange)="selectOne()" [(ngModel)]="selectedLhl" slot="start" mode="ios" [interfaceOptions]="customPopoverOptions" 
     interface="popover" placeholder="Select device">
       <ion-select-option  *ngFor="let i of foundDevices" [value]="i.address">{{i.name}}</ion-select-option>
     </ion-select>

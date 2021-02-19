@@ -18,6 +18,8 @@ export class LoginPage implements OnInit {
   errorMessage: string = '';
   userEmail: string;
   loader: any;
+  passwordType: string = 'password';
+  passwordIcon: string = 'eye-off';
   constructor(public toastController: ToastController,
     public loadingController: LoadingController,
     private storage: NativeStorage,
@@ -45,6 +47,10 @@ export class LoginPage implements OnInit {
 
     })
   }
+  hideShowPassword() {
+    this.passwordType = this.passwordType === 'text' ? 'password' : 'text';
+    this.passwordIcon = this.passwordIcon === 'eye-off' ? 'eye' : 'eye-off';
+}
   async presentToast(message) {
     const toast = await this.toastController.create({
       message: message,
@@ -99,7 +105,7 @@ export class LoginPage implements OnInit {
           console.log(res);
           this.errorMessage = "";
           this.loader.dismiss();
-          this.navCtrl.navigateForward('/home');
+          this.navCtrl.navigateRoot('/tabs/home');
         }, err => {
           this.loader.dismiss();
           this.errorMessage = err.message;
