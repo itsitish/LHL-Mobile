@@ -66,13 +66,17 @@
       <ion-label>Pick a mood*</ion-label>
       <ion-select mode="ios" [interfaceOptions]="customAlertOptions" interface="alert" (ionChange)="selectMood()"
         okText="Select" cancelText="Dismiss" placeholder="Select Mood" [(ngModel)]="selectedMood">
-        <ion-select-option  value="morning">Morning</ion-select-option>
-        <ion-select-option  value="afternoon">Afternoon</ion-select-option>
-        <ion-select-option  value="evening">Evening</ion-select-option>
+        <ion-select-option value="url(../../../assets/sunrise.png)">Morning</ion-select-option>
+        <ion-select-option  value="url(../../../assets/afternoon.jpg)">Afternoon</ion-select-option>
+        <ion-select-option  value="url(../../../assets/sunset.jpg)">Evening</ion-select-option>
       </ion-select>    
     </ion-item>
+    <ion-item style="margin: 2vh 0 0 0;">
+      <ion-label>Pick a time*</ion-label>
+      <ion-datetime [(ngModel)]="time" (ionChange)="timePick()" mode="ios" displayFormat="h:mm a"></ion-datetime>
+    </ion-item>
     <div style="text-align: center;">
-      <ion-button [disabled]="!name || !selectedMood" class="btn" mode="ios" fill="outline" (click)="presetSet()">Add this Scene
+      <ion-button [disabled]="!name || !selectedMood || !time" class="btn" mode="ios" fill="outline" (click)="presetSet()">Add this Scene
       </ion-button>
     </div>
 

@@ -23,16 +23,19 @@
       Clear All Scenes </ion-label>
     <ion-icon name="trash-outline" mode="ios" slot="end"></ion-icon>
   </ion-item>
-  <ion-grid>
+  <ion-grid style="margin-top: 10vh;">
     <ion-row>
-      <ion-col *ngFor="let i of scenes; index as j" size="4">
-        <ion-card mode="ios" (click)="playScene(i)">
-          <ion-card-header>
+      <ion-col style="padding: 20px;" *ngFor="let i of scenes; index as j" size="6">
+        <ion-card  mode="ios" (click)="playScene(i)">
+          <ion-card-header style.background = "{{i.mood}}" style="height: 100px;" class="ion-no-padding">
             <ion-card-subtitle>
-              <ion-icon name="close-circle-outline" style="font-size: 20px;" mode="ios" (click)="delete(j)"></ion-icon>
+              <ion-item lines="none">
+                <ion-icon slot="end" name="close-circle-outline" style="font-size: 20px;" mode="ios" (click)="delete(j)"></ion-icon>
+              </ion-item>
             </ion-card-subtitle>
           </ion-card-header>
-          <ion-card-content>{{i.name}}
+          <ion-card-content class="ion-no-padding" style="background: var(--ion-color-primary-contrast);">
+            <p style="margin:0;border-radius: 20px; color:var(--ion-color-primary) ; font-size: 20px; font-weight: bold;text-transform: capitalize;">{{i.name}}</p>
           </ion-card-content>
         </ion-card>
       </ion-col>

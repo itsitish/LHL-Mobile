@@ -9,5 +9,10 @@ ion-toolbar {
 ion-card {
     margin: 0;
     text-align: center;
-    height: 100px ;
+}
+ion-card-header {
+    background-size: 100% 100% !important;
+}
+ion-item {
+    --background: transparent
 }

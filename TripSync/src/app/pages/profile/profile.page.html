@@ -10,22 +10,20 @@
     </ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content>
+<ion-content style="text-align: center;">
   <ion-grid>
     <ion-row>
-      <ion-col text-center>
-        Welcome to Dashboard!
+      <ion-col>
+        Welcome to TripSync!
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col text-center>
+      <ion-col>
         Your Registered EmailID : {{userEmail}}
       </ion-col>
     </ion-row>
   </ion-grid>
 </ion-content>
-<ion-footer mode="ios" (click)="logout()">
-  <ion-toolbar color="secondary">
-    <ion-title>Log out</ion-title>
-  </ion-toolbar>
-</ion-footer>
+<div style="text-align: center;">
+  <ion-button style="width: fit-content; " fill = "outline" mode="ios" (click)="logout()">Logout</ion-button>
+</div>

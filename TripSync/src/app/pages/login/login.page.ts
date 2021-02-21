@@ -28,7 +28,27 @@ export class LoginPage implements OnInit {
     private formBuilder: FormBuilder
 
   ) {
-    this.presentLoading().then(() => {
+    this.presentLoading('Please wait..').then(() => {
+      this.storage.getItem('firstTimeLogin').then(d => {
+        if (d === 'done') {
+          this.loader.dismiss();
+          this.autoLogin();
+        } else {
+          this.loader.dismiss();
+
+          this.navCtrl.navigateRoot('/onboarding');
+        }
+      }, err => {
+        this.loader.dismiss();
+
+        this.navCtrl.navigateRoot('/onboarding');
+
+      })
+
+    })
+  }
+  autoLogin() {
+    this.presentLoading('Trying to login..').then(() => {
       this.authService.userDetails().subscribe(res => {
         console.log('res', res);
         if (res !== null) {
@@ -44,13 +64,13 @@ export class LoginPage implements OnInit {
         this.loader.dismiss();
         console.log('err', err);
       })
+    });
 
-    })
   }
   hideShowPassword() {
     this.passwordType = this.passwordType === 'text' ? 'password' : 'text';
     this.passwordIcon = this.passwordIcon === 'eye-off' ? 'eye' : 'eye-off';
-}
+  }
   async presentToast(message) {
     const toast = await this.toastController.create({
       message: message,
@@ -61,9 +81,9 @@ export class LoginPage implements OnInit {
     });
     toast.present();
   }
-  async presentLoading() {
+  async presentLoading(mes) {
     this.loader = await this.loadingController.create({
-      message: 'Trying to log you in..',
+      message: mes,
       mode: 'ios'
     });
     await this.loader.present();
@@ -99,7 +119,7 @@ export class LoginPage implements OnInit {
     this.navCtrl.navigateRoot('tabs')
   }
   loginUser(value) {
-    this.presentLoading().then(() => {
+    this.presentLoading('Logging in..').then(() => {
       this.authService.loginUser(value)
         .then(res => {
           console.log(res);

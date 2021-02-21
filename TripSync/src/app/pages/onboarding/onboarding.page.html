@@ -1,9 +1,74 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>onboarding</ion-title>
+<ion-header mode="ios">
+  <ion-toolbar mode="ios">
+    <ion-title>
+      <div style="display:inline-block;vertical-align:top;">
+        <img style="width: 40px;" src="assets/logo.png" alt="logo" />
+      </div>
+      <div style="display:inline-block; color: black;">
+        <div style="margin: 12px;">TripSync</div>
+      </div>
+    </ion-title>
+    <ion-button fill="clear" slot="end" (click)="skipToLast()" class="skip">Skip</ion-button>
+
   </ion-toolbar>
+
 </ion-header>
+<ion-content style="text-align: center;">
+  <ion-slides (ionSlideReachEnd) ="skip=false" pager="true" [options]="slideOpts" style="text-align: center;">
+    <ion-slide>
+      <h1 style="position: fixed; top: 0vh;">Welcome to TripSync</h1>
+     <img class="slidesImg1" src="assets/connectMultiple.png" alt="connect">
+     <ion-row>
+       <ion-col size="12" class="title">
+        Connection
 
-<ion-content>
+       </ion-col>
+       <ion-col size="12" class="subtitle">
+        The application tries to connect nearest device on startup, but in case you face any difficulties, you can simply click on the "Connect" to pair the device.
+        The indicator on right states the connection status. For multiple panels, selection dropdown will be visibel.
+       </ion-col>
+     </ion-row>
 
+    </ion-slide>
+    <ion-slide>
+      
+      <img class="slidesImg" src="assets/color.png" alt="color">
+      <ion-row>
+        <ion-col size="12" class="title">
+         Color Pallete
+ 
+        </ion-col>
+        <ion-col size="12" class="subtitle">
+         The color pallete offers 16 million colors to choose from, with an additional choice of whiteness and some predefined colors.
+        </ion-col>
+      </ion-row>
+ 
+    </ion-slide>
+    <ion-slide>
+      <img class="slidesImg" src="assets/pattern.png" alt="pattern">
+      <ion-row>
+        <ion-col size="12" class="title">
+         Patterns
+ 
+        </ion-col>
+        <ion-col size="12" class="subtitle">
+         The pattern selector slide lets you select between a variety of modes, each of which can be marked as favourite based on your preference.
+        </ion-col>
+      </ion-row>
+ 
+    </ion-slide>
+    <ion-slide>
+      <img class="slidesImg1" src="assets/scenes.png" alt="scenes">
+      <ion-row>
+        <ion-col size="12" class="title">
+         Scenes
+ 
+        </ion-col>
+        <ion-col size="12" class="subtitle">
+         Create your personalized scenes that cater your mood the most using 'Create a scene'. Created scenes can be accessed in the 'Scenes' tab.
+        </ion-col>
+      </ion-row>
+      <ion-button mode="ios" fill="outline" style="position: absolute; bottom: 5vh; height: 30px;" (click)="next()">All set!</ion-button>
+    </ion-slide>
+  </ion-slides>
 </ion-content>

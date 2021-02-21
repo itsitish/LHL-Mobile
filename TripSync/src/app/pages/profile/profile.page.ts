@@ -16,7 +16,7 @@ export class ProfilePage implements OnInit {
   ) {
     this.storage.getItem('email').then(d => {
       this.userEmail = d;
-    });
+    }, err => console.log(err));
   }
 
   ngOnInit() {
