@@ -1,16 +1,26 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>Login</ion-title>
+<ion-header mode="ios">
+  <ion-toolbar mode="ios">
+    <ion-title>
+      <div style="display:inline-block;vertical-align:top;">
+        <img style="width: 40px;" src="assets/logo.png" alt="logo" />
+      </div>
+      <div style="display:inline-block; color: black;">
+        <div style="margin: 12px;">TripSync</div>
+      </div>
+    </ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content class="ion-padding">
+  <div>
+    <img class="hero" src="assets/Tripsync-hero-image (1).png" alt="hero"/>
+  </div>
+  
+<div style="text-align: center;">
   <form class="form" [formGroup]="validations_form" (ngSubmit)="loginUser(validations_form.value)">
+    <ion-item lines="none" class="email">
 
-    <ion-item>
-      <ion-label position="floating" color="primary">Email</ion-label>
-      <ion-input type="text" formControlName="email"></ion-input>
-    </ion-item>
+      <ion-input  placeholder="Email" type="text" formControlName="email"></ion-input>    </ion-item>
+
     <div class="validation-errors">
       <ng-container *ngFor="let validation of validation_messages.email">
         <div class="error-message"
@@ -20,9 +30,9 @@
       </ng-container>
     </div>
 
-    <ion-item>
-      <ion-label position="floating" color="primary">Password</ion-label>
-      <ion-input type="password" formControlName="password" class="form-controll" required></ion-input>
+    <ion-item lines="none" class="email">
+      <ion-input  placeholder="Password"  type="password" [type]="passwordType" formControlName="password" class="form-controll" required></ion-input>
+      <ion-icon slot="end" [name]="passwordIcon" class="passwordIcon" (click)='hideShowPassword()'></ion-icon>
     </ion-item>
     <div class="validation-errors">
       <ng-container *ngFor="let validation of validation_messages.password">
@@ -33,13 +43,14 @@
       </ng-container>
     </div>
 
-    <ion-button mode="ios"  class="submit-btn" type="submit" [disabled]="!validations_form.valid">Log In</ion-button>
+    <ion-button mode="ios" fill="outline"  class="submit-btn" type="submit" [disabled]="!validations_form.valid">Log In</ion-button>
 
     <label class="error-message">{{errorMessage}}</label>
   </form>
-  <p class="go-to-register">
-    No account yet? <a (click)="goToRegisterPage()">Create an account.</a>
+  <p style="text-align: center;">
+    Don't have an account? <a style="color:#5e00a5" (click)="goToRegisterPage()">Create one!</a>
   </p>
+  <ion-button mode="ios" class="submit-btn" fill="outline"  (click) = "guestLogin()" fill="outline" >Guest Login</ion-button>
 
-  <ion-button mode="ios" (click) = "guestLogin()" fill="outline" >Guest Login</ion-button>
+</div>
 </ion-content>

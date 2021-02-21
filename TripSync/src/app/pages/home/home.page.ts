@@ -4,6 +4,7 @@ import { BluetoothLE } from '@ionic-native/bluetooth-le/ngx';
 import { Pattern } from '../../shared/pattern'
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { ToastController } from '@ionic/angular';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -11,6 +12,8 @@ import { ToastController } from '@ionic/angular';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
+  loader: any;
+
   blueAndLoc: boolean;
   locationEnabled: boolean;
   foundDevices = [];
@@ -37,20 +40,28 @@ export class HomePage {
   selectedLhl: any;
   currentConnected: any;
   lastSlide: number;
-  constructor(    
+  constructor(
+    public loadingController: LoadingController,
     public toastController: ToastController,
     private alertController: AlertController,
     private blte: BluetoothLE,
     private ngZone: NgZone,
     private storage: NativeStorage,
     private platform: Platform,
-    ) {
+  ) {
     setTimeout(this.scanBlte.bind(this), 1000);
-  }  
+  }
   ngOnInit() {
 
   }
+  async presentLoading(mes) {
+    this.loader = await this.loadingController.create({
+      message: mes,
+      mode: 'ios'
+    });
+    await this.loader.present();
 
+  }
   retrieveFavs() {
     this.storage.getItem('patternsArray').then(favArr => {
       this.patternArray = favArr
@@ -71,15 +82,37 @@ export class HomePage {
 
   selectOne() {
     console.log(this.selectedLhl);
-    this.blte.disconnect({ "address": this.currentConnected.address }).then(selectOther => {
-      console.log(selectOther);
-      setTimeout(() => {
+    if (this.selectedLhl != this.currentConnected.address) {
+      if (this.currentConnected) {
+        this.blte.disconnect({ "address": this.currentConnected.address }).then(selectOther => {
+          console.log(selectOther);
+          setTimeout(() => {
+            this.blte.connect({ "address": this.selectedLhl }).subscribe(connectData => {
+              console.log(connectData);
+              this.blte.discover({
+                "address": connectData.address, "clearCache": true
+              }).then(connectedData => {
+                this.currentConnected = connectedData;
+                console.log(`this is success --> ${JSON.stringify(connectedData)}`)
+                this.ngZone.run(()=>this.blueAndLoc = true)
+              }, err => {
+                this.blueAndLoc = false;
+                this.presentToast('Something went wrong');
+                console.log(`this is error --> ${JSON.stringify(err)}`)
+              });
+            }, err => {
+              this.onError(this.selectedLhl, err);
+            });
+          }, 1000);
+        }, err => { console.log("select one " + err) });
+      } else {
         this.blte.connect({ "address": this.selectedLhl }).subscribe(connectData => {
           console.log(connectData);
           this.blte.discover({
             "address": connectData.address, "clearCache": true
           }).then(connectedData => {
             this.currentConnected = connectedData;
+            this.ngZone.run(()=>this.blueAndLoc = true)
             console.log(`this is success --> ${JSON.stringify(connectedData)}`)
           }, err => {
             this.blueAndLoc = false;
@@ -89,8 +122,8 @@ export class HomePage {
         }, err => {
           this.onError(this.selectedLhl, err);
         });
-      }, 1000);
-    });
+      }
+    }
   }
   scanCommmon(status) {
     this.blte.startScan({
@@ -122,7 +155,7 @@ export class HomePage {
         this.presentToast('Try again');
         this.blueAndLoc = false;
       }
-    }, 1000)
+    }, 500)
   }
   //auto scan and connect
   scanBlte() {
@@ -136,7 +169,7 @@ export class HomePage {
           } else {
             this.presentToast('Bluetooth disabled');
           }
-        });
+        }, err => { console.log("location enabled " + err) });
       } else {
         if (bluetoothStatus.status === 'enabled') {
           this.scanCommmon(bluetoothStatus);
@@ -171,10 +204,10 @@ export class HomePage {
                 }
               }, err => console.log(err));
             }
-          });
+          }, err => { console.log("request location " + err) });
         }
 
-      });
+      }, err => { console.log("location has permission " + err) });
     })
   }
 
@@ -265,8 +298,14 @@ export class HomePage {
     await alert.present();
   }
   //reconnect on error 'already connected'
+  disconAndCon(add, err) {
+
+  }
   onError(add, err) {
     if (err.error = "isNotDisconnected") {
+      this.blte.reconnect({ "address": add }).subscribe(reconnectData => this.onConnected(reconnectData, add), err => console.log(err));;
+
+    } else {
       this.blte.disconnect({ "address": add }).then(() => {
         setTimeout(() => {
           this.blte.connect({ "address": add }).subscribe(connectData => {
@@ -285,9 +324,9 @@ export class HomePage {
             console.log(err)
           });
         }, 500);
-      });
+      }, err => { console.log("disconnect block " + JSON.stringify(err)) });
     }
-    this.blte.reconnect({ "address": add }).subscribe(reconnectData => this.onConnected(reconnectData, add), err => console.log(err));;
+
   }
   //connection status check and services discovery
   onConnected(peripheralData, address) {
@@ -307,7 +346,7 @@ export class HomePage {
       this.currentConnected = connectedData;
       console.log(`this is success --> ${JSON.stringify(connectedData)}`)
       console.log(this.currentConnected.name);
-      this.selectedLhl = this.currentConnected.address;
+      this.ngZone.run(()=>this.selectedLhl = this.currentConnected.address);
       this.storage.setItem('connectedTo', this.selectedLhl);
     }, err => {
       this.blueAndLoc = false;

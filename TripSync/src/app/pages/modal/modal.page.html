@@ -2,6 +2,8 @@
   <div class="container">
     <ion-icon class="close" mode="ios" name="close-circle-outline" (click)="modalController.dismiss()" slot="end">
     </ion-icon>
+    <ion-label style="right: 20px;top: 24px;position: absolute; color: #f6511d;">* - mandatory!</ion-label>
+
     <h4>Choose the desired speed</h4>
     <ion-item class="range" lines="none">
       <ion-range class="speed-range" step="200" snaps="true" ticks="true" (ionChange)="valueLog()"
@@ -45,27 +47,42 @@
           style="border: 1px solid black; background-color: rgb(255, 0, 69);"></ion-col>
       </ion-row>
     </ion-grid>
-    <h4>Pick a pattern</h4>
-    <ion-item lines="full">
+
+    <ion-item lines="full" style="margin: 2vh 0 0 0;">
+      <ion-label >Pick a pattern</ion-label>
+
       <ion-select mode="ios" [interfaceOptions]="customAlertOptions" interface="alert" (ionChange)="selectOne()"
         okText="Select" cancelText="Dismiss" placeholder="Select Pattern" [(ngModel)]="selectedPattern">
         <ion-select-option *ngFor="let i of patterns" [value]="i.code">{{i.title}}</ion-select-option>
       </ion-select>
     </ion-item>
 
-    <ion-item>
-      <ion-label position="floating">Name your Scene</ion-label>
+    <ion-item lines="full">
+      <ion-label position="floating">Name your Scene*</ion-label>
       <ion-input [(ngModel)]="name"></ion-input>
     </ion-item>
+
+    <ion-item lines="full" style="margin: 2vh 0 0 0;">
+      <ion-label>Pick a mood*</ion-label>
+      <ion-select mode="ios" [interfaceOptions]="customAlertOptions" interface="alert" (ionChange)="selectMood()"
+        okText="Select" cancelText="Dismiss" placeholder="Select Mood" [(ngModel)]="selectedMood">
+        <ion-select-option value="url(../../../assets/sunrise.png)">Morning</ion-select-option>
+        <ion-select-option  value="url(../../../assets/afternoon.jpg)">Afternoon</ion-select-option>
+        <ion-select-option  value="url(../../../assets/sunset.jpg)">Evening</ion-select-option>
+      </ion-select>    
+    </ion-item>
+    <ion-item style="margin: 2vh 0 0 0;">
+      <ion-label>Pick a time*</ion-label>
+      <ion-datetime [(ngModel)]="time" (ionChange)="timePick()" mode="ios" displayFormat="h:mm a"></ion-datetime>
+    </ion-item>
     <div style="text-align: center;">
-      <ion-button [disabled]="!name" class="btn" mode="ios" fill="outline" (click)="presetSet()">Add this Scene
+      <ion-button [disabled]="!name || !selectedMood || !time" class="btn" mode="ios" fill="outline" (click)="presetSet()">Add this Scene
       </ion-button>
     </div>
 
   </div>
-  <div style="text-align: center;">
-
+  <!-- <div style="text-align: center;">
     <ion-button mode="ios" fill="outline" (click)="psycho()">Go crazy</ion-button>
     <ion-button mode="ios" fill="outline" (click)="stop()">Stop</ion-button>
-  </div>
+  </div> -->
 </ion-content>

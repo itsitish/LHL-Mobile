@@ -13,3 +13,9 @@
 .btn {
     margin-top: 20px;
 }
+ion-label {
+    font-weight:500;
+}
+ion-item::part(native) {
+    padding: 0 !important;
+}

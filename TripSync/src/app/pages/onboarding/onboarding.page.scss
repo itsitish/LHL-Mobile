@@ -1,0 +1,26 @@
+ion-slides {
+    height: 100%;
+}
+.slidesImg {
+    position: absolute;
+    top: 10vh;
+    max-width: 80vw;
+}
+.slidesImg1 {
+    position: absolute;
+    top: 20vh;
+}
+ion-row {
+    position: absolute;
+    bottom: 13vh;
+}
+.title {
+    font-weight: bold;
+}
+.subtitle {
+    font-size: 15px;
+}
+.skip {
+max-height: 20px;
+margin: -8px;
+}

@@ -1,5 +1,5 @@
 import { Component, NgZone, OnInit } from '@angular/core';
-import { ModalController, ToastController } from '@ionic/angular';
+import { ModalController, Platform, ToastController } from '@ionic/angular';
 import { ModalPage } from '../modal/modal.page';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { BluetoothLE } from '@ionic-native/bluetooth-le/ngx';
@@ -11,8 +11,17 @@ import { BluetoothLE } from '@ionic-native/bluetooth-le/ngx';
 })
 export class ScenesPage implements OnInit {
   scenes = [];
-  constructor(public toastController: ToastController,
-    private blte: BluetoothLE, private ngZone: NgZone, private storage: NativeStorage, public modalController: ModalController) { }
+  constructor(
+    public toastController: ToastController,
+    private blte: BluetoothLE,
+    private ngZone: NgZone,
+    private storage: NativeStorage,
+    public modalController: ModalController,
+    private platform: Platform) {
+    // console.log(new Date(new Date().getTime()));
+    // this.schedule() 
+
+  }
 
   async createScene() {
     const modal = await this.modalController.create({
@@ -22,6 +31,7 @@ export class ScenesPage implements OnInit {
     modal.onDidDismiss()
       .then(() => {
         this.storage.getItem('storedScenes').then(d => {
+
           this.ngZone.run(() => {
             this.scenes = d;
           })
@@ -29,10 +39,10 @@ export class ScenesPage implements OnInit {
       });
 
     return await modal.present();
-  } 
+  }
+
   delete(j) {
-//     console.log(j)
-    this.ngZone.run(()=> {
+    this.ngZone.run(() => {
       if (j > -1) {
         this.scenes.splice(j, 1);
         this.storage.setItem('storedScenes', this.scenes);
@@ -40,7 +50,7 @@ export class ScenesPage implements OnInit {
     })
   }
   clear() {
-    this.ngZone.run(()=>{
+    this.ngZone.run(() => {
       this.scenes = [];
     })
     this.storage.remove('storedScenes');
@@ -55,12 +65,12 @@ export class ScenesPage implements OnInit {
 
   playScene(i) {
     this.hitValue(i.pat).then(() => {
-      this.hitValue(i.color).then(()=>{
-        this.hitValue(i.speed).then(()=> {
+      this.hitValue(i.color).then(() => {
+        this.hitValue(i.speed).then(() => {
           this.hitValue(i.bright);
         })
       })
-    }, err=> console.log(err));
+    }, err => console.log(err));
 
   }
   hitValue(value) {

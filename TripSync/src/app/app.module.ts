@@ -13,18 +13,18 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from '../environments/environment';
 import { ModalPage } from './pages/modal/modal.page';
 import { ModalPageModule } from './pages/modal/modal.module';
-// import {StoreModule} from '@ngrx/store';
-// import {simpleReducer} from './simple.reducer';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [ModalPage],
   imports: [AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
-    BrowserModule, IonicModule.forRoot(), AppRoutingModule, ModalPageModule
-  // ,StoreModule.forRoot({message: simpleReducer})
-],
-  providers: [
+    BrowserModule, IonicModule.forRoot(), AppRoutingModule, ModalPageModule,
+
+  ],
+  providers: [LocalNotifications,
     NativeStorage,
     StatusBar,
     SplashScreen,
