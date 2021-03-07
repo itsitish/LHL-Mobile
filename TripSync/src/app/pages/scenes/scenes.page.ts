@@ -1,8 +1,9 @@
 import { Component, NgZone, OnInit } from '@angular/core';
-import { ModalController, Platform, ToastController } from '@ionic/angular';
+import { ModalController, ToastController } from '@ionic/angular';
 import { ModalPage } from '../modal/modal.page';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { BluetoothLE } from '@ionic-native/bluetooth-le/ngx';
+import { DBMeter } from '@ionic-native/db-meter/ngx';
 
 @Component({
   selector: 'app-scenes',
@@ -11,15 +12,32 @@ import { BluetoothLE } from '@ionic-native/bluetooth-le/ngx';
 })
 export class ScenesPage implements OnInit {
   scenes = [];
+  subscription: any;
   constructor(
     public toastController: ToastController,
     private blte: BluetoothLE,
     private ngZone: NgZone,
     private storage: NativeStorage,
-    public modalController: ModalController,
-    private platform: Platform) {
-    // console.log(new Date(new Date().getTime()));
-    // this.schedule() 
+    public modalController: ModalController,private dbMeter: DBMeter) {
+
+
+      }
+  onAudioInput(evt) {
+    this.subscription = this.dbMeter.start().subscribe(
+      data => console.log(data)
+    );
+  }
+  islisten() {
+        // Check if we are listening
+        this.dbMeter.isListening().then(
+          isListening => console.log(isListening)
+        );
+    
+  }
+  stop () {
+        
+    // Stop listening
+    this.subscription.unsubscribe();
 
   }
 

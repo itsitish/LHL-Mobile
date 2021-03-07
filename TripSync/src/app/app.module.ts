@@ -14,6 +14,7 @@ import { environment } from '../environments/environment';
 import { ModalPage } from './pages/modal/modal.page';
 import { ModalPageModule } from './pages/modal/modal.module';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+import { DBMeter } from '@ionic-native/db-meter/ngx';
 
 
 @NgModule({
@@ -24,7 +25,7 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
     BrowserModule, IonicModule.forRoot(), AppRoutingModule, ModalPageModule,
 
   ],
-  providers: [LocalNotifications,
+  providers: [DBMeter,LocalNotifications,
     NativeStorage,
     StatusBar,
     SplashScreen,
