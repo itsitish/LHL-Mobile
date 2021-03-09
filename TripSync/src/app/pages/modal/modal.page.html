@@ -82,6 +82,14 @@
 
   </div>
   <!-- <div style="text-align: center;">
+    <h4>Choose the desired speed</h4>
+    <ion-item class="range" lines="none">
+      <ion-range class="speed-range" step="1" (ionChange)="crazyValueLog()"
+        [(ngModel)]="crazyVal" mode="ios" min="1" max="100">
+        <ion-icon class="sun" size="small" slot="start" name="speedometer-outline"></ion-icon>
+        <ion-icon class="sun end-speed" slot="end" size="small" name="speedometer-sharp"></ion-icon>
+      </ion-range>
+    </ion-item>
     <ion-button mode="ios" fill="outline" (click)="psycho()">Go crazy</ion-button>
     <ion-button mode="ios" fill="outline" (click)="stop()">Stop</ion-button>
   </div> -->

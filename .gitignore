@@ -5,10 +5,22 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
-
+TripSync/node_modules
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
-
+.DS_Store
+Segment-Trip/.DS_Store
+Segment-Trip/src/.DS_Store
+Segment-Trip/src/app/.DS_Store
+Segment-Trip/src/assets/.DS_Store
+TripSync/.DS_Store
+TripSync/platforms/
+TripSync/plugins/
+TripSync/resources/.DS_Store
+TripSync/resources/ios/.DS_Store
+TripSync/src/app/pages/.DS_Store
+TripSync/src/theme/.DS_Store
+TripSync/www/
 # Runtime data
 pids
 *.pid

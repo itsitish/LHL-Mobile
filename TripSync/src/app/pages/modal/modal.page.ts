@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { ModalController, ToastController } from '@ionic/angular';
 import { Pattern } from '../../shared/pattern';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
@@ -17,6 +17,7 @@ export class ModalPage implements OnInit {
     subHeader: 'Choose one',
     translucent: true
   };
+  crazyVal: number=10 ;
   time: any
   selectedMood: any;
   name: string = '';
@@ -26,7 +27,7 @@ export class ModalPage implements OnInit {
   speedValue: any = 3000;
   brightValue: any = 255;
   interval: any;
-  constructor(private localNotifications: LocalNotifications, private storage: NativeStorage, private blte: BluetoothLE,
+  constructor(private ngZone:NgZone, private localNotifications: LocalNotifications, private storage: NativeStorage, private blte: BluetoothLE,
 
     public toastController: ToastController,
     public modalController: ModalController) {
@@ -61,6 +62,7 @@ export class ModalPage implements OnInit {
     // console.log(this.speedValue);
     this.hitValue(`S/${Math.abs(3000 - this.speedValue + 2)}`);
   }
+
   timePick() {
     // console.log(this.time)
   }
@@ -109,6 +111,11 @@ export class ModalPage implements OnInit {
       })
     }, err => console.log(err))
 
+  } 
+  crazyValueLog() {
+    this.ngZone.run(()=> {
+      this.crazyVal = this.crazyVal
+    })
   }
   async presentToast(message) {
     const toast = await this.toastController.create({
@@ -121,9 +128,10 @@ export class ModalPage implements OnInit {
     toast.present();
   }
   psycho() {
-    this.interval = setInterval(() => {
-      this.hitValue(`C/${Math.floor(Math.random() * 256)}/${Math.floor(Math.random() * 256)}/${Math.floor(Math.random() * 256)}/0`)
-    }, 100)
+      this.interval = setInterval(() => {
+        this.hitValue(`C/${Math.floor(Math.random() * 256)}/${Math.floor(Math.random() * 256)}/${Math.floor(Math.random() * 256)}/0`)
+      }, 1000/this.crazyVal);
+
   }
   stop() { clearInterval(this.interval) }
 
