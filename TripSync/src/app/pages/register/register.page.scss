@@ -13,6 +13,14 @@
     position: relative !important;
     margin: 0 auto !important;
  }
+ ion-toolbar {
+    color: white;
+    --background: white;
+    --border-width: 0 !important;
+}
 .hero {
     margin: 5vh 0 0 0;
  }
+ ion-content {
+    --background: #EEF5FE;
+}

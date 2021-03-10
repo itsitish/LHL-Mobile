@@ -12,6 +12,7 @@
 </ion-header>
 
 <ion-content>
+  <h4 style="margin: 18px;">Scenes let you add a series of actions which can be toggled in a single tap</h4>
   <ion-item lines="full" (click)="createScene()">
     <ion-label>
       Create a scene
@@ -41,7 +42,22 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <ion-button (click)="onAudioInput()">onAudioInput</ion-button>
-  <ion-button (click)="islisten()">islisten</ion-button>
-  <ion-button (click)="stop()">stop</ion-button>
+
+  <div style="text-align: center;">
+    <h1>
+      Experimental Stuff
+    </h1>
+    <ion-button mode="ios" (click)="onAudioInput()">onAudioInput</ion-button>
+    <ion-button mode="ios" (click)="stop()">stop</ion-button>
+    <h4>Choose the desired speed</h4>
+    <ion-item class="range" lines="none">
+      <ion-range class="speed-range" step="1" (ionChange)="crazyValueLog()"
+        [(ngModel)]="crazyVal" mode="ios" min="1" max="100">
+        <ion-icon class="sun" size="small" slot="start" name="speedometer-outline"></ion-icon>
+        <ion-icon class="sun end-speed" slot="end" size="small" name="speedometer-sharp"></ion-icon>
+      </ion-range>
+    </ion-item>
+    <ion-button mode="ios" fill="outline" (click)="psycho()">Go crazy</ion-button>
+    <ion-button mode="ios" fill="outline" (click)="stopInterval()">Stop</ion-button>
+  </div>
 </ion-content>

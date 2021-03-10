@@ -19,7 +19,7 @@
         <ion-label>Connect</ion-label>
       </ion-chip>
       <ion-badge *ngIf="!blueAndLoc" mode="ios" slot="end" color="danger">!</ion-badge>
-      <ion-badge *ngIf="blueAndLoc" mode="ios" slot="end" color="success">:)</ion-badge>
+      <ion-badge *ngIf="currentConnected?.status=='discovered'" mode="ios" slot="end" color="success">:)</ion-badge>
     </ion-item>
     <ion-select  *ngIf = "foundDevices.length>1" (ionChange)="selectOne()" [(ngModel)]="selectedLhl" slot="start" mode="ios" [interfaceOptions]="customPopoverOptions" 
     interface="popover" placeholder="Select device">

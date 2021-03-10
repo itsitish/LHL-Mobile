@@ -1,9 +1,10 @@
-import { Component, NgZone, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ModalController, ToastController } from '@ionic/angular';
 import { Pattern } from '../../shared/pattern';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { BluetoothLE } from '@ionic-native/bluetooth-le/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-modal',
@@ -17,17 +18,14 @@ export class ModalPage implements OnInit {
     subHeader: 'Choose one',
     translucent: true
   };
-  crazyVal: number=10 ;
   time: any
   selectedMood: any;
-  name: string = '';
   pickedColor: any = 'C/255/255/255/0';
   patterns = Pattern.Pattern;
   selectedPattern: any = 'M/0';
   speedValue: any = 3000;
   brightValue: any = 255;
-  interval: any;
-  constructor(private ngZone:NgZone, private localNotifications: LocalNotifications, private storage: NativeStorage, private blte: BluetoothLE,
+  constructor(private router: Router,private localNotifications: LocalNotifications, private storage: NativeStorage, private blte: BluetoothLE,
 
     public toastController: ToastController,
     public modalController: ModalController) {
@@ -41,7 +39,8 @@ export class ModalPage implements OnInit {
     })
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+   }
   pickColor(e) {
     // console.log(e);
     this.pickedColor = e;
@@ -68,7 +67,7 @@ export class ModalPage implements OnInit {
   }
   presetSet() {
     let code;
-    code = { 'pat': this.selectedPattern, 'color': this.pickedColor, 'bright': 'B/' + this.brightValue, 'speed': 'S/' + this.speedValue, 'name': this.name, 'mood': this.selectedMood, 'hour': parseInt(this.time.slice(11, 13)) , 'min': parseInt(this.time.slice(14, 16)) };
+    code = { 'pat': this.selectedPattern, 'color': this.pickedColor, 'bright': 'B/' + this.brightValue, 'speed': 'S/' + this.speedValue, 'name': this.router.getCurrentNavigation().extras.state.sceneName, 'mood': this.selectedMood, 'hour': parseInt(this.time.slice(11, 13)) , 'min': parseInt(this.time.slice(14, 16)) };
     // console.log(code);
     this.storage.getItem('storedScenes').then(d => {
       console.log(d);
@@ -112,11 +111,7 @@ export class ModalPage implements OnInit {
     }, err => console.log(err))
 
   } 
-  crazyValueLog() {
-    this.ngZone.run(()=> {
-      this.crazyVal = this.crazyVal
-    })
-  }
+
   async presentToast(message) {
     const toast = await this.toastController.create({
       message: message,
@@ -127,12 +122,5 @@ export class ModalPage implements OnInit {
     });
     toast.present();
   }
-  psycho() {
-      this.interval = setInterval(() => {
-        this.hitValue(`C/${Math.floor(Math.random() * 256)}/${Math.floor(Math.random() * 256)}/${Math.floor(Math.random() * 256)}/0`)
-      }, 1000/this.crazyVal);
-
-  }
-  stop() { clearInterval(this.interval) }
 
 }

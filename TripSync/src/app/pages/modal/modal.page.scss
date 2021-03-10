@@ -16,6 +16,12 @@
 ion-label {
     font-weight:500;
 }
+ion-item {
+    --background: transparent;
+}
 ion-item::part(native) {
     padding: 0 !important;
+}
+ion-content {
+    --background: #EEF5FE;
 }

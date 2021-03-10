@@ -43,6 +43,14 @@ const routes: Routes = [
     path: 'onboarding',
     loadChildren: () => import('./pages/onboarding/onboarding.module').then( m => m.OnboardingPageModule)
   },
+  {
+    path: 'landing',
+    loadChildren: () => import('./pages/landing/landing.module').then( m => m.LandingPageModule)
+  },
+  {
+    path: 'scene-add',
+    loadChildren: () => import('./pages/scene-add/scene-add.module').then( m => m.SceneAddPageModule)
+  },
 ];
 
 @NgModule({

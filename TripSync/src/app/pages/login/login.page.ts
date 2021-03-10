@@ -28,24 +28,24 @@ export class LoginPage implements OnInit {
     private formBuilder: FormBuilder
 
   ) {
-    this.presentLoading('Please wait..').then(() => {
-      this.storage.getItem('firstTimeLogin').then(d => {
-        if (d === 'done') {
-          this.loader.dismiss();
-          this.autoLogin();
-        } else {
-          this.loader.dismiss();
+    // this.presentLoading('Please wait..').then(() => {
+    //   this.storage.getItem('firstTimeLogin').then(d => {
+    //     if (d === 'done') {
+    //       this.loader.dismiss();
+    //       this.autoLogin();
+    //     } else {
+    //       this.loader.dismiss();
 
-          this.navCtrl.navigateRoot('/onboarding');
-        }
-      }, err => {
-        this.loader.dismiss();
+    //       this.navCtrl.navigateRoot('/onboarding');
+    //     }
+    //   }, err => {
+    //     this.loader.dismiss();
 
-        this.navCtrl.navigateRoot('/onboarding');
+    //     this.navCtrl.navigateRoot('/onboarding');
 
-      })
+    //   })
 
-    })
+    // })
   }
   autoLogin() {
     this.presentLoading('Trying to login..').then(() => {

@@ -4,9 +4,17 @@
     margin: 16px 0;
     color: #171519;
 }
+ion-content {
+    --background: #EEF5FE;
+}
 .submit-btn {
     color: #171519;
     --border-color: #5e00a5;
+}
+ion-toolbar {
+    color: white;
+    --background: white;
+    --border-width: 0 !important;
 }
 .passwordIcon{
     font-size:25px !important;

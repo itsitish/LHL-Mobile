@@ -1,7 +1,6 @@
 <ion-content>
   <div class="container">
-    <ion-icon class="close" mode="ios" name="close-circle-outline" (click)="modalController.dismiss()" slot="end">
-    </ion-icon>
+
     <ion-label style="right: 20px;top: 24px;position: absolute; color: #f6511d;">* - mandatory!</ion-label>
 
     <h4>Choose the desired speed</h4>
@@ -24,7 +23,13 @@
       <h4>Pick a color</h4>
       <ion-row class="color-row">
         <ion-col (click)="pickColor('C/255/0/0/0')" class="color-col" size="3"
-          style="border: 1px solid black; background-color: rgb(255, 0, 0);"></ion-col>
+          >
+          <ion-card mode="ios">
+            <ion-card-content class="ion-no-padding" >
+              <ion-item style="--background-: rgb(255, 0, 0);" lines="none">Actions<ion-icon slot="end" style="color: thistle;" mode="ios" name="game-controller-outline"></ion-icon></ion-item>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
         <ion-col (click)="pickColor('C/105/255/0/0')" class="color-col" size="3"
           style="border: 1px solid black; background-color: rgb(105, 255, 0);">
         </ion-col>
@@ -57,11 +62,6 @@
       </ion-select>
     </ion-item>
 
-    <ion-item lines="full">
-      <ion-label position="floating">Name your Scene*</ion-label>
-      <ion-input [(ngModel)]="name"></ion-input>
-    </ion-item>
-
     <ion-item lines="full" style="margin: 2vh 0 0 0;">
       <ion-label>Pick a mood*</ion-label>
       <ion-select mode="ios" [interfaceOptions]="customAlertOptions" interface="alert" (ionChange)="selectMood()"
@@ -81,16 +81,5 @@
     </div>
 
   </div>
-  <!-- <div style="text-align: center;">
-    <h4>Choose the desired speed</h4>
-    <ion-item class="range" lines="none">
-      <ion-range class="speed-range" step="1" (ionChange)="crazyValueLog()"
-        [(ngModel)]="crazyVal" mode="ios" min="1" max="100">
-        <ion-icon class="sun" size="small" slot="start" name="speedometer-outline"></ion-icon>
-        <ion-icon class="sun end-speed" slot="end" size="small" name="speedometer-sharp"></ion-icon>
-      </ion-range>
-    </ion-item>
-    <ion-button mode="ios" fill="outline" (click)="psycho()">Go crazy</ion-button>
-    <ion-button mode="ios" fill="outline" (click)="stop()">Stop</ion-button>
-  </div> -->
+
 </ion-content>

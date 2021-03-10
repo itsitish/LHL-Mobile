@@ -1,0 +1,77 @@
+<ion-menu side="start" menuId="first" contentId="main">
+  <ion-content class="slide-bar">
+    <ion-item lines="full" style="height: 43px;">
+      <div style="display:inline-block; color: black;">
+        <div style="margin: 12px; font-weight: bold;">TripSync</div>
+      </div>
+      <ion-icon (click)="goToProfile()" style="margin:0" mode="ios" size="large" slot="end" name="person-circle-outline"></ion-icon>
+    </ion-item>
+    <ion-row style="margin-top: 5vh">
+      <ion-col (click)="goToHome()"  style="margin-bottom: 18px;" mode="ios" size="large" class="menu-item" size="6">
+        <ion-icon name="home-outline"></ion-icon>
+        <p style="margin: 5px">Home</p>
+      </ion-col>
+      <ion-col (click)="goToAddDevice()"  style="margin-bottom: 18px;" mode="ios" size="large" class="menu-item" size="6">
+        <ion-icon name="construct-outline"></ion-icon>
+        <p style="margin: 5px">Add Device</p>
+      </ion-col>
+      <ion-col (click)="goToScenes()" style="margin-bottom: 18px;" mode="ios" size="large" class="menu-item" size="6">
+        <ion-icon name="color-wand-outline"></ion-icon>
+        <p style="margin: 5px">Scenes</p>
+      </ion-col>
+    </ion-row>
+    <ion-list style="position: fixed; bottom: 0; width: 100vw;">
+      <ion-item lines="none">
+        <ion-label>Contact Us</ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>FAQ</ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>About Us</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+<ion-router-outlet id="main"></ion-router-outlet>
+<ion-header mode="ios">
+  <ion-toolbar style="background: #EEF5FE;" mode="ios">
+    <ion-title>
+      <div style="display:inline-block;vertical-align:top;">
+        <img style=" width: 40px;" src="assets/logo.png" alt="logo" />
+      </div>
+      <div style="display:inline-block; color: black;">
+        <div style="margin: 12px;">TripSync</div>
+      </div>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <h5 class="text-left">
+    Greetings!
+  </h5>
+
+  <ion-icon (click)="openFirst()" style="margin: 32px 14px;" size="large" mode="ios" name="reorder-three-outline">
+  </ion-icon>
+  <ion-row style="margin-top: 10vh;">
+    <ion-col class="ion-no-padding" size="12">
+      <h4 class="text-left">
+        Previously Connected Devices:
+      </h4>
+    </ion-col>
+    <ion-col class="ion-no-padding" size="6">
+      <ion-card style="height: 15vh;text-align: center;" mode="ios" (click)="playScene(i)">
+        <ion-card-header style="height: 100px;" class="ion-no-padding">
+          <ion-card-subtitle>
+            Device
+          </ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content class="ion-no-padding">
+          <p style="margin:0;border-radius: 20px; color:black ; font-size: 20px; font-weight: bold;">LHL</p>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+
+  </ion-row>
+
+</ion-content>

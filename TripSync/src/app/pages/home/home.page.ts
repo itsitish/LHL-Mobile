@@ -159,25 +159,28 @@ export class HomePage {
   }
   //auto scan and connect
   scanBlte() {
-    this.blte.initialize().subscribe(bluetoothStatus => {
-      if (this.platform.is('android')) {
-        this.isLocationEnabled().then(() => {
-          console.log(JSON.stringify(bluetoothStatus));
-          this.blueAndLoc = bluetoothStatus.status === "enabled" && this.locationEnabled;
-          if (this.blueAndLoc) {
+    this.presentLoading('Trying to connect..').then(()=> {
+      this.foundDevices = [];
+      this.blte.initialize().subscribe(bluetoothStatus => {
+        if (this.platform.is('android')) {
+          this.isLocationEnabled().then(() => {
+            console.log(JSON.stringify(bluetoothStatus));
+            this.blueAndLoc = bluetoothStatus.status === "enabled" && this.locationEnabled;
+            if (this.blueAndLoc) {
+              this.scanCommmon(bluetoothStatus);
+            } else {
+              this.presentToast('Bluetooth disabled');
+            }
+          }, err => { console.log("location enabled " + err) });
+        } else {
+          if (bluetoothStatus.status === 'enabled') {
             this.scanCommmon(bluetoothStatus);
           } else {
             this.presentToast('Bluetooth disabled');
           }
-        }, err => { console.log("location enabled " + err) });
-      } else {
-        if (bluetoothStatus.status === 'enabled') {
-          this.scanCommmon(bluetoothStatus);
-        } else {
-          this.presentToast('Bluetooth disabled');
         }
-      }
-
+  
+      })
     })
   }
   //location permission check
@@ -287,7 +290,6 @@ export class HomePage {
 
   async presentAlert(message, subMessage) {
     const alert = await this.alertController.create({
-      cssClass: 'my-custom-class',
       mode: 'ios',
       header: message,
       subHeader: subMessage,
@@ -297,14 +299,10 @@ export class HomePage {
 
     await alert.present();
   }
-  //reconnect on error 'already connected'
-  disconAndCon(add, err) {
 
-  }
   onError(add, err) {
     if (err.error = "isNotDisconnected") {
-      this.blte.reconnect({ "address": add }).subscribe(reconnectData => this.onConnected(reconnectData, add), err => console.log(err));;
-
+        this.blte.reconnect({ "address": add }).subscribe(reconnectData => this.onConnected(reconnectData, add), err => console.log(err));;
     } else {
       this.blte.disconnect({ "address": add }).then(() => {
         setTimeout(() => {
@@ -344,6 +342,7 @@ export class HomePage {
       "address": address, "clearCache": true
     }).then(connectedData => {
       this.currentConnected = connectedData;
+      this.loader.dismiss();
       console.log(`this is success --> ${JSON.stringify(connectedData)}`)
       console.log(this.currentConnected.name);
       this.ngZone.run(()=>this.selectedLhl = this.currentConnected.address);

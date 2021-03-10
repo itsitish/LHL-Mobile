@@ -1,6 +1,9 @@
 ion-slides {
     height: 100%;
 }
+ion-content {
+    --background: #EEF5FE;
+}
 .slidesImg {
     position: absolute;
     top: 10vh;
