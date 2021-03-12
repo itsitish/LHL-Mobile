@@ -25,6 +25,7 @@ export class ModalPage implements OnInit {
   selectedPattern: any = 'M/0';
   speedValue: any = 3000;
   brightValue: any = 255;
+  name = this.router.getCurrentNavigation().extras.state.sceneName;
   constructor(private router: Router,private localNotifications: LocalNotifications, private storage: NativeStorage, private blte: BluetoothLE,
 
     public toastController: ToastController,
@@ -67,20 +68,20 @@ export class ModalPage implements OnInit {
   }
   presetSet() {
     let code;
-    code = { 'pat': this.selectedPattern, 'color': this.pickedColor, 'bright': 'B/' + this.brightValue, 'speed': 'S/' + this.speedValue, 'name': this.router.getCurrentNavigation().extras.state.sceneName, 'mood': this.selectedMood, 'hour': parseInt(this.time.slice(11, 13)) , 'min': parseInt(this.time.slice(14, 16)) };
-    // console.log(code);
+    code = { 'pat': this.selectedPattern, 'color': this.pickedColor, 'bright': 'B/' + this.brightValue, 'speed': 'S/' + this.speedValue, 'name': this.name, 'mood': this.selectedMood, 'hour': parseInt(this.time.slice(11, 13)) , 'min': parseInt(this.time.slice(14, 16)) };
+    console.log(code);
     this.storage.getItem('storedScenes').then(d => {
       console.log(d);
       d.push(code);
       this.storage.setItem('storedScenes', d);
       this.schedule(code.hour, code.min,d.length + 1);
-      this.modalController.dismiss();
+      this.router.navigate(['/scenes']);
     }, err => {
       let b = [];
       b.push(code);
       this.schedule(code.hour,code.min, 1);
       this.storage.setItem('storedScenes', b);
-      this.modalController.dismiss();
+      this.router.navigate(['/scenes']);
       console.log(b)
     })
   }

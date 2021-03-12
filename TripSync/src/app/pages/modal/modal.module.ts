@@ -7,10 +7,13 @@ import { IonicModule } from '@ionic/angular';
 import { ModalPageRoutingModule } from './modal-routing.module';
 
 import { ModalPage } from './modal.page';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
+    SharedModule,
+
     FormsModule,
     IonicModule,
     ModalPageRoutingModule

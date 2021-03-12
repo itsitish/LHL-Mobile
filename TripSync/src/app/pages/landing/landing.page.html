@@ -11,10 +11,6 @@
         <ion-icon name="home-outline"></ion-icon>
         <p style="margin: 5px">Home</p>
       </ion-col>
-      <ion-col (click)="goToAddDevice()"  style="margin-bottom: 18px;" mode="ios" size="large" class="menu-item" size="6">
-        <ion-icon name="construct-outline"></ion-icon>
-        <p style="margin: 5px">Add Device</p>
-      </ion-col>
       <ion-col (click)="goToScenes()" style="margin-bottom: 18px;" mode="ios" size="large" class="menu-item" size="6">
         <ion-icon name="color-wand-outline"></ion-icon>
         <p style="margin: 5px">Scenes</p>
@@ -34,44 +30,65 @@
   </ion-content>
 </ion-menu>
 <ion-router-outlet id="main"></ion-router-outlet>
-<ion-header mode="ios">
-  <ion-toolbar style="background: #EEF5FE;" mode="ios">
-    <ion-title>
-      <div style="display:inline-block;vertical-align:top;">
-        <img style=" width: 40px;" src="assets/logo.png" alt="logo" />
-      </div>
-      <div style="display:inline-block; color: black;">
-        <div style="margin: 12px;">TripSync</div>
-      </div>
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+  <app-header></app-header>
 <ion-content>
   <h5 class="text-left">
     Greetings!
   </h5>
+  <ion-icon slot="start" (click)="openFirst()" style="margin: 32px 14px;" size="large" mode="ios" name="reorder-three-outline">  </ion-icon>
 
   <ion-icon (click)="openFirst()" style="margin: 32px 14px;" size="large" mode="ios" name="reorder-three-outline">
   </ion-icon>
-  <ion-row style="margin-top: 10vh;">
-    <ion-col class="ion-no-padding" size="12">
-      <h4 class="text-left">
-        Previously Connected Devices:
-      </h4>
-    </ion-col>
-    <ion-col class="ion-no-padding" size="6">
-      <ion-card style="height: 15vh;text-align: center;" mode="ios" (click)="playScene(i)">
-        <ion-card-header style="height: 100px;" class="ion-no-padding">
+  <ion-row style="">
+
+
+    <h4  class="text-left">
+      New devices available to connect:
+    </h4>
+    <div *ngIf="newDevices.length ===0">
+
+      <ion-card style="width: 100%;" mode="ios">
+        <p style="color: thistle;margin-left:18px" >Oops! Looks like there's no device to connect</p>\
+      </ion-card>
+    </div>
+    <ion-col *ngFor="let i of newDevices; index as x" class="ion-no-padding" size="6">
+      <ion-card  style="--background: #FFF6FD;height: 64px;text-align: center;" mode="ios" (click)="addDevice(x)">
+        <ion-card-header  class="ion-no-padding">
           <ion-card-subtitle>
-            Device
+
           </ion-card-subtitle>
         </ion-card-header>
         <ion-card-content class="ion-no-padding">
-          <p style="margin:0;border-radius: 20px; color:black ; font-size: 20px; font-weight: bold;">LHL</p>
+          <ion-icon style="color:rgba(0, 0, 0, 0.7); font-size: 20px;" name="construct-outline"></ion-icon>
+          <p style=" color: rgba(0, 0, 0, 0.7);margin:0;border-radius: 20px;font-size: 18px; font-weight: bold;"> 
+            {{i.name}}
+            </p>
         </ion-card-content>
       </ion-card>
     </ion-col>
 
+  </ion-row>
+  <ion-row style="margin-top: 5vh;">
+    <h4 class="text-left">
+      Previously Connected Devices:
+    </h4>
+    <ion-card *ngIf="previousConnected.length ===0" style="width: 100%;" mode="ios">
+      <p style="color: thistle;margin-left:18px" >Oops! Looks like there's no connected device</p>\
+    </ion-card>
+    <ion-col *ngFor="let j of previousConnected; index as y"  class="ion-no-padding" size="6">
+      
+      <ion-card style="--background: #FFF6FD;height: 80px;text-align: center;" mode="ios">
+        <ion-card-header  class="ion-no-padding">
+          <ion-card-subtitle>
+
+          </ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content class="ion-no-padding">
+          <ion-icon style="color:rgba(0, 0, 0, 0.7); font-size: 20px;" name="construct-outline"></ion-icon>
+          <ion-input  clearInput [value]="j.name"></ion-input>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
   </ion-row>
 
 </ion-content>

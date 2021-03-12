@@ -1,17 +1,9 @@
-<ion-header mode="ios">
-  <ion-toolbar mode="ios">
-    <ion-title>
-      <div style="display:inline-block;vertical-align:top;">
-        <img src="assets/logo.png" alt="logo" />
-      </div>
-      <div style="display:inline-block; color: black;">
-        <div style="margin: 12px;">TripSync</div>
-      </div>
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
 
 <ion-content>
+  <ion-back-button style="position: absolute; color: rgba(0, 0, 0, 0.7); margin: 6px;" mode="ios" defaultHref="/landing"></ion-back-button>
+
+  <app-header></app-header>
+
   <h4 style="margin: 18px;">Scenes let you add a series of actions which can be toggled in a single tap</h4>
   <ion-item lines="full" (click)="createScene()">
     <ion-label>
@@ -31,7 +23,7 @@
           <ion-card-header style.background = "{{i.mood}}" style="height: 100px;" class="ion-no-padding">
             <ion-card-subtitle>
               <ion-item lines="none">
-                <ion-icon slot="end" name="close-circle-outline" style="font-size: 20px;" mode="ios" (click)="delete(j)"></ion-icon>
+                <ion-icon slot="end" name="close-circle-outline" style="font-size: 20px;" mode="ios" (click)="presentAlertConfirm(j)"></ion-icon>
               </ion-item>
             </ion-card-subtitle>
           </ion-card-header>

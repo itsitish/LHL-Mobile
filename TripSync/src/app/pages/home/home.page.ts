@@ -94,8 +94,11 @@ export class HomePage {
               }).then(connectedData => {
                 this.currentConnected = connectedData;
                 console.log(`this is success --> ${JSON.stringify(connectedData)}`)
-                this.ngZone.run(()=>this.blueAndLoc = true)
+                this.ngZone.run(() => this.blueAndLoc = true)
               }, err => {
+                if (this.loader) {
+                  this.loader.dismiss();
+                }
                 this.blueAndLoc = false;
                 this.presentToast('Something went wrong');
                 console.log(`this is error --> ${JSON.stringify(err)}`)
@@ -112,7 +115,7 @@ export class HomePage {
             "address": connectData.address, "clearCache": true
           }).then(connectedData => {
             this.currentConnected = connectedData;
-            this.ngZone.run(()=>this.blueAndLoc = true)
+            this.ngZone.run(() => this.blueAndLoc = true)
             console.log(`this is success --> ${JSON.stringify(connectedData)}`)
           }, err => {
             this.blueAndLoc = false;
@@ -151,6 +154,9 @@ export class HomePage {
       if (this.foundDevices.length === 0) {
         this.presentToast('No devices found');
         this.blueAndLoc = false;
+        if (this.loader) {
+          this.loader.dismiss();
+        }
       } else if (this.connectedStatus != 'connected') {
         this.presentToast('Try again');
         this.blueAndLoc = false;
@@ -159,7 +165,7 @@ export class HomePage {
   }
   //auto scan and connect
   scanBlte() {
-    this.presentLoading('Trying to connect..').then(()=> {
+    this.presentLoading('Trying to connect..').then(() => {
       this.foundDevices = [];
       this.blte.initialize().subscribe(bluetoothStatus => {
         if (this.platform.is('android')) {
@@ -169,7 +175,9 @@ export class HomePage {
             if (this.blueAndLoc) {
               this.scanCommmon(bluetoothStatus);
             } else {
-              this.presentToast('Bluetooth disabled');
+              if (this.loader) {
+                this.loader.dismiss();
+              } this.presentToast('Bluetooth disabled');
             }
           }, err => { console.log("location enabled " + err) });
         } else {
@@ -177,9 +185,16 @@ export class HomePage {
             this.scanCommmon(bluetoothStatus);
           } else {
             this.presentToast('Bluetooth disabled');
+            if (this.loader) {
+              this.loader.dismiss();
+            }
           }
         }
-  
+
+      },err=>{
+        if(this.loader) {
+          this.loader.dismiss();
+        }
       })
     })
   }
@@ -302,7 +317,7 @@ export class HomePage {
 
   onError(add, err) {
     if (err.error = "isNotDisconnected") {
-        this.blte.reconnect({ "address": add }).subscribe(reconnectData => this.onConnected(reconnectData, add), err => console.log(err));;
+      this.blte.reconnect({ "address": add }).subscribe(reconnectData => this.onConnected(reconnectData, add), err => console.log(err));;
     } else {
       this.blte.disconnect({ "address": add }).then(() => {
         setTimeout(() => {
@@ -342,10 +357,12 @@ export class HomePage {
       "address": address, "clearCache": true
     }).then(connectedData => {
       this.currentConnected = connectedData;
-      this.loader.dismiss();
+      if (this.loader) {
+        this.loader.dismiss();
+      } 
       console.log(`this is success --> ${JSON.stringify(connectedData)}`)
       console.log(this.currentConnected.name);
-      this.ngZone.run(()=>this.selectedLhl = this.currentConnected.address);
+      this.ngZone.run(() => this.selectedLhl = this.currentConnected.address);
       this.storage.setItem('connectedTo', this.selectedLhl);
     }, err => {
       this.blueAndLoc = false;

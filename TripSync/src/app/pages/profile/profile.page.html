@@ -1,16 +1,7 @@
-<ion-header mode="ios">
-  <ion-toolbar mode="ios">
-    <ion-title>
-      <div style="display:inline-block;vertical-align:top;">
-        <img src="assets/logo.png" alt="logo" />
-      </div>
-      <div style="display:inline-block; color: black;">
-        <div style="margin: 12px;">TripSync</div>
-      </div>
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
 <ion-content style="text-align: center;">
+  <ion-back-button style="position: absolute; color: rgba(0, 0, 0, 0.7); margin: 6px;" mode="ios" defaultHref="/landing"></ion-back-button>
+
+  <app-header></app-header>
   <ion-grid>
     <ion-row>
       <ion-col>
@@ -24,6 +15,6 @@
     </ion-row>
   </ion-grid>
 </ion-content>
-<div style="text-align: center;">
+<div style="text-align: center; background-color: #EEF5FE;">
   <ion-button style="width: fit-content; " fill = "outline" mode="ios" (click)="logout()">Logout</ion-button>
 </div>

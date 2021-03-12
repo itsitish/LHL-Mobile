@@ -1,18 +1,5 @@
-<ion-header mode="ios">
-  <ion-toolbar mode="ios">
-    <ion-title>
-      <div style="display:inline-block;vertical-align:top;">
-        <img style="width: 40px;" src="assets/logo.png" alt="logo" />
-      </div>
-      <div style="display:inline-block; color: black;">
-        <div style="margin: 12px;">TripSync</div>
-      </div>
-    </ion-title>
-    <ion-button fill="clear" slot="end" (click)="skipToLast()" class="skip">Skip</ion-button>
+<app-header></app-header>
 
-  </ion-toolbar>
-
-</ion-header>
 <ion-content style="text-align: center;">
   <ion-slides (ionSlideReachEnd) ="skip=false" pager="true" [options]="slideOpts" style="text-align: center;">
     <ion-slide>

@@ -4,6 +4,7 @@ import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { BluetoothLE } from '@ionic-native/bluetooth-le/ngx';
 import { DBMeter } from '@ionic-native/db-meter/ngx';
 import { SceneAddPage } from '../scene-add/scene-add.page';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-scenes',
@@ -11,17 +12,77 @@ import { SceneAddPage } from '../scene-add/scene-add.page';
   styleUrls: ['./scenes.page.scss'],
 })
 export class ScenesPage implements OnInit {
-  scenes = [];
+  scenes = [
+    {
+        "pat": "M/0",
+        "color": "C/255/255/255/0",
+        "bright": "B/255",
+        "speed": "S/3000",
+        "name": "Itish",
+        "mood": "url(../../../assets/sunset.jpg)",
+        "hour": 0,
+        "min": 10
+    },{
+      "pat": "M/0",
+      "color": "C/255/255/255/0",
+      "bright": "B/255",
+      "speed": "S/3000",
+      "name": "Itish",
+      "mood": "url(../../../assets/afternoon.jpg)",
+      "hour": 0,
+      "min": 10
+  },{
+    "pat": "M/0",
+    "color": "C/255/255/255/0",
+    "bright": "B/255",
+    "speed": "S/3000",
+    "name": "Itish",
+    "mood": "url(../../../assets/sunrise.png)",
+    "hour": 0,
+    "min": 10
+}
+
+];
   interval: any;
   crazyVal: number=10 ;
 
   subscription: any;
-  constructor(
+  constructor(public alertController: AlertController,
     public toastController: ToastController,
     private blte: BluetoothLE,
     private ngZone: NgZone,
     private storage: NativeStorage,
     public modalController: ModalController, private dbMeter: DBMeter) {
+  }
+  async presentAlertConfirm(j) {
+    const alert = await this.alertController.create({
+      cssClass: 'delete-class',
+      header: 'Delete',
+      message: 'Are you <strong>sure</strong>?',
+      mode : 'ios',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            console.log('Confirm Cancel: blah');
+          }
+        }, {
+          text: 'Okay',
+          handler: () => {
+            this.ngZone.run(() => {
+              if (j > -1) {
+                this.scenes.splice(j, 1);
+                this.storage.setItem('storedScenes', this.scenes);
+              }
+            })
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
   crazyValueLog() {
     this.ngZone.run(()=> {
@@ -52,14 +113,6 @@ export class ScenesPage implements OnInit {
     return await modal.present();
   }
 
-  delete(j) {
-    this.ngZone.run(() => {
-      if (j > -1) {
-        this.scenes.splice(j, 1);
-        this.storage.setItem('storedScenes', this.scenes);
-      }
-    })
-  }
   psycho() {
     this.interval = setInterval(() => {
       this.hitValue(`C/${Math.floor(Math.random() * 256)}/${Math.floor(Math.random() * 256)}/${Math.floor(Math.random() * 256)}/0`)
