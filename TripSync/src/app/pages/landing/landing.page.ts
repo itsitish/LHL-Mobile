@@ -18,7 +18,9 @@ export class LandingPage implements OnInit {
 
   ];
   devices = [
-
+    {
+      name: 'LHL-122132133'
+    }
   ];
   connectedStatus: any;
   currentConnected: any;

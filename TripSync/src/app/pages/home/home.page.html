@@ -27,9 +27,7 @@
 
 
   <div [ngSwitch]="segment">
-    <div [hidden]="segment!='color'" class="color-picker">
-      <div style="margin: 70px 0;" class="wheel" id="colorWheelDemo"></div>
-    </div>
+      <div style="margin-top: 7vh" [hidden]="segment!='color'" class="wheel" id="colorWheelDemo"></div>
     <div *ngSwitchCase="'pattern'" >
       <ion-slides #slides (ionSlideWillChange)="patternHit()" mode="ios" pager="true" [options]="slideOpts">
         <ion-slide *ngFor="let card of patternArray; index as x">
