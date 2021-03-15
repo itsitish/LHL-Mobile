@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-  @Input() home: any;
+  @Input() isDark: any;
   constructor(private router: Router) { }
 
   ngOnInit() { }

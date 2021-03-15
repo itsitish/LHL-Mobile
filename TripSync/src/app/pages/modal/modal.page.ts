@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, ToastController } from '@ionic/angular';
+import { ModalController, NavController, ToastController } from '@ionic/angular';
 import { Pattern } from '../../shared/pattern';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { BluetoothLE } from '@ionic-native/bluetooth-le/ngx';
-import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { Router } from '@angular/router';
 
 @Component({
@@ -18,7 +17,6 @@ export class ModalPage implements OnInit {
     subHeader: 'Choose one',
     translucent: true
   };
-  time: any
   selectedMood: any;
   pickedColor: any = 'C/255/255/255/0';
   patterns = Pattern.Pattern;
@@ -26,60 +24,42 @@ export class ModalPage implements OnInit {
   speedValue: any = 3000;
   brightValue: any = 255;
   name = this.router.getCurrentNavigation().extras.state.sceneName;
-  constructor(private router: Router,private localNotifications: LocalNotifications, private storage: NativeStorage, private blte: BluetoothLE,
+  constructor(private nav: NavController,private router: Router, private storage: NativeStorage, private blte: BluetoothLE,
 
     public toastController: ToastController,
     public modalController: ModalController) {
-    this.localNotifications.hasPermission().then(d => {
-      console.log(d)
-    }, err => {
-      console.log(err)
-      this.localNotifications.requestPermission().then(e => console.log(e), er => {
-        console.log(er)
-      })
-    })
+
   }
 
   ngOnInit() {
-   }
+  }
   pickColor(e) {
     // console.log(e);
     this.pickedColor = e;
     this.hitValue(e);
   }
-  schedule(h, m, i) {
-    this.localNotifications.schedule({
-      id: i,
-      title:'Hey there!',
-      text: 'Its time for your new scene!',
-      trigger: { every: { hour: h, minute: m} },
-      foreground: true
-    });
-    console.log('scheduled');
-  }
 
+  public async close() {
+    this.nav.pop();
+  }
   valueLog() {
     // console.log(this.speedValue);
     this.hitValue(`S/${Math.abs(3000 - this.speedValue + 2)}`);
   }
 
-  timePick() {
-    // console.log(this.time)
-  }
+
   presetSet() {
     let code;
-    code = { 'pat': this.selectedPattern, 'color': this.pickedColor, 'bright': 'B/' + this.brightValue, 'speed': 'S/' + this.speedValue, 'name': this.name, 'mood': this.selectedMood, 'hour': parseInt(this.time.slice(11, 13)) , 'min': parseInt(this.time.slice(14, 16)) };
+    code = { 'pat': this.selectedPattern, 'color': this.pickedColor, 'bright': 'B/' + this.brightValue, 'speed': 'S/' + this.speedValue, 'name': this.name, 'mood': this.selectedMood };
     console.log(code);
     this.storage.getItem('storedScenes').then(d => {
       console.log(d);
       d.push(code);
       this.storage.setItem('storedScenes', d);
-      this.schedule(code.hour, code.min,d.length + 1);
       this.router.navigate(['/scenes']);
     }, err => {
       let b = [];
       b.push(code);
-      this.schedule(code.hour,code.min, 1);
       this.storage.setItem('storedScenes', b);
       this.router.navigate(['/scenes']);
       console.log(b)
@@ -111,7 +91,7 @@ export class ModalPage implements OnInit {
       })
     }, err => console.log(err))
 
-  } 
+  }
 
   async presentToast(message) {
     const toast = await this.toastController.create({

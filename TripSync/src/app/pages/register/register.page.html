@@ -33,8 +33,8 @@
       </ng-container>
     </div>
 
-    <ion-button mode="ios" fill="outline" class="submit-btn" type="submit" [disabled]="!validations_form.valid">Register</ion-button>
+    <ion-button mode="ios" style="--background: #FFF6FD" class="submit-btn" type="submit" [disabled]="!validations_form.valid">Register</ion-button>
 
   </form>
-  <p class="go-to-login">Already have an account? <a style="color:#5e00a5"  (click)="goLoginPage()">Log in!</a></p>
+  <p class="go-to-login">Already have an account?</p> <ion-button mode="ios" style="color:rgba(0, 0, 0, 0.7);; --background: #FFF6FD"  (click)="goLoginPage()">Log in!</ion-button>
 </ion-content>

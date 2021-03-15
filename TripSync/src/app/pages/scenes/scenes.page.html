@@ -1,6 +1,6 @@
 
 <ion-content>
-  <ion-back-button style="position: absolute; color: rgba(0, 0, 0, 0.7); margin: 6px;" mode="ios" defaultHref="/landing"></ion-back-button>
+  <ion-back-button (click)="close()" style="position: absolute; color: rgba(0, 0, 0, 0.7); margin:14px 6px;" mode="ios" defaultHref="/landing"></ion-back-button>
 
   <app-header></app-header>
 
@@ -27,8 +27,8 @@
               </ion-item>
             </ion-card-subtitle>
           </ion-card-header>
-          <ion-card-content class="ion-no-padding" style="background: var(--ion-color-primary-contrast);">
-            <p style="margin:0;border-radius: 20px; color:var(--ion-color-primary) ; font-size: 20px; font-weight: bold;text-transform: capitalize;">{{i.name}}</p>
+          <ion-card-content class="ion-no-padding" style="background: var(--ion-color-primary-background);">
+            <p style="margin:0;border-radius: 20px; color:var(--ion-color-primary-contrast) ; font-size: 20px; font-weight: bold;text-transform: capitalize;">{{i.name}}</p>
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -39,17 +39,17 @@
     <h1>
       Experimental Stuff
     </h1>
-    <ion-button mode="ios" (click)="onAudioInput()">onAudioInput</ion-button>
-    <ion-button mode="ios" (click)="stop()">stop</ion-button>
+    <ion-button mode="ios"  style="--background: #FFF6FD"(click)="onAudioInput()">Feed In</ion-button>
+    <ion-button mode="ios"  style="--background: #FFF6FD"(click)="stop()">Stop</ion-button>
     <h4>Choose the desired speed</h4>
     <ion-item class="range" lines="none">
-      <ion-range class="speed-range" step="1" (ionChange)="crazyValueLog()"
+      <ion-range pin="true" class="speed-range" step="1" (ionChange)="crazyValueLog()"
         [(ngModel)]="crazyVal" mode="ios" min="1" max="100">
         <ion-icon class="sun" size="small" slot="start" name="speedometer-outline"></ion-icon>
         <ion-icon class="sun end-speed" slot="end" size="small" name="speedometer-sharp"></ion-icon>
       </ion-range>
     </ion-item>
-    <ion-button mode="ios" fill="outline" (click)="psycho()">Go crazy</ion-button>
-    <ion-button mode="ios" fill="outline" (click)="stopInterval()">Stop</ion-button>
+    <ion-button mode="ios" style="--background: #FFF6FD" (click)="psycho()">Go crazy</ion-button>
+    <ion-button mode="ios"  style="--background: #FFF6FD" (click)="stopInterval()">Stop</ion-button>
   </div>
 </ion-content>

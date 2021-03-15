@@ -1,4 +1,3 @@
-// login.page.ts
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
@@ -28,24 +27,24 @@ export class LoginPage implements OnInit {
     private formBuilder: FormBuilder
 
   ) {
-    // this.presentLoading('Please wait..').then(() => {
-    //   this.storage.getItem('firstTimeLogin').then(d => {
-    //     if (d === 'done') {
-    //       this.loader.dismiss();
-    //       this.autoLogin();
-    //     } else {
-    //       this.loader.dismiss();
+    this.presentLoading('Please wait..').then(() => {
+      this.storage.getItem('firstTimeLogin').then(d => {
+        if (d === 'done') {
+          this.loader.dismiss();
+          this.autoLogin();
+        } else {
+          this.loader.dismiss();
 
-    //       this.navCtrl.navigateRoot('/onboarding');
-    //     }
-    //   }, err => {
-    //     this.loader.dismiss();
+          this.navCtrl.navigateRoot('/onboarding');
+        }
+      }, err => {
+        this.loader.dismiss();
 
-    //     this.navCtrl.navigateRoot('/onboarding');
+        this.navCtrl.navigateRoot('/onboarding');
 
-    //   })
+      })
 
-    // })
+    })
   }
   autoLogin() {
     this.presentLoading('Trying to login..').then(() => {
@@ -54,7 +53,7 @@ export class LoginPage implements OnInit {
         if (res !== null) {
           this.userEmail = res.email;
           this.storage.setItem('email', this.userEmail);
-          this.navCtrl.navigateRoot('/tabs/home');
+          this.navCtrl.navigateRoot('/landing');
           this.loader.dismiss();
         } else {
           this.loader.dismiss();
@@ -116,7 +115,7 @@ export class LoginPage implements OnInit {
   };
 
   guestLogin() {
-    this.navCtrl.navigateRoot('tabs')
+    this.navCtrl.navigateRoot('/landing')
   }
   loginUser(value) {
     this.presentLoading('Logging in..').then(() => {
@@ -125,7 +124,7 @@ export class LoginPage implements OnInit {
           console.log(res);
           this.errorMessage = "";
           this.loader.dismiss();
-          this.navCtrl.navigateRoot('/tabs/home');
+          this.navCtrl.navigateRoot('/landing');
         }, err => {
           this.loader.dismiss();
           this.errorMessage = err.message;

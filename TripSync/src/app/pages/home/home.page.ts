@@ -5,6 +5,7 @@ import { Pattern } from '../../shared/pattern'
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { ToastController } from '@ionic/angular';
 import { LoadingController } from '@ionic/angular';
+import iro from "@jaames/iro";
 
 @Component({
   selector: 'app-home',
@@ -13,7 +14,7 @@ import { LoadingController } from '@ionic/angular';
 })
 export class HomePage {
   loader: any;
-
+  colorCode: string = "";
   blueAndLoc: boolean;
   locationEnabled: boolean;
   foundDevices = [];
@@ -35,11 +36,12 @@ export class HomePage {
   segment = 'color';
   initialState = '#fff'
   hitColor: any = 'C/0/0/0/1';
-  @ViewChild(IonSlides) slides: IonSlides;
+  @ViewChild(IonSlides, { static: false }) slides: IonSlides;
   speedValue: any = 3000;
   selectedLhl: any;
   currentConnected: any;
   lastSlide: number;
+
   constructor(
     public loadingController: LoadingController,
     public toastController: ToastController,
@@ -49,9 +51,34 @@ export class HomePage {
     private storage: NativeStorage,
     private platform: Platform,
   ) {
-    setTimeout(this.scanBlte.bind(this), 1000);
+    this.storage.getItem('connectedTo').then(d=> {
+      this.selectedLhl = d;
+    },err=> {
+      this.presentToast('No device connected');
+    })
   }
   ngOnInit() {
+    let colorWheel = iro.ColorPicker("#colorWheelDemo", {
+      layout: [
+        {
+          component: iro.ui.Wheel,
+          options: {
+            wheelLightness: true,
+            wheelAngle: 0,
+            wheelDirection: "anticlockwise",
+            // border width
+            borderWidth: 2,
+            // border color
+            borderColor: 'thistle',
+          }
+        }
+      ]
+
+    });
+    colorWheel.on('color:change', (c) => {
+      console.log(c.rgba);
+      this.hitValue(`C/${c.rgba.r}/${c.rgba.g}/${c.rgba.b}/${c.rgba.a}`);
+    })
 
   }
   async presentLoading(mes) {
@@ -68,14 +95,33 @@ export class HomePage {
       this.storage.getItem('favouritePatterns').then(favData => {
         this.favouritePatterns = favData;
         // console.log(this.favouritePatterns);
-        this.lastSlide ? this.slides.slideTo(this.lastSlide) : null;
+        setTimeout(() => {
+          try {
+            this.lastSlide ? this.slides.slideTo(this.lastSlide) : null;
+          } catch {
+            //
+          }
+        }, 500)
+
       }, err => {
-        this.lastSlide ? this.slides.slideTo(this.lastSlide) : null;
+        setTimeout(() => {
+          try {
+            this.lastSlide ? this.slides.slideTo(this.lastSlide) : null;
+          } catch {
+            //
+          }
+        }, 500)
         console.log(err)
       });
       // console.log(this.patternArray);
     }, err => {
-      this.lastSlide ? this.slides.slideTo(this.lastSlide) : null;
+      setTimeout(() => {
+        try {
+          this.lastSlide ? this.slides.slideTo(this.lastSlide) : null;
+        } catch {
+          //
+        }
+      }, 500)
       console.log(err)
     });
   }
@@ -191,8 +237,8 @@ export class HomePage {
           }
         }
 
-      },err=>{
-        if(this.loader) {
+      }, err => {
+        if (this.loader) {
           this.loader.dismiss();
         }
       })
@@ -359,11 +405,11 @@ export class HomePage {
       this.currentConnected = connectedData;
       if (this.loader) {
         this.loader.dismiss();
-      } 
+      }
       console.log(`this is success --> ${JSON.stringify(connectedData)}`)
       console.log(this.currentConnected.name);
-      this.ngZone.run(() => this.selectedLhl = this.currentConnected.address);
-      this.storage.setItem('connectedTo', this.selectedLhl);
+      // this.ngZone.run(() => this.selectedLhl = this.currentConnected.address);
+      // this.storage.setItem('connectedTo', this.selectedLhl);
     }, err => {
       this.blueAndLoc = false;
       this.presentToast('Something went wrong');
@@ -375,12 +421,17 @@ export class HomePage {
     var sendString = value;
     var bytes = this.blte.stringToBytes(sendString);
     var encodedString = this.blte.bytesToEncodedString(bytes);
-    this.blte.write({ "value": encodedString, "service": "4FAFC201-1FB5-459E-8FCC-C5C9C331914B", "characteristic": "BEB5483E-36E1-4688-B7F5-EA07361B26A8", "address": this.currentConnected.address }
-    ).then(writeData => { console.log(writeData) }, err => {
-      this.blueAndLoc = false;
-      this.presentToast('Something went wrong');
-      console.log(err)
-    })
+    try {
+      this.blte.write({ "value": encodedString, "service": "4FAFC201-1FB5-459E-8FCC-C5C9C331914B", "characteristic": "BEB5483E-36E1-4688-B7F5-EA07361B26A8", "address": this.selectedLhl }
+      ).then(writeData => { console.log(writeData) }, err => {
+        this.blueAndLoc = false;
+        this.presentToast('Something went wrong');
+        console.log(err)
+      })
+    } catch {
+      //
+    }
+
   }
   async presentToast(message) {
     const toast = await this.toastController.create({

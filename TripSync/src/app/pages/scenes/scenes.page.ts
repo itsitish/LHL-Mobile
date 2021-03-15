@@ -1,9 +1,9 @@
 import { Component, NgZone, OnInit } from '@angular/core';
-import { ModalController, ToastController } from '@ionic/angular';
+import { ModalController, NavController, ToastController } from '@ionic/angular';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { BluetoothLE } from '@ionic-native/bluetooth-le/ngx';
 import { DBMeter } from '@ionic-native/db-meter/ngx';
-import { SceneAddPage } from '../scene-add/scene-add.page';
+import { SceneAddPage } from '../../modals/scene-add/scene-add.page';
 import { AlertController } from '@ionic/angular';
 
 @Component({
@@ -12,42 +12,13 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['./scenes.page.scss'],
 })
 export class ScenesPage implements OnInit {
-  scenes = [
-    {
-        "pat": "M/0",
-        "color": "C/255/255/255/0",
-        "bright": "B/255",
-        "speed": "S/3000",
-        "name": "Itish",
-        "mood": "url(../../../assets/sunset.jpg)",
-        "hour": 0,
-        "min": 10
-    },{
-      "pat": "M/0",
-      "color": "C/255/255/255/0",
-      "bright": "B/255",
-      "speed": "S/3000",
-      "name": "Itish",
-      "mood": "url(../../../assets/afternoon.jpg)",
-      "hour": 0,
-      "min": 10
-  },{
-    "pat": "M/0",
-    "color": "C/255/255/255/0",
-    "bright": "B/255",
-    "speed": "S/3000",
-    "name": "Itish",
-    "mood": "url(../../../assets/sunrise.png)",
-    "hour": 0,
-    "min": 10
-}
-
-];
+  scenes = [];
   interval: any;
-  crazyVal: number=10 ;
+  crazyVal: number = 10;
 
   subscription: any;
   constructor(public alertController: AlertController,
+    private nav: NavController,
     public toastController: ToastController,
     private blte: BluetoothLE,
     private ngZone: NgZone,
@@ -59,7 +30,7 @@ export class ScenesPage implements OnInit {
       cssClass: 'delete-class',
       header: 'Delete',
       message: 'Are you <strong>sure</strong>?',
-      mode : 'ios',
+      mode: 'ios',
       buttons: [
         {
           text: 'Cancel',
@@ -85,7 +56,7 @@ export class ScenesPage implements OnInit {
     await alert.present();
   }
   crazyValueLog() {
-    this.ngZone.run(()=> {
+    this.ngZone.run(() => {
       this.crazyVal = this.crazyVal
     })
   }
@@ -127,7 +98,15 @@ export class ScenesPage implements OnInit {
     })
     this.storage.remove('storedScenes');
   }
+  public async close() {
+    const modal = await this.modalController.getTop();
+    modal ? modal.dismiss() : null;
+    this.nav.pop();
+  }
   ngOnInit() {
+
+  }
+  ionViewWillEnter() {
     this.storage.getItem('storedScenes').then(d => {
       this.ngZone.run(() => {
         this.scenes = d;

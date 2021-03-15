@@ -1,26 +1,16 @@
-<ion-header mode="ios">
-  <ion-toolbar mode="ios">
-    <ion-title>
-      <div style="display:inline-block;vertical-align:top;">
-        <img src="assets/logo.png" alt="logo" />
-      </div>
-      <div style="display:inline-block; color: black;">
-        <div style="margin: 12px;">TripSync</div>
-      </div>
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
 <ion-content [fullscreen]="true">
+  <ion-back-button style="position: absolute; color: #FFF6FD; margin:14px 6px;" mode="ios" defaultHref="/landing"></ion-back-button>
+  <app-header isDark="true"></app-header>
 
   <div>
 
-    <ion-item lines="none">
+    <!-- <ion-item lines="none">
       <ion-chip color="success" (click)="scanBlte()" *ngIf="!blueAndLoc && currentConnected?.status!='discovered'">
         <ion-label>Connect</ion-label>
       </ion-chip>
       <ion-badge *ngIf="!blueAndLoc && currentConnected?.status!='discovered'" mode="ios" slot="end" color="danger">!</ion-badge>
       <ion-badge *ngIf="currentConnected?.status=='discovered'" mode="ios" slot="end" color="success">:)</ion-badge>
-    </ion-item>
+    </ion-item> -->
     <ion-select  *ngIf = "foundDevices.length>1" (ionChange)="selectOne()" [(ngModel)]="selectedLhl" slot="start" mode="ios" [interfaceOptions]="customPopoverOptions" 
     interface="popover" placeholder="Select device">
       <ion-select-option  *ngFor="let i of foundDevices" [value]="i.address">{{i.name}}</ion-select-option>
@@ -37,23 +27,21 @@
 
 
   <div [ngSwitch]="segment">
-    <div *ngSwitchCase="'color'" class="color-picker">
-      <color-sketch
-        [presetColors]="['rgb(255, 0, 0)', 'rgb(105, 255, 0)','rgb(255, 237, 0)','rgb(32, 0, 255)', 'rgb(255, 0, 69)', 'rgb(0, 255, 255)','rgb(255, 0, 194)']"
-        [color]="initialState" (onChangeComplete)="changeComplete($event)"></color-sketch>
+    <div [hidden]="segment!='color'" class="color-picker">
+      <div style="margin: 70px 0;" class="wheel" id="colorWheelDemo"></div>
     </div>
-    <div *ngSwitchCase="'pattern'">
+    <div *ngSwitchCase="'pattern'" >
       <ion-slides #slides (ionSlideWillChange)="patternHit()" mode="ios" pager="true" [options]="slideOpts">
-        <ion-slide *ngFor="let card of patternArray">
-          <ion-card mode="ios">
-            <ion-card-header>
-              <ion-card-subtitle style="color: #FFF6FD;">Patterns</ion-card-subtitle>
-              <ion-button fill="clear" (click)="pickFavourite()">
-                <ion-icon class="heart" [name]="card.icon"></ion-icon>
-              </ion-button>
-              <ion-card-title>{{card.title}}</ion-card-title>
+        <ion-slide *ngFor="let card of patternArray; index as x">
+          <ion-card  style="color: #FFF6FD;" mode="ios">
+            <ion-card-header style="padding: 6px 0 0 0;">
+              <h5 style="color: #FFF6FD; margin: 16px 0 0 0;">{{card.title}}</h5>
+                <ion-icon style="margin: 6px 0  0 0;" size="large" class="heart" (click)="pickFavourite()" [name]="card.icon"></ion-icon>
             </ion-card-header>
-            <ion-card-content>
+            <ion-card-content style=" padding: 0;">
+              <ion-item lines="none" style="--background: transparent; color: #FFF6FD;">
+                <p slot="end">{{x}}</p>
+              </ion-item>
             </ion-card-content>
           </ion-card>
         </ion-slide>

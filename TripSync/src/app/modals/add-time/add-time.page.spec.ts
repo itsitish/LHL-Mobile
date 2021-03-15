@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { MultipleModePage } from './multiple-mode.page';
+import { AddTimePage } from './add-time.page';
 
-describe('MultipleModePage', () => {
-  let component: MultipleModePage;
-  let fixture: ComponentFixture<MultipleModePage>;
+describe('AddTimePage', () => {
+  let component: AddTimePage;
+  let fixture: ComponentFixture<AddTimePage>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MultipleModePage ],
+      declarations: [ AddTimePage ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(MultipleModePage);
+    fixture = TestBed.createComponent(AddTimePage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));
