@@ -10,18 +10,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from '../environments/environment';
-import { ModalPage } from './pages/modal/modal.page';
-import { ModalPageModule } from './pages/modal/modal.module';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { DBMeter } from '@ionic-native/db-meter/ngx';
 
 
 @NgModule({
   declarations: [AppComponent],
-  entryComponents: [ModalPage],
+  entryComponents: [],
   imports: [AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
-    BrowserModule, IonicModule.forRoot(), AppRoutingModule, ModalPageModule,
+    BrowserModule, IonicModule.forRoot(), AppRoutingModule
 
   ],
   providers: [DBMeter,LocalNotifications,

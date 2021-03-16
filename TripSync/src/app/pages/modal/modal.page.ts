@@ -24,7 +24,7 @@ export class ModalPage implements OnInit {
   speedValue: any = 3000;
   brightValue: any = 255;
   name = this.router.getCurrentNavigation().extras.state.sceneName;
-  constructor(private nav: NavController,private router: Router, private storage: NativeStorage, private blte: BluetoothLE,
+  constructor(private nav: NavController, private router: Router, private storage: NativeStorage, private blte: BluetoothLE,
 
     public toastController: ToastController,
     public modalController: ModalController) {
@@ -86,7 +86,8 @@ export class ModalPage implements OnInit {
       console.log(d)
       this.blte.write({ "value": encodedString, "service": "4FAFC201-1FB5-459E-8FCC-C5C9C331914B", "characteristic": "BEB5483E-36E1-4688-B7F5-EA07361B26A8", "address": d }
       ).then(writeData => { console.log(writeData) }, err => {
-        this.presentToast('Something went wrong');
+        this.storage.remove('connectedTo');
+        this.presentToast('Something went wrong! Please reconnect.'); 
         console.log(err)
       })
     }, err => console.log(err))
