@@ -177,8 +177,8 @@ export class LandingPage implements OnInit {
     this.presentLoading('Connecting').then(() => {
       this.storage.getItem('connectedTo').then(d => {
         if (d === x.address) {
-          this.navCtrl.navigateForward('home');
           this.loader ? this.loader.dismiss() : null;
+          this.navCtrl.navigateForward('home');
         } else {
           this.blte.disconnect({ "address": d }).then(selectOther => {
             console.log(selectOther);
@@ -188,10 +188,13 @@ export class LandingPage implements OnInit {
                 this.blte.discover({
                   "address": connectData.address, "clearCache": true
                 }).then(connectedData => {
-                  this.loader ? this.loader.dismiss() : null;
                   this.currentConnected = connectedData;
-                  console.log(`this is success --> ${JSON.stringify(connectedData)}`)
+                  console.log(`this is success --> ${JSON.stringify(connectedData)}`);
+
+                  this.storage.setItem('connectedTo', this.currentConnected.address);
                   this.ngZone.run(() => this.blueAndLoc = true)
+                  this.loader ? this.loader.dismiss() : null;
+                  this.navCtrl.navigateForward('home');
                 }, err => {
                   this.loader ? this.loader.dismiss() : null;
                   this.blueAndLoc = false;
@@ -202,8 +205,11 @@ export class LandingPage implements OnInit {
                 this.loader ? this.loader.dismiss() : null;
                 this.onError(x.address, err);
               });
-            }, 1000);
-          }, err => { console.log("select one " + err) });
+            }, 100);
+          }, err => {
+            this.loader ? this.loader.dismiss() : null;
+            console.log("select one " + err)
+          });
         }
       }, err => {
         this.blte.connect({ "address": x.address }).subscribe(connectData => this.onConnected(connectData, x.address), err => {
