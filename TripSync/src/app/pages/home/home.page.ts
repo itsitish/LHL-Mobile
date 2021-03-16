@@ -13,17 +13,8 @@ import iro from "@jaames/iro";
 })
 export class HomePage implements OnInit {
   loader: any;
-  colorCode: string = "";
-  blueAndLoc: boolean;
-  locationEnabled: boolean;
-  foundDevices = [];
   favouritePatterns = [];
   patternArray = Pattern.Pattern;
-  connectedStatus: any;
-  customPopoverOptions: any = {
-    header: 'Devices available',
-    subHeader: 'Select the device you want to connect with',
-  };
   brightValue: any = 255;
   slideOpts = {
     initialSlide: 0,
@@ -38,7 +29,6 @@ export class HomePage implements OnInit {
   @ViewChild(IonSlides, { static: false }) slides: IonSlides;
   speedValue: any = 3000;
   selectedLhl: any;
-  currentConnected: any;
   lastSlide: number;
   segmentSelected: any = 'color';
 
@@ -49,9 +39,9 @@ export class HomePage implements OnInit {
     private ngZone: NgZone,
     private storage: NativeStorage,
   ) {
-    this.storage.getItem('connectedTo').then(d=> {
+    this.storage.getItem('connectedTo').then(d => {
       this.selectedLhl = d;
-    },err=> {
+    }, err => {
       this.presentToast('No device connected');
     })
   }
@@ -81,8 +71,8 @@ export class HomePage implements OnInit {
   }
 
   retrieveFavs() {
-    this.ngZone.run(()=> {
-      this.segment === 'color' ? this.segmentSelected = 'color' : this.segmentSelected = 'pattern'; 
+    this.ngZone.run(() => {
+      this.segment === 'color' ? this.segmentSelected = 'color' : this.segmentSelected = 'pattern';
       this.storage.getItem('patternsArray').then(favArr => {
         this.patternArray = favArr
         this.storage.getItem('favouritePatterns').then(favData => {
@@ -95,7 +85,7 @@ export class HomePage implements OnInit {
               //
             }
           }, 50)
-  
+
         }, err => {
           setTimeout(() => {
             try {
@@ -118,7 +108,7 @@ export class HomePage implements OnInit {
         console.log(err)
       });
     })
-   
+
   }
 
   patternHit() {
@@ -215,7 +205,6 @@ export class HomePage implements OnInit {
     try {
       this.blte.write({ "value": encodedString, "service": "4FAFC201-1FB5-459E-8FCC-C5C9C331914B", "characteristic": "BEB5483E-36E1-4688-B7F5-EA07361B26A8", "address": this.selectedLhl }
       ).then(writeData => { console.log(writeData) }, err => {
-        this.blueAndLoc = false;
         this.storage.remove('connectedTo');
         this.presentToast('Something went wrong! Please reconnect.');
         console.log(err)

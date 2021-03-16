@@ -1,21 +1,6 @@
 <ion-content [fullscreen]="true">
   <ion-back-button style="position: absolute; color: #FFF6FD; margin:14px 6px;" mode="ios" defaultHref="/landing"></ion-back-button>
   <app-header isDark="true"></app-header>
-
-  <div>
-
-    <!-- <ion-item lines="none">
-      <ion-chip color="success" (click)="scanBlte()" *ngIf="!blueAndLoc && currentConnected?.status!='discovered'">
-        <ion-label>Connect</ion-label>
-      </ion-chip>
-      <ion-badge *ngIf="!blueAndLoc && currentConnected?.status!='discovered'" mode="ios" slot="end" color="danger">!</ion-badge>
-      <ion-badge *ngIf="currentConnected?.status=='discovered'" mode="ios" slot="end" color="success">:)</ion-badge>
-    </ion-item> -->
-    <ion-select  *ngIf = "foundDevices.length>1" (ionChange)="selectOne()" [(ngModel)]="selectedLhl" slot="start" mode="ios" [interfaceOptions]="customPopoverOptions" 
-    interface="popover" placeholder="Select device">
-      <ion-select-option  *ngFor="let i of foundDevices" [value]="i.address">{{i.name}}</ion-select-option>
-    </ion-select>
-  </div>
   <ion-segment (ionChange)="retrieveFavs()" [(ngModel)]="segment" value="color" mode="ios">
     <ion-segment-button value="color">
       Color-Picker

@@ -32,7 +32,6 @@
     "@jaames/iro": "^5.3.2",
     "cordova-android": "9.0.0",
     "cordova-ios": "6.2.0",
-    "cordova-plugin-audioinput": "^1.0.2",
     "cordova-plugin-badge": "^0.8.8",
     "cordova-plugin-bluetoothle": "^6.3.0",
     "cordova-plugin-dbmeter": "^2.1.0",
@@ -85,7 +84,6 @@
       "cordova-plugin-nativestorage": {},
       "cordova-plugin-splashscreen": {},
       "cordova-plugin-local-notification": {},
-      "cordova-plugin-audioinput": {},
       "cordova-plugin-dbmeter": {},
       "cordova-plugin-statusbar": {}
     },
