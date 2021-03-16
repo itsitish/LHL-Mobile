@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { MultipleModePage } from './multiple-mode.page';
+import { SceneAddPage } from './scene-add.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: MultipleModePage
+    component: SceneAddPage
   }
 ];
 
@@ -14,4 +14,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class MultipleModePageRoutingModule {}
+export class SceneAddPageRoutingModule {}

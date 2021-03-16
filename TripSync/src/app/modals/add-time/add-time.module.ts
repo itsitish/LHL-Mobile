@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { MultipleModePageRoutingModule } from './multiple-mode-routing.module';
+import { AddTimePageRoutingModule } from './add-time-routing.module';
 
-import { MultipleModePage } from './multiple-mode.page';
+import { AddTimePage } from './add-time.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    MultipleModePageRoutingModule
+    AddTimePageRoutingModule
   ],
-  declarations: [MultipleModePage]
+  declarations: [AddTimePage]
 })
-export class MultipleModePageModule {}
+export class AddTimePageModule {}

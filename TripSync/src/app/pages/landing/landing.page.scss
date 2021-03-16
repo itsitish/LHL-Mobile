@@ -1,0 +1,21 @@
+ion-content {
+    --background: #EEF5FE;
+}
+ion-toolbar {
+    color: white;
+    --background: white;
+    --border-width: 0 !important;
+}
+ion-card {
+    --background: rgba(0, 0, 0, 0.7);
+    margin: 18px;
+}
+ion-col {
+    padding-left: 0;
+}
+.menu-item {
+    text-align: center;
+}
+.text-left {
+    margin-left: 18px;
+}

@@ -1,9 +1,10 @@
 import { Component, NgZone, OnInit } from '@angular/core';
-import { ModalController, ToastController } from '@ionic/angular';
-import { ModalPage } from '../modal/modal.page';
+import { ModalController, NavController, ToastController } from '@ionic/angular';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { BluetoothLE } from '@ionic-native/bluetooth-le/ngx';
 import { DBMeter } from '@ionic-native/db-meter/ngx';
+import { SceneAddPage } from '../../modals/scene-add/scene-add.page';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-scenes',
@@ -12,68 +13,100 @@ import { DBMeter } from '@ionic-native/db-meter/ngx';
 })
 export class ScenesPage implements OnInit {
   scenes = [];
+  interval: any;
+  crazyVal: number = 10;
+
   subscription: any;
-  constructor(
+  constructor(public alertController: AlertController,
+    private nav: NavController,
     public toastController: ToastController,
     private blte: BluetoothLE,
     private ngZone: NgZone,
     private storage: NativeStorage,
-    public modalController: ModalController,private dbMeter: DBMeter) {
+    public modalController: ModalController, private dbMeter: DBMeter) {
+  }
+  async presentAlertConfirm(j) {
+    const alert = await this.alertController.create({
+      cssClass: 'delete-class',
+      header: 'Delete',
+      message: 'Are you <strong>sure</strong>?',
+      mode: 'ios',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            console.log('Confirm Cancel: blah');
+          }
+        }, {
+          text: 'Okay',
+          handler: () => {
+            this.ngZone.run(() => {
+              if (j > -1) {
+                this.scenes.splice(j, 1);
+                this.storage.setItem('storedScenes', this.scenes);
+              }
+            })
+          }
+        }
+      ]
+    });
 
-
-      }
+    await alert.present();
+  }
+  crazyValueLog() {
+    this.ngZone.run(() => {
+      this.crazyVal = this.crazyVal
+    })
+  }
   onAudioInput(evt) {
+    let a = [];
     this.subscription = this.dbMeter.start().subscribe(
-      data => console.log(data)
+      data => {
+        a.push(data);
+        // console.log(a);
+        console.log(data)
+      }
     );
   }
-  islisten() {
-        // Check if we are listening
-        this.dbMeter.isListening().then(
-          isListening => console.log(isListening)
-        );
-    
-  }
-  stop () {
-        
+  stop() {
+
     // Stop listening
     this.subscription.unsubscribe();
 
   }
-
   async createScene() {
     const modal = await this.modalController.create({
-      component: ModalPage,
-      cssClass: 'my-custom-class'
+      component: SceneAddPage,
+      cssClass: 'add-scene'
     });
-    modal.onDidDismiss()
-      .then(() => {
-        this.storage.getItem('storedScenes').then(d => {
-
-          this.ngZone.run(() => {
-            this.scenes = d;
-          })
-        }, err => console.log(err));
-      });
-
     return await modal.present();
   }
 
-  delete(j) {
-    this.ngZone.run(() => {
-      if (j > -1) {
-        this.scenes.splice(j, 1);
-        this.storage.setItem('storedScenes', this.scenes);
-      }
-    })
+  psycho() {
+    this.interval = setInterval(() => {
+      this.hitValue(`C/${Math.floor(Math.random() * 256)}/${Math.floor(Math.random() * 256)}/${Math.floor(Math.random() * 256)}/0`)
+    }, 1000 / this.crazyVal);
+
   }
+  stopInterval() { clearInterval(this.interval) }
+
   clear() {
     this.ngZone.run(() => {
       this.scenes = [];
     })
     this.storage.remove('storedScenes');
   }
+  public async close() {
+    const modal = await this.modalController.getTop();
+    modal ? modal.dismiss() : null;
+    this.nav.pop();
+  }
   ngOnInit() {
+
+  }
+  ionViewWillEnter() {
     this.storage.getItem('storedScenes').then(d => {
       this.ngZone.run(() => {
         this.scenes = d;

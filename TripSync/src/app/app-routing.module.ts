@@ -16,10 +16,6 @@ const routes: Routes = [
     loadChildren: () => import('./tabs/tabs.module').then( m => m.TabsPageModule)
   },
   {
-    path: 'multiple-mode',
-    loadChildren: () => import('./pages/multiple-mode/multiple-mode.module').then( m => m.MultipleModePageModule)
-  },
-  {
     path: 'login',
     loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
   },
@@ -42,6 +38,22 @@ const routes: Routes = [
   {
     path: 'onboarding',
     loadChildren: () => import('./pages/onboarding/onboarding.module').then( m => m.OnboardingPageModule)
+  },
+  {
+    path: 'landing',
+    loadChildren: () => import('./pages/landing/landing.module').then( m => m.LandingPageModule)
+  },
+  {
+    path: 'scene-add',
+    loadChildren: () => import('./modals/scene-add/scene-add.module').then( m => m.SceneAddPageModule)
+  },
+  {
+    path: 'automation',
+    loadChildren: () => import('./pages/automation/automation.module').then( m => m.AutomationPageModule)
+  },
+  {
+    path: 'add-time',
+    loadChildren: () => import('./modals/add-time/add-time.module').then( m => m.AddTimePageModule)
   },
 ];
 

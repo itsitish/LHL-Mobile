@@ -4,11 +4,11 @@
 }
 
 .color-col {
-    padding: 4px;
-    height: 40px;
+    padding: 0 17px 0 0;
 }
 .container {
     padding: 20px;
+    margin-top: 6vh;
 }
 .btn {
     margin-top: 20px;
@@ -16,6 +16,18 @@
 ion-label {
     font-weight:500;
 }
+ion-row {
+    margin: 18px 0;
+}
+ion-range {
+    padding: 0;
+}
+ion-item {
+    --background: transparent;
+}
 ion-item::part(native) {
     padding: 0 !important;
+}
+ion-content {
+    --background: #EEF5FE;
 }
