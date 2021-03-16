@@ -77,7 +77,7 @@ export class HomePage {
     });
     colorWheel.on('color:change', (c) => {
       console.log(c.rgba);
-      this.hitValue(`C/${c.rgba.r}/${c.rgba.g}/${c.rgba.b}/${c.rgba.a}`);
+      this.hitValue(`C/${c.rgba.r}/${c.rgba.g}/${c.rgba.b}/0}`);
     })
 
   }

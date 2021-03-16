@@ -27,6 +27,7 @@ export class LoginPage implements OnInit {
     private formBuilder: FormBuilder
 
   ) {
+    this.storage.remove('connectedTo');
     this.presentLoading('Please wait..').then(() => {
       this.storage.getItem('firstTimeLogin').then(d => {
         if (d === 'done') {

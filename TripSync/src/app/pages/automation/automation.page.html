@@ -7,10 +7,9 @@
     <ion-grid style="margin-top: 10vh;">
         <h4 style="margin: 20px;"> Select a scene to automate:
         </h4>
-        <div *ngIf="scenes.length ===0">
-
-            <ion-card style="width: 100%;" mode="ios">
-              <p style="color: #FFF6FD;margin-left:18px">Oops! Looks like there's no device to connect</p>\
+        <div style="padding: 18px;" *ngIf="scenes.length ===0">
+            <ion-card style="width: 100%; --background: rgba(0, 0, 0, 0.7);" mode="ios" >
+              <p style="color: #FFF6FD;">Oops! Looks like there's no scene to automate</p>
             </ion-card>
           </div>
         <ion-row>

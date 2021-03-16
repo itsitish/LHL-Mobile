@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController,NavParams } from '@ionic/angular';
+import { ModalController, NavParams } from '@ionic/angular';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
 @Component({
@@ -18,16 +18,16 @@ export class AddTimePage implements OnInit {
         console.log(er)
       })
     })
-   }
-   automate() {
-    this.schedule(parseInt(this.time.slice(11, 13)) ,parseInt(this.time.slice(14, 16)));
+  }
+  automate() {
+    this.schedule(parseInt(this.time.slice(11, 13)), parseInt(this.time.slice(14, 16)));
     this.modalController.dismiss('automated');
-   }
-   schedule(h, m) {
+  }
+  schedule(h, m) {
     this.localNotifications.schedule({
-      title:'Hey there!',
+      title: 'Hey there!',
       text: `Its time for your ${this.nav.data.name} scene!`,
-      trigger: { every: { hour: h, minute: m} },
+      trigger: { every: { hour: h, minute: m } },
       foreground: true
     });
     console.log('scheduled');

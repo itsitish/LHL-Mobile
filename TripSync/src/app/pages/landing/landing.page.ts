@@ -17,11 +17,7 @@ export class LandingPage implements OnInit {
   previousConnected = [
 
   ];
-  devices = [
-    {
-      name: 'LHL-122132133'
-    }
-  ];
+  devices = [];
   connectedStatus: any;
   currentConnected: any;
   blueAndLoc: boolean;
@@ -46,7 +42,7 @@ export class LandingPage implements OnInit {
 
   }
   ionViewWillEnter() {
-    this.menu ?     this.menu.close() : null;
+    this.menu ? this.menu.close() : null;
 
   }
   //auto scan and connect
@@ -78,9 +74,7 @@ export class LandingPage implements OnInit {
         }
 
       }, err => {
-        if (this.loader) {
-          this.loader.dismiss();
-        }
+        this.loader ? this.loader.dismiss() : null;
       })
     })
   }
@@ -127,7 +121,8 @@ export class LandingPage implements OnInit {
             }
           }, err => {
             this.loader ? this.loader.dismiss() : null;
-            console.log(err)});
+            console.log(err)
+          });
         } else {
           this.loader ? this.loader.dismiss() : null;
           this.blte.requestPermission().then(reqPerm => {
@@ -142,9 +137,10 @@ export class LandingPage implements OnInit {
           }, err => { console.log("request location " + err) });
         }
 
-      }, err => { 
+      }, err => {
         this.loader ? this.loader.dismiss() : null;
-        console.log("location has permission " + err) });
+        console.log("location has permission " + err)
+      });
     })
   }
   //connection status check and services discovery
@@ -179,16 +175,41 @@ export class LandingPage implements OnInit {
   addDevice(x) {
     console.log(x.address);
     this.presentLoading('Connecting').then(() => {
-      this.storage.getItem('connectedTo').then(d=> {
-        if(d===x.address) {
+      this.storage.getItem('connectedTo').then(d => {
+        if (d === x.address) {
           this.navCtrl.navigateForward('home');
-
+          this.loader ? this.loader.dismiss() : null;
         } else {
-          this.blte.connect({ "address": x.address }).subscribe(connectData => this.onConnected(connectData, x.address), err => {
-            this.onError(err.address, err);
-    
-          });
+          this.blte.disconnect({ "address": d }).then(selectOther => {
+            console.log(selectOther);
+            setTimeout(() => {
+              this.blte.connect({ "address": x.address }).subscribe(connectData => {
+                console.log(connectData);
+                this.blte.discover({
+                  "address": connectData.address, "clearCache": true
+                }).then(connectedData => {
+                  this.loader ? this.loader.dismiss() : null;
+                  this.currentConnected = connectedData;
+                  console.log(`this is success --> ${JSON.stringify(connectedData)}`)
+                  this.ngZone.run(() => this.blueAndLoc = true)
+                }, err => {
+                  this.loader ? this.loader.dismiss() : null;
+                  this.blueAndLoc = false;
+                  this.presentToast('Something went wrong');
+                  console.log(`this is error --> ${JSON.stringify(err)}`)
+                });
+              }, err => {
+                this.loader ? this.loader.dismiss() : null;
+                this.onError(x.address, err);
+              });
+            }, 1000);
+          }, err => { console.log("select one " + err) });
         }
+      }, err => {
+        this.blte.connect({ "address": x.address }).subscribe(connectData => this.onConnected(connectData, x.address), err => {
+          this.onError(err.address, err);
+
+        });
       })
 
 
