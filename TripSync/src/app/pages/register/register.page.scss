@@ -1,18 +1,26 @@
 .email {
-    border: 1px solid #5e00a5;
+    border: 1px solid #FFF6FD;
     border-radius: 10px;
     margin: 16px 0;
     color: #171519;
 }
 .submit-btn {
     color: #171519;
-    --border-color: #5e00a5;
+    --border-color: #FFF6FD;
 }
 .passwordIcon{
     font-size:25px !important;
     position: relative !important;
     margin: 0 auto !important;
  }
+ ion-toolbar {
+    color: white;
+    --background: white;
+    --border-width: 0 !important;
+}
 .hero {
     margin: 5vh 0 0 0;
  }
+ ion-content {
+    --background: #EEF5FE;
+}

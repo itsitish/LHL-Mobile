@@ -1,0 +1,15 @@
+
+<ion-content>
+  <ion-item lines="none" mode="ios" style="--background: transparent;">
+    <h5>
+      Add a timestamp to notify you about your scene!
+    </h5>
+    <ion-icon class="close" mode="ios" name="close-circle-outline" (click)="modalController.dismiss()" slot="end">
+    </ion-icon>
+  </ion-item>
+  <ion-item  style="margin: 2vh 0 0 0; --background: transparent">
+    <ion-label>Pick a time*</ion-label>
+    <ion-datetime [(ngModel)]="time" (ionChange)="timePick()" mode="ios" displayFormat="h:mm a"></ion-datetime>
+  </ion-item>
+  <ion-button mode="ios" [disabled]="time.length===0"  style="text-transform: none;--background: #FFF6FD" (click)="automate()">Automate</ion-button>
+</ion-content>

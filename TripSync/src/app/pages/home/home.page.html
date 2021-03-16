@@ -1,26 +1,16 @@
-<ion-header mode="ios">
-  <ion-toolbar mode="ios">
-    <ion-title>
-      <div style="display:inline-block;vertical-align:top;">
-        <img src="assets/logo.png" alt="logo" />
-      </div>
-      <div style="display:inline-block; color: black;">
-        <div style="margin: 12px;">TripSync</div>
-      </div>
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
 <ion-content [fullscreen]="true">
+  <ion-back-button style="position: absolute; color: #FFF6FD; margin:14px 6px;" mode="ios" defaultHref="/landing"></ion-back-button>
+  <app-header isDark="true"></app-header>
 
   <div>
 
-    <ion-item lines="none">
-      <ion-chip color="success" (click)="scanBlte()" *ngIf="!blueAndLoc">
+    <!-- <ion-item lines="none">
+      <ion-chip color="success" (click)="scanBlte()" *ngIf="!blueAndLoc && currentConnected?.status!='discovered'">
         <ion-label>Connect</ion-label>
       </ion-chip>
-      <ion-badge *ngIf="!blueAndLoc" mode="ios" slot="end" color="danger">!</ion-badge>
-      <ion-badge *ngIf="blueAndLoc" mode="ios" slot="end" color="success">:)</ion-badge>
-    </ion-item>
+      <ion-badge *ngIf="!blueAndLoc && currentConnected?.status!='discovered'" mode="ios" slot="end" color="danger">!</ion-badge>
+      <ion-badge *ngIf="currentConnected?.status=='discovered'" mode="ios" slot="end" color="success">:)</ion-badge>
+    </ion-item> -->
     <ion-select  *ngIf = "foundDevices.length>1" (ionChange)="selectOne()" [(ngModel)]="selectedLhl" slot="start" mode="ios" [interfaceOptions]="customPopoverOptions" 
     interface="popover" placeholder="Select device">
       <ion-select-option  *ngFor="let i of foundDevices" [value]="i.address">{{i.name}}</ion-select-option>
@@ -37,23 +27,19 @@
 
 
   <div [ngSwitch]="segment">
-    <div *ngSwitchCase="'color'" class="color-picker">
-      <color-sketch
-        [presetColors]="['rgb(255, 0, 0)', 'rgb(105, 255, 0)','rgb(255, 237, 0)','rgb(32, 0, 255)', 'rgb(255, 0, 69)', 'rgb(0, 255, 255)','rgb(255, 0, 194)']"
-        [color]="initialState" (onChangeComplete)="changeComplete($event)"></color-sketch>
-    </div>
-    <div *ngSwitchCase="'pattern'">
+      <div style="margin-top: 7vh" [hidden]="segmentSelected==='pattern'" class="wheel" id="colorWheelDemo"></div>
+    <div [hidden]="segmentSelected==='color'" *ngSwitchCase="'pattern'" >
       <ion-slides #slides (ionSlideWillChange)="patternHit()" mode="ios" pager="true" [options]="slideOpts">
-        <ion-slide *ngFor="let card of patternArray">
-          <ion-card mode="ios">
-            <ion-card-header>
-              <ion-card-subtitle>Patterns</ion-card-subtitle>
-              <ion-button fill="clear" (click)="pickFavourite()">
-                <ion-icon class="heart" [name]="card.icon"></ion-icon>
-              </ion-button>
-              <ion-card-title>{{card.title}}</ion-card-title>
+        <ion-slide *ngFor="let card of patternArray; index as x">
+          <ion-card  style="color: #FFF6FD;" mode="ios">
+            <ion-card-header style="padding: 6px 0 0 0;">
+              <h5 style="color: #FFF6FD; margin: 16px 0 0 0;">{{card.title}}</h5>
+                <ion-icon style="margin: 6px 0  0 0;" size="large" class="heart" (click)="pickFavourite()" [name]="card.icon"></ion-icon>
             </ion-card-header>
-            <ion-card-content>
+            <ion-card-content style=" padding: 0;">
+              <ion-item lines="none" style="--background: transparent; color: #FFF6FD;">
+                <p slot="end">{{x}}</p>
+              </ion-item>
             </ion-card-content>
           </ion-card>
         </ion-slide>
@@ -70,14 +56,14 @@
 
 <ion-footer mode="ios">
   <ion-item class="range" lines="none">
-    <ion-range class="speed-range" step="200" snaps="true" ticks="true" (ionChange)="valueLog()" [(ngModel)]="speedValue" mode="ios"
+    <ion-range pin="true" class="speed-range" step="200" snaps="true" ticks="true" (ionChange)="valueLog()" [(ngModel)]="speedValue" mode="ios"
       min="2" max="3000">
       <ion-icon class="sun" size="small" slot="start" name="speedometer-outline"></ion-icon>
       <ion-icon class="sun end-speed" slot="end" size="small" name="speedometer-sharp" ></ion-icon>    
     </ion-range>
   </ion-item>
   <ion-item class="range" lines="none">
-    <ion-range step="17" snaps="true" ticks="true" (ionChange)="brightnessHit()" [(ngModel)]="brightValue" mode="ios"
+    <ion-range pin="true" step="17" snaps="true" ticks="true" (ionChange)="brightnessHit()" [(ngModel)]="brightValue" mode="ios"
       min="0" max="255">
       <ion-icon class="sun" size="small" slot="start" name="sunny"></ion-icon>
       <ion-icon class="sun" slot="end" name="sunny-outline"></ion-icon>

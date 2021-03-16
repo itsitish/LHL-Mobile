@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 import { OnboardingPageRoutingModule } from './onboarding-routing.module';
 
@@ -13,6 +14,7 @@ import { OnboardingPage } from './onboarding.page';
     CommonModule,
     FormsModule,
     IonicModule,
+    SharedModule,
     OnboardingPageRoutingModule
   ],
   declarations: [OnboardingPage]

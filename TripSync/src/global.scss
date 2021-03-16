@@ -27,23 +27,34 @@
 
 
 .sun {
-    color: black;
+    color: #FFF6FD;
 }
-.my-custom-class {
+.add-scene {
     width: 90vw !important;
-    margin: auto;
-    height: 90vh;
+    margin: 130px auto;
+    height: 280px;
     border: 1px solid black;
     border-radius: 10px;
+    --background: transparent;
+}
+.add-time {
+    text-align: center;
+    width: 90vw !important;
+    margin: 130px auto;
+    height: 190px;
+    border: 1px solid black;
+    border-radius: 10px;
+    --background: transparent;
+}
+
+.delete-class {
+    --background: rgba(255, 246, 253,0.95);
 }
 .end-speed {
     padding: 3px;
 }
-.color-hue-slider, .alpha-slider {
-    height: 18px !important;
-}
-.sketch-hue, .sketch-alpha {
-    height: 20px !important;
+.IroWheel {
+    margin: auto !important;
 }
 .toast {
     --color: black;
@@ -55,18 +66,4 @@ ion-range::part(tick-active) {
 ion-range::part(tick) {
     display: none !important;
 }
-.sketch-picker {
-    margin-top: 44%;
-    border-radius: 8px !important;
-    background: #e5eaf5 !important;
-}
-.sketch-fields-container {
-    display: none !important;
-}
-.sketch-swatches {
-    padding: 10px 10px 0px 10px !important;
-}
-.sketch-wrap {
-    height: 25px !important;
-    width: 25px !important; 
-}
+

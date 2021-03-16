@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { MultipleModePage } from './multiple-mode.page';
+import { SceneAddPage } from './scene-add.page';
 
-describe('MultipleModePage', () => {
-  let component: MultipleModePage;
-  let fixture: ComponentFixture<MultipleModePage>;
+describe('SceneAddPage', () => {
+  let component: SceneAddPage;
+  let fixture: ComponentFixture<SceneAddPage>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MultipleModePage ],
+      declarations: [ SceneAddPage ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(MultipleModePage);
+    fixture = TestBed.createComponent(SceneAddPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

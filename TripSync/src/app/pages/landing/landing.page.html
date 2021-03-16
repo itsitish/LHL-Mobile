@@ -1,0 +1,87 @@
+<ion-menu side="start" menuId="first" contentId="main">
+  <ion-content class="slide-bar">
+    <ion-item lines="full" style="height: 43px;">
+      <div style="display:inline-block; color: black;">
+        <div style="margin: 12px; font-weight: bold;">TripSync</div>
+      </div>
+      <ion-icon (click)="goToProfile()" style="margin:0" mode="ios" size="large" slot="end"
+        name="person-circle-outline"></ion-icon>
+    </ion-item>
+    <ion-row style="margin-top: 5vh">
+      <ion-col (click)="goToHome()" style="margin-bottom: 18px;" mode="ios" size="large" class="menu-item" size="6">
+        <ion-icon name="home-outline"></ion-icon>
+        <p style="margin: 5px">Home</p>
+      </ion-col>
+      <ion-col (click)="goToScenes()" style="margin-bottom: 18px;" mode="ios" size="large" class="menu-item" size="6">
+        <ion-icon name="color-wand-outline"></ion-icon>
+        <p style="margin: 5px">Scenes</p>
+        <p style="margin: 0; font-weight: bold; font-size: 12px;">( Works better with a connected device! )</p>
+      </ion-col>
+      <ion-col (click)="goToAutomation()" style="margin-bottom: 18px;" mode="ios" size="large" class="menu-item"
+        size="6">
+        <ion-icon name="settings-outline"></ion-icon>
+        <p style="margin: 5px">Automation</p>
+      </ion-col>
+    </ion-row>
+    <ion-list style="position: fixed; bottom: 0; width: 100vw;">
+      <ion-item lines="none">
+        <ion-label>Contact Us</ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>FAQ</ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>About Us</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+<ion-router-outlet id="main"></ion-router-outlet>
+<app-header></app-header>
+<ion-content>
+  <h5 class="text-left">
+    Greetings!
+  </h5>
+  <ion-icon slot="start" (click)="openFirst()" style="margin: 32px 14px;" size="large" mode="ios"
+    name="reorder-three-outline"> </ion-icon>
+
+  <ion-icon (click)="openFirst()" style="margin: 32px 14px;" size="large" mode="ios" name="reorder-three-outline">
+  </ion-icon>
+  <ion-row>
+
+
+    <ion-col size="12" style="margin:2px">
+      <ion-item style="padding: 0; --background: transparent; --inner-padding-start: 0" lines="none">
+        <h4>
+          Available Devices :
+        </h4>
+        <ion-icon (click)="scanBlte()" name="refresh-outline" slot="end"></ion-icon>
+      </ion-item>
+      <p *ngIf="devices.length !=0" style="margin:18px">( Tap the Bluetooth icon to connect )</p>
+
+    </ion-col>
+    <div *ngIf="devices.length ===0">
+
+      <ion-card style="width: 100%;" mode="ios">
+        <p style="color: #FFF6FD;margin-left:18px">Oops! Looks like there's no device to connect</p>\
+      </ion-card>
+    </div>
+    <ion-col *ngFor="let i of devices; index as x" class="ion-no-padding" size="6">
+      <ion-card style="--background: #FFF6FD;height: 90px;text-align: center;" mode="ios">
+        <ion-card-header class="ion-no-padding">
+          <ion-icon (click)="addDevice(i)" style="color:rgba(0, 0, 0, 0.7); font-size: 20px; margin: 8px;"
+            name="bluetooth-outline"></ion-icon>
+
+        </ion-card-header>
+        <ion-card-content class="ion-no-padding">
+
+          <ion-item style="--background: transparent" lines="none">
+            <ion-input clearInput [(ngModel)]="i.name" [value]="i.name" maxlength="15" (ionBlur)="nameChange(i)">
+            </ion-input>
+          </ion-item>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+
+  </ion-row>
+</ion-content>

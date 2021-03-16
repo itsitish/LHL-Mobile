@@ -1,15 +1,5 @@
-<ion-header mode="ios">
-  <ion-toolbar mode="ios">
-    <ion-title>
-      <div style="display:inline-block;vertical-align:top;">
-        <img style="width: 40px;" src="assets/logo.png" alt="logo" />
-      </div>
-      <div style="display:inline-block; color: black;">
-        <div style="margin: 12px;">TripSync</div>
-      </div>
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-header></app-header>
+
 <ion-content class="ion-padding">
   <div>
     <img class="hero" src="assets/Tripsync-hero-image (1).png" alt="hero"/>
@@ -43,14 +33,17 @@
       </ng-container>
     </div>
 
-    <ion-button mode="ios" fill="outline"  class="submit-btn" type="submit" [disabled]="!validations_form.valid">Log In</ion-button>
+    <ion-button mode="ios"  style="color:rgba(0, 0, 0, 0.7); --background: #FFF6FD" class="submit-btn" type="submit" [disabled]="!validations_form.valid">Log In</ion-button>
 
     <label class="error-message">{{errorMessage}}</label>
   </form>
   <p style="text-align: center;">
-    Don't have an account? <a style="color:#5e00a5" (click)="goToRegisterPage()">Create one!</a>
+    Don't have an account? 
   </p>
-  <ion-button mode="ios" class="submit-btn" fill="outline"  (click) = "guestLogin()" fill="outline" >Guest Login</ion-button>
+  <ion-button mode="ios" style="color:rgba(0, 0, 0, 0.7); --background: #FFF6FD" (click)="goToRegisterPage()">Create one!</ion-button>
+  <hr/>
+
+  <ion-button mode="ios" style="color:rgba(0, 0, 0, 0.7); ; --background: #FFF6FD" (click) = "guestLogin()" >Guest Login</ion-button>
 
 </div>
 </ion-content>
