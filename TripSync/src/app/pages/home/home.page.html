@@ -1,6 +1,5 @@
 <ion-content [fullscreen]="true">
-  <ion-back-button style="position: absolute; color: #FFF6FD; margin:14px 6px;" mode="ios" defaultHref="/landing"></ion-back-button>
-  <app-header isDark="true"></app-header>
+  <app-header  setAction="true" (messageToEmit)="goBack()" isDark="true"></app-header>
   <ion-segment (ionChange)="retrieveFavs()" [(ngModel)]="segment" value="color" mode="ios">
     <ion-segment-button value="color">
       Color-Picker

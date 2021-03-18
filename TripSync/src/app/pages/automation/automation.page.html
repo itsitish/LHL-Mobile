@@ -1,8 +1,6 @@
-<ion-back-button (click)="close()" style="position: absolute; color: rgba(0, 0, 0, 0.7); margin:14px 6px;" mode="ios"
-    defaultHref="/landing"></ion-back-button>
 
-<app-header></app-header>
 
+<app-header setAction="true" (messageToEmit)="goBack()"></app-header>
 <ion-content>
     <ion-grid style="margin-top: 10vh;">
         <h4 style="margin: 20px;"> Select a scene to automate:

@@ -98,10 +98,10 @@ export class ScenesPage implements OnInit {
     })
     this.storage.remove('storedScenes');
   }
-  public async close() {
+  public async goBack() {
     const modal = await this.modalController.getTop();
     modal ? modal.dismiss() : null;
-    this.nav.pop();
+    this.nav.navigateBack(['/landing']);
   }
   ngOnInit() {
 

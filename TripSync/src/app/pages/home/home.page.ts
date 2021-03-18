@@ -5,6 +5,7 @@ import { Pattern } from '../../shared/pattern'
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { ToastController } from '@ionic/angular';
 import iro from "@jaames/iro";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -32,7 +33,7 @@ export class HomePage implements OnInit {
   lastSlide: number;
   segmentSelected: any = 'color';
 
-  constructor(
+  constructor(private router: Router,
     public toastController: ToastController,
     private alertController: AlertController,
     private blte: BluetoothLE,
@@ -44,6 +45,9 @@ export class HomePage implements OnInit {
     }, err => {
       this.presentToast('No device connected');
     })
+  }
+  goBack() {
+    this.router.navigate(['/landing']);
   }
   ngOnInit() {
     let colorWheel = iro.ColorPicker("#colorWheelDemo", {

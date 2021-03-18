@@ -1,4 +1,5 @@
 import { Component, NgZone, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { ModalController, ToastController } from '@ionic/angular';
 import { AddTimePage } from '../../modals/add-time/add-time.page';
@@ -10,7 +11,7 @@ import { AddTimePage } from '../../modals/add-time/add-time.page';
 })
 export class AutomationPage implements OnInit {
   scenes = [];
-  constructor(private modalController: ModalController, private toastController: ToastController, private storage: NativeStorage, private ngZone: NgZone) { }
+  constructor(private router: Router,private modalController: ModalController, private toastController: ToastController, private storage: NativeStorage, private ngZone: NgZone) { }
 
   ngOnInit() {
   }
@@ -36,9 +37,11 @@ export class AutomationPage implements OnInit {
     })
     return await modal.present();
   }
-  public async close() {
+
+  public async goBack() {
     const modal = await this.modalController.getTop();
     modal ? modal.dismiss() : null;
+    this.router.navigate(['/landing']);
   }
     
   async presentToast(message) {

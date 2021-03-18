@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -8,10 +8,14 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
   @Input() isDark: any;
-  constructor(private router: Router) { }
+  @Output() public messageToEmit = new EventEmitter();
+  @Input() public setAction = false;
+
+  constructor() { }
 
   ngOnInit() { }
-  goToHome() {
-    console.log('hi')
+
+  backButtonAlert($event) {
+    this.messageToEmit.emit($event)
   }
 }

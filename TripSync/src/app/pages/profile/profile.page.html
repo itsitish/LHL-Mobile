@@ -1,7 +1,6 @@
 <ion-content style="text-align: center;">
-  <ion-back-button style="position: absolute; color: rgba(0, 0, 0, 0.7); margin:14px 6px;" mode="ios" defaultHref="/landing"></ion-back-button>
+  <app-header setAction="true" (messageToEmit)="goBack()"></app-header>
 
-  <app-header></app-header>
   <ion-grid>
     <ion-row>
       <ion-col>

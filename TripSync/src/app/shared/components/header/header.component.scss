@@ -6,3 +6,20 @@ ion-toolbar {
 .dark {
     --background:  transparent !important;
 }
+.custom-back {    
+    margin: -8.1px;    
+    width: 38px;    
+    height: 30px;
+}
+
+.custom-back-text {
+    font-size: 16px;
+}
+
+.back-button {
+    height: 20px;
+    width: 55px;
+    position: absolute;
+    left: 5px;
+    top: 14px;
+}

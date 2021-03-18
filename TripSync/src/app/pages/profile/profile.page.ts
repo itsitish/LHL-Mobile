@@ -22,6 +22,9 @@ export class ProfilePage implements OnInit {
   ngOnInit() {
 
   }
+  goBack() {
+    this.navCtrl.navigateBack(['/landing']);
+  }
   logout() {
     this.authService.logoutUser()
       .then(res => {
