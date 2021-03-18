@@ -1,8 +1,7 @@
 
 <ion-content>
-  <ion-back-button (click)="close()" style="position: absolute; color: rgba(0, 0, 0, 0.7); margin:14px 6px;" mode="ios" defaultHref="/landing"></ion-back-button>
+  <app-header setAction="true" (messageToEmit)="goBack()"></app-header>
 
-  <app-header></app-header>
 
   <h4 style="margin: 18px;">Scenes let you add a series of actions which can be toggled in a single tap</h4>
   <ion-item lines="full" (click)="createScene()">

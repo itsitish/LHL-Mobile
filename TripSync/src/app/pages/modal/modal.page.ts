@@ -39,8 +39,10 @@ export class ModalPage implements OnInit {
     this.hitValue(e);
   }
 
-  public async close() {
-    this.nav.pop();
+  public async goBack() {
+    const modal = await this.modalController.getTop();
+    modal ? modal.dismiss() : null;
+    this.router.navigate(['/scenes']);
   }
   valueLog() {
     // console.log(this.speedValue);

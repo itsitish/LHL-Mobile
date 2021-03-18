@@ -11,9 +11,6 @@ import { ToastController } from '@ionic/angular';
   styleUrls: ['./landing.page.scss'],
 })
 export class LandingPage implements OnInit {
-  previousConnectedArray = [
-
-  ];
   devices = [];
   connectedStatus: any;
   currentConnected: any;
@@ -26,17 +23,10 @@ export class LandingPage implements OnInit {
     public loadingController: LoadingController,
     private blte: BluetoothLE, private navCtrl: NavController,
     private menu: MenuController, private storage: NativeStorage) {
-    this.storage.getItem('previousConnectedArray').then(previousConnected => {
-      this.previousConnectedArray = previousConnected;
-
-    }, err => {
-      console.log(err)
-    })
     setTimeout(this.scanBlte.bind(this), 500);
   }
 
   ngOnInit() {
-    this.checkArray();
   }
   ionViewWillEnter() {
     this.menu ? this.menu.close() : null;
@@ -88,15 +78,13 @@ export class LandingPage implements OnInit {
           console.log('FOUND DEVICE:');
           console.log(JSON.stringify(status));
           this.devices.push(deviceData);
-          // this.devices.filter(this.comparer(this.previousConnectedArray));
-          // this.ngZone.run(()=> {
-          //   this.devices.forEach(el=>{
-          //     this.previousConnectedArray.push(el);
-          //   })
-          //   console.log(this.previousConnectedArray);
-          // })
-
-
+          this.ngZone.run(() => {
+            this.devices.forEach(d => {
+              this.storage.getItem(d.address).then(deviceName => {
+                d.name = deviceName;
+              },err=>{})
+            })
+          })
         }
 
       }
@@ -110,27 +98,15 @@ export class LandingPage implements OnInit {
       this.loader ? this.loader.dismiss() : null;
     }, 500)
   }
-  comparer(otherArray) {
-    return current => {
-      return otherArray.filter(other => {
-        return other.address == current.address 
-      }).length == 0;
-    }
+  nameChange(i) {
+    console.log(i.name)
+    this.storage.getItem(i.address).then(() => {
+      this.storage.setItem(i.address, i.name);
+    }, err => {
+      this.storage.setItem(i.address, i.name);
+    })
   }
-  //Check device arrays 
-  checkArray() {
-    let a = [{ value: "4a55eff3-1e0d-4a81-9105-3ddd7521d642", display: "Jamsheer" }, { value: "644838b3-604d-4899-8b78-09e4799f586f", display: "Muhammed" }, { value: "b6ee537a-375c-45bd-b9d4-4dd84a75041d", display: "Ravi" }, { value: "e97339e1-939d-47ab-974c-1b68c9cfb536", display: "Ajmal" }, { value: "a63a6f77-c637-454e-abf2-dfb9b543af6c", display: "Ryan" }]
-    let b = [{ value: "4a55eff3-1e0d-4a81-9105-3ddd7521d642", display: "Jamsheer", $$hashKey: "008" }, { value: "644838b3-604d-4899-8b78-09e4799f586f", display: "Muhammed", $$hashKey: "009" }, { value: "b6ee537a-375c-45bd-b9d4-4dd84a75041d", display: "Ravi", $$hashKey: "00A" }, { value: "e97339e1-939d-47ab-974c-1b68c9cfb536", display: "Ajmal", $$hashKey: "00B" }]
 
-    var onlyInA = a.filter(this.comparer(b));
-    var onlyInB = b.filter(this.comparer(a));
-    console.log(onlyInA)
-    console.log(onlyInB)
-    let result = onlyInA.concat(onlyInB);
-
-    console.log(result);
-
-  }
   //location permission check
   isLocationEnabled() {
     return new Promise((resolve, reject) => {
@@ -188,20 +164,6 @@ export class LandingPage implements OnInit {
       this.loader ? this.loader.dismiss() : null;
       console.log(`this is success --> ${JSON.stringify(connectedData)}`)
       this.storage.setItem('connectedTo', this.currentConnected.address);
-      this.storage.getItem('previousConnectedArray').then(prev => {
-        prev.forEach(element => {
-          if (element.address === this.currentConnected.address && element.name === this.currentConnected.name) {
-            //
-          } else {
-            prev.push(this.currentConnected);
-          }
-        });
-        this.storage.setItem('previousConnectedArray', prev);
-      }, err => {
-        let arr = []
-        arr.push(this.currentConnected);
-        this.storage.setItem('previousConnectedArray', arr);
-      })
       this.loader.dismiss()
       this.navCtrl.navigateForward('home');
     }, err => {
@@ -287,6 +249,7 @@ export class LandingPage implements OnInit {
         }, 500);
       }, err => { console.log("disconnect block " + JSON.stringify(err)) });
     }
+    this.loader ? this.loader.dismiss() : null;
 
   }
   openFirst() {
@@ -311,9 +274,7 @@ export class LandingPage implements OnInit {
     });
     toast.present();
   }
-  nameChange(i) {
-    console.log(i.name)
-  }
+
   goToHome() {
     this.menu.close();
   }
