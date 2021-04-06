@@ -60,7 +60,7 @@ export class ScenesPage implements OnInit {
       this.crazyVal = this.crazyVal
     })
   }
-  onAudioInput(evt) {
+  onAudioInput() {
     let a = [];
     this.subscription = this.dbMeter.start().subscribe(
       data => {

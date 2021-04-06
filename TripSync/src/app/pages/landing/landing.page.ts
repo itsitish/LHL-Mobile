@@ -4,6 +4,7 @@ import { LoadingController, MenuController } from '@ionic/angular';
 import { NavController, Platform } from '@ionic/angular';
 import { BluetoothLE } from '@ionic-native/bluetooth-le/ngx';
 import { ToastController } from '@ionic/angular';
+import { WifiWizard2 } from '@ionic-native/wifi-wizard-2/ngx';
 
 @Component({
   selector: 'app-landing',
@@ -22,7 +23,7 @@ export class LandingPage implements OnInit {
     private platform: Platform,
     public loadingController: LoadingController,
     private blte: BluetoothLE, private navCtrl: NavController,
-    private menu: MenuController, private storage: NativeStorage) {
+    private menu: MenuController, private storage: NativeStorage, private wifi: WifiWizard2) {
     setTimeout(this.scanBlte.bind(this), 500);
   }
 
@@ -82,7 +83,7 @@ export class LandingPage implements OnInit {
             this.devices.forEach(d => {
               this.storage.getItem(d.address).then(deviceName => {
                 d.name = deviceName;
-              },err=>{})
+              }, err => { })
             })
           })
         }
