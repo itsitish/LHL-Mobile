@@ -12,6 +12,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from '../environments/environment';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { DBMeter } from '@ionic-native/db-meter/ngx';
+import { WifiWizard2 } from '@ionic-native/wifi-wizard-2/ngx';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { DBMeter } from '@ionic-native/db-meter/ngx';
   providers: [DBMeter,LocalNotifications,
     NativeStorage,
     SplashScreen,
+    WifiWizard2,
     BluetoothLE,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

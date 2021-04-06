@@ -9,7 +9,7 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 })
 export class AddTimePage implements OnInit {
   time: any = '';
-  constructor(private localNotifications: LocalNotifications, private modalController: ModalController, private nav: NavParams) {
+  constructor(private localNotifications: LocalNotifications, public modalController: ModalController, private nav: NavParams) {
     this.localNotifications.hasPermission().then(d => {
       console.log(d)
     }, err => {
